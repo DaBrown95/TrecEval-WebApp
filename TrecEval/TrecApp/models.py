@@ -63,10 +63,10 @@ class Track(models.Model):
 class Task(models.Model):
     track = models.ForeignKey(Track)
     title = models.CharField(max_length=128)
-    #tasl_url = modles.FileField()
+    #task_url = models.FileField()
     description = models.TextField()
     year = models.DateField()
-    #judgement_file = modles.FileField()
+    #judgement_file = models.FileField()
 
     def __unicode__(self):      #For Python 2, use __str__ on Python 3
         return self.title
