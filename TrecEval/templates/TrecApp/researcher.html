@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %} welcome {{username}} {% endblock %} 
+
+{% block body_block %}
+	<h1> <a href="/trecapp/"> TrecEval </a> </h1>
+	
+	<p> 
+		{{name}}
+		{{organization}}
+		<a href={{url}}></a>
+	</p>
+
+{% endblock %}
