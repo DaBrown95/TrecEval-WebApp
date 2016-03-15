@@ -76,7 +76,7 @@ class Run(models.Model):
     researcher = models.ForeignKey(Researcher)
     task = models.ForeignKey(Task)
     name = models.CharField(max_length=128)
-    runfile = models.FileField(upload_to = "runFiles")
+    result_file = models.FileField(upload_to = "runFiles")
     description = models.TextField()
     run_type = enum.EnumField(run_type, default=run_type.AUTOMATIC)
     query_type = enum.EnumField(query_type, default=query_type.TITLE)
