@@ -8,16 +8,15 @@ def home(request):
 def about(request):
     return render(request, 'trecapp/about.html')
 	
-def researcher(request, username):
+def researcher(request, researcher_name_slug):
 
 	context_dict = {}
 	
 	try:
 		
-		context_dict["username"] = username
+		researcher = Researcher.objects.get(slug=researcher_name_slug)
 		
-		researcher = Researcher.objects.get(display_name=username)
-		
+		context_dict["username"] = researcher.display_name
 		context_dict["name"] = researcher.name
 		context_dict["url"] = researcher.url
 		context_dict["organization"] = researcher.organization
@@ -28,15 +27,15 @@ def researcher(request, username):
 	return render(request, "TrecApp.researcher.html", context_dict)
 	
 
-def track(request,name): #might need something to usinquely identify tracks?
+def track(request,track_name_slug): #might need something to usinquely identify tracks?
 
 	context_dict = {}
 	
 	try:
 		
-		track = Track.objects.get(title=name)
+		track = Track.objects.get(slug=track_name_slug)
 		
-		context_dict["title"] = name
+		context_dict["title"] = track.title
 		context_dict["url"] = track.track_url
 		context_dict["description"] = track.description
 		context_dict["genre"] = track.genre
@@ -46,15 +45,15 @@ def track(request,name): #might need something to usinquely identify tracks?
 
 	return render(request, "TrecApp.track.html", context_dict) #track.html not created yet
 	
-def task(request,name): #might also need unique identifier
+def task(request,task_name_slug):
 
 	context_dict = {}
 	
 	try:
 		
-		task = Task.objects.get(title=name)
+		task = Task.objects.get(slug=task_name_slug)
 		
-		context_dict["title"] = name
+		context_dict["title"] = task.title
 		context_dict["task"] = task.track
 		context_dict["description"] = task.description
 		#context_dict["url"] = task.task_url
@@ -66,17 +65,34 @@ def task(request,name): #might also need unique identifier
 
 	return render(request, "TrecApp.task.html", context_dict) #task.html not created yet
 
+def graph(request, run_name_slug):
+
+	context_dict = {}
 	
-def run(request,title):
+	try:
+		run = Run.objects.get(slug=run_name_slug)
+		context_dict["name"] = run.name
+		context_dict["map"] = run.Map
+		context_dict["p10"] = run.p10
+		context_dict["p20"] = run.p20
+	
+	except:
+		pass
+
+	return render(request, TrecApp.graph.html, context_dict)
+
+	
+	
+	
+def run(request,run_name_slug):
 	
 	context_dict = {}
 	
 	try:
+			
+		run = Run.objects.get(slug=run_name_slug)
 		
-		context_dict["name"] = title
-		
-		run = Run.objects.get(name=title)
-		
+		context_dict["name"] = run.name
 		context_dict["researcher"] = run.researcher
 		context_dict["task"] = run.task
 		#context_dict["result_file"] = run.result_file
