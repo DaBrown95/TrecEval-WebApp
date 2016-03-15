@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-{% extends 'base.html' %}
+<html>
+
 <head>
-    <title>{% block title %} - Home{% endblock %}</title>
+    <title>Home</title>
     <style>
     body {
         background-color: #333;
@@ -103,7 +104,6 @@
 
     <body>
     <div id="header">
-    {% block body_block %}
         <a href=/trecapp/ class="heading"><em>TREC</em></a>
         <ul>
             <li><a href= /trecapp/home/>Home </a></li>
@@ -121,10 +121,6 @@
             <table><tc align="center"><input type="submit"></tc>
         </table></form>
     </div>
-    {% endblock %}
     </body>
+
 </html>
-
-
-
-
