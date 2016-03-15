@@ -75,13 +75,13 @@ class Task(models.Model):
 class Run(models.Model):
     researcher = models.ForeignKey(Researcher)
     task = models.ForeignKey(Task)
-    name = models.CharField(max_length=128)<<<<<<< HEAD
-    runfile = models.FileField(upload_to = "runFiles")=======    #result_file = models.FileField()>>>>>>> master
+    name = models.CharField(max_length=128)
+    runfile = models.FileField(upload_to = "runFiles")
     description = models.TextField()
     run_type = enum.EnumField(run_type, default=run_type.AUTOMATIC)
     query_type = enum.EnumField(query_type, default=query_type.TITLE)
-    feedback_type = enum.EnumField(feedback_type, default=feedback_type.NONE)<<<<<<< HEAD
-    MAP = models.DecimalField(max_digits=100, decimal_places=5)=======    map = models.DecimalField(max_digits=100, decimal_places=5)>>>>>>> master
+    feedback_type = enum.EnumField(feedback_type, default=feedback_type.NONE)
+    MAP = models.DecimalField(max_digits=100, decimal_places=5)
     p10 = models.DecimalField(max_digits=100, decimal_places=5)
     p20 = models.DecimalField(max_digits=100, decimal_places=5)
 
