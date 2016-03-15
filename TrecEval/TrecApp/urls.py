@@ -3,4 +3,5 @@ from TrecApp import views
 
 urlpatterns = patterns('',
         url(r'^$', views.home, name='home'),
-        url(r'about/$', views.about, name='about'))
+        url(r'about/$', views.about, name='about'),
+        url(r'^uploadrun/$', views.uploadRun, name='uploadRun'))
