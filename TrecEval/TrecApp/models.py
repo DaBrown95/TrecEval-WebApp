@@ -54,7 +54,7 @@ class Researcher(models.Model):
 			#if self.id is None:
 					#self.slug = slugify(self.name)
 			self.slug = slugify(self.name)
-			super(Category, self).save(*args, **kwargs)
+			super(Researcher, self).save(*args, **kwargs)
 
 	def __unicode__(self):  #For Python 2, use __str__ on Python 3
 		return self.name
@@ -73,7 +73,7 @@ class Track(models.Model):
 			#if self.id is None:
 					#self.slug = slugify(self.title)
 			self.slug = slugify(self.title)
-			super(Category, self).save(*args, **kwargs)
+			super(Track, self).save(*args, **kwargs)
 
 	def __unicode__(self):      #For Python 2, use __str__ on Python 3
 		return self.title
@@ -94,7 +94,7 @@ class Task(models.Model):
 			#if self.id is None:
 					#self.slug = slugify(self.title)
 			self.slug = slugify(self.title)
-			super(Category, self).save(*args, **kwargs)
+			super(Task, self).save(*args, **kwargs)
 	
 
 	def __unicode__(self):      #For Python 2, use __str__ on Python 3
@@ -121,7 +121,7 @@ class Run(models.Model):
 			#if self.id is None:
 					#self.slug = slugify(self.name)
 			self.slug = slugify(self.name)
-			super(Category, self).save(*args, **kwargs)
+			super(Run, self).save(*args, **kwargs)
 
 	def __unicode__(self):      #For Python 2, use __str__ on Python 3
 		return self.title
