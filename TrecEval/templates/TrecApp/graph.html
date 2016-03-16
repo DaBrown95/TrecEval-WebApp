@@ -1,4 +1,5 @@
 <head>
+	<!--Load the AJAX API-->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
     google.charts.load('current', {packages: ['corechart']});
@@ -10,14 +11,18 @@
       data.addColumn('string', 'Element');
       data.addColumn('number', 'Percentage');
       data.addRows([
-			['map', 0.78 //{{map}}],
-			['p10', 0.21 //{{p10}}],
-			['p20', 0.01 //{{p20}}]
+			['map', 0.78 ],//{{map}}
+			['p10', 0.21 ],//{{p10}}
+			['p20', 0.01 ]//{{p20}}
       ]);
+	  
+	  var options = {'title':'run', // {{title}}
+			   'width':400,
+			   'height':300};
 
       // Instantiate and draw the chart.
       var chart = new google.visualization.ColumnChart(document.getElementById('ColumnChart'));
-      chart.draw(data, null);
+      chart.draw(data, options);
     }
   </script>
 </head>
