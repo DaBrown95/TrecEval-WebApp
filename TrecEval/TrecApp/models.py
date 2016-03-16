@@ -46,8 +46,8 @@ class Researcher(models.Model):
     # PROFILE PICTURE
 	display_name = models.CharField(max_length=128)
 	organization = models.CharField(max_length=128)
-
 	slug = models.SlugField()
+
 
 	def save(self, *args, **kwargs):
 			# Uncomment if you don't want the slug to change every time the name changes
@@ -65,7 +65,6 @@ class Track(models.Model):
 	track_url = models.URLField(max_length=200)
 	description = models.TextField()
 	genre = models.CharField(max_length=128)
-
 	slug = models.SlugField()
 
 	def save(self, *args, **kwargs):
@@ -86,7 +85,6 @@ class Task(models.Model):
 	description = models.TextField()
 	year = models.DateField()
     #judgement_file = models.FileField()
-
 	slug = models.SlugField()
 
 	def save(self, *args, **kwargs):
@@ -95,7 +93,6 @@ class Task(models.Model):
 					#self.slug = slugify(self.title)
 			self.slug = slugify(self.title)
 			super(Task, self).save(*args, **kwargs)
-
 
 	def __unicode__(self):      #For Python 2, use __str__ on Python 3
 		return self.title
