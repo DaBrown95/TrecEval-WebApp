@@ -33,7 +33,6 @@ def uploadRun(request):
 
     return render(request,'TrecApp/uploadRun.html',{'form': form})
 
-
 def researcher(request, researcher_name_slug):
 
 	context_dict = {}
@@ -41,10 +40,12 @@ def researcher(request, researcher_name_slug):
 	try:
 
 		researcher = Researcher.objects.get(slug=researcher_name_slug)
+
 		context_dict["username"] = researcher.display_name
 		context_dict["name"] = researcher.name
 		context_dict["url"] = researcher.url
 		context_dict["organization"] = researcher.organization
+
 	except Researcher.DoesNotExist:
 		pass
 
@@ -54,19 +55,20 @@ def researcher(request, researcher_name_slug):
 def track(request,track_name_slug): #might need something to usinquely identify tracks?
 
 	context_dict = {}
+
 	try:
 
 		track = Track.objects.get(slug=track_name_slug)
+
 		context_dict["title"] = track.title
 		context_dict["url"] = track.track_url
 		context_dict["description"] = track.description
 		context_dict["genre"] = track.genre
+
 	except Track.DoesNotExist:
 		pass
 
 	return render(request, "TrecApp.track.html", context_dict) #track.html not created yet
-
-
 
 def task(request,task_name_slug):
 
@@ -75,12 +77,14 @@ def task(request,task_name_slug):
 	try:
 
 		task = Task.objects.get(slug=task_name_slug)
+
 		context_dict["title"] = task.title
 		context_dict["task"] = task.track
 		context_dict["description"] = task.description
 		#context_dict["url"] = task.task_url
 		context_dict["year"] = task.year
 		#context_dict["judgement_file"] = task.judgement_file
+
 	except Task.DoesNotExist:
 		pass
 
@@ -89,6 +93,7 @@ def task(request,task_name_slug):
 def graph(request, run_name_slug):
 
 	context_dict = {}
+
 	try:
 		run = Run.objects.get(slug=run_name_slug)
 		context_dict["name"] = run.name
