@@ -46,7 +46,7 @@ class Researcher(models.Model):
     # PROFILE PICTURE
 	display_name = models.CharField(max_length=128)
 	organization = models.CharField(max_length=128)
-	
+
 	slug = models.SlugField()
 
 	def save(self, *args, **kwargs):
@@ -65,7 +65,7 @@ class Track(models.Model):
 	track_url = models.URLField(max_length=200)
 	description = models.TextField()
 	genre = models.CharField(max_length=128)
-	
+
 	slug = models.SlugField()
 
 	def save(self, *args, **kwargs):
@@ -86,7 +86,7 @@ class Task(models.Model):
 	description = models.TextField()
 	year = models.DateField()
     #judgement_file = models.FileField()
-	
+
 	slug = models.SlugField()
 
 	def save(self, *args, **kwargs):
@@ -95,29 +95,30 @@ class Task(models.Model):
 					#self.slug = slugify(self.title)
 			self.slug = slugify(self.title)
 			super(Task, self).save(*args, **kwargs)
-	
+
 
 	def __unicode__(self):      #For Python 2, use __str__ on Python 3
 		return self.title
 
 
 class Run(models.Model):
-<<<<<<< HEAD
-    researcher = models.ForeignKey(Researcher)
-    task = models.ForeignKey(Task)
+    #researcher = models.ForeignKey(Researcher)
+    #task = models.ForeignKey(Task)
     name = models.CharField(max_length=128)
-    runfile = models.FileField(upload_to = "runFiles")
+
+    runfile = models.FileField(upload_to="runFiles")
+
     description = models.TextField()
     run_type = enum.EnumField(run_type, default=run_type.AUTOMATIC)
     query_type = enum.EnumField(query_type, default=query_type.TITLE)
     feedback_type = enum.EnumField(feedback_type, default=feedback_type.NONE)
-    MAP = models.DecimalField(max_digits=100, decimal_places=5)
-    p10 = models.DecimalField(max_digits=100, decimal_places=5)
-    p20 = models.DecimalField(max_digits=100, decimal_places=5)
+    MAP = models.DecimalField(max_digits=100, decimal_places=5,)
+    p10 = models.DecimalField(max_digits=100, decimal_places=5,)
+    p20 = models.DecimalField(max_digits=100, decimal_places=5,)
 
     def __unicode__(self):      #For Python 2, use __str__ on Python 3
-        return self.title
-	
+        return self.name
+
 	slug = models.SlugField()
 
 	def save(self, *args, **kwargs):
@@ -126,4 +127,3 @@ class Run(models.Model):
 					#self.slug = slugify(self.name)
 			self.slug = slugify(self.name)
 			super(Run, self).save(*args, **kwargs)
-			
