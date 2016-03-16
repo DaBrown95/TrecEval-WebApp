@@ -8,16 +8,20 @@
       // Define the chart to be drawn.
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Element');
-      data.addColumn('number', 'Percentage');
+      data.addColumn('number', '%');
       data.addRows([
-			['value1', 0.78],
-			['value2', 0.21],
-			['value3', 0.01]
+			['map', 0.78],
+			['p10', 0.21],
+			['p20', 0.01]
       ]);
+	  
+	  var options = {'title':'runs by researcher', // {{title}}
+		   'width':500,
+		   'height':500 };
 
       // Instantiate and draw the chart.
       var chart = new google.visualization.ColumnChart(document.getElementById('ColumnChart'));
-      chart.draw(data, null);
+      chart.draw(data, options);
     }
   </script>
 </head>

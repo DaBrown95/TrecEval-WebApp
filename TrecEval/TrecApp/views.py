@@ -24,7 +24,7 @@ def researcher(request, researcher_name_slug):
 	except Researcher.DoesNotExist:
 		pass
 
-	return render(request, "TrecApp.researcher.html", context_dict)
+	return render(request, "TrecApp/researcher.html", context_dict)
 	
 
 def track(request,track_name_slug): #might need something to usinquely identify tracks?
@@ -43,7 +43,7 @@ def track(request,track_name_slug): #might need something to usinquely identify 
 	except Track.DoesNotExist:
 		pass
 
-	return render(request, "TrecApp.track.html", context_dict) #track.html not created yet
+	return render(request, "TrecApp/track.html", context_dict) #track.html not created yet
 	
 def task(request,task_name_slug):
 
@@ -63,7 +63,7 @@ def task(request,task_name_slug):
 	except Task.DoesNotExist:
 		pass
 
-	return render(request, "TrecApp.task.html", context_dict) #task.html not created yet
+	return render(request, "TrecApp/task.html", context_dict) #task.html not created yet
 
 def graph(request, run_name_slug):
 
@@ -79,7 +79,7 @@ def graph(request, run_name_slug):
 	except:
 		pass
 
-	return render(request, TrecApp.graph.html, context_dict)
+	return render(request, "TrecApp/graph.html", context_dict)
 
 	
 	
@@ -107,5 +107,5 @@ def run(request,run_name_slug):
 	except Run.DoesNotExist:
 		pass
 		
-	return render(request, TrecApp.run.html, context_dict)
+	return render(request, "TrecApp/run.html", context_dict)
 		
