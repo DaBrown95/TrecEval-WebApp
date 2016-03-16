@@ -1,10 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 <<<<<<< HEAD
+<<<<<<< HEAD
 from TrecApp.models import Researcher
 =======
 from TrecApp.forms import RunForm
 from TrecApp.models import Run
+>>>>>>> master
+=======
+from TrecApp.forms import RunForm
+from TrecApp.models import Run, Researcher
 >>>>>>> master
 
 def home(request):
@@ -13,6 +18,22 @@ def home(request):
 def about(request):
     return render(request, 'trecapp/about.html')
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+
+def uploadRun(request):
+    if request.method == 'POST':
+        form = RunForm(request.POST,request.FILES)
+        if form.is_valid():
+            newRunFile = Run(runfile = request.FILES['runfile'])      #no files added to context_dict yet
+            newRunFile.save()
+            return home(request)    #go to home page
+    else:
+        form = RunForm()
+
+    return render(request,'TrecApp/uploadRun.html',{'form': form})
+>>>>>>> master
 	
 def researcher(request, researcher_name_slug):
 
@@ -114,6 +135,7 @@ def run(request,run_name_slug):
 		pass
 		
 	return render(request, TrecApp.run.html, context_dict)
+<<<<<<< HEAD
 		
 =======
 
@@ -128,4 +150,6 @@ def uploadRun(request):
         form = RunForm()
 
     return render(request,'TrecApp/uploadRun.html',{'form': form})
+>>>>>>> master
+=======
 >>>>>>> master

@@ -18,9 +18,11 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^trecapp/', include('TrecApp.urls')),
+    url(r'^$', views.home, name='home'),
+    url(r'about/$', views.about, name='about'),
 <<<<<<< HEAD
     url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
-    url(r'^accounts/', include('registration.backends.simple.urls')),
+    url(r'^accounts/$', include('registration.backends.simple.urls')),
 )
 =======
     )

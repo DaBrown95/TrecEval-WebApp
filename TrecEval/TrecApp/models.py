@@ -54,7 +54,7 @@ class Researcher(models.Model):
 			#if self.id is None:
 					#self.slug = slugify(self.name)
 			self.slug = slugify(self.name)
-			super(Category, self).save(*args, **kwargs)
+			super(Researcher, self).save(*args, **kwargs)
 
 	def __unicode__(self):  #For Python 2, use __str__ on Python 3
 		return self.name
@@ -73,7 +73,7 @@ class Track(models.Model):
 			#if self.id is None:
 					#self.slug = slugify(self.title)
 			self.slug = slugify(self.title)
-			super(Category, self).save(*args, **kwargs)
+			super(Track, self).save(*args, **kwargs)
 
 	def __unicode__(self):      #For Python 2, use __str__ on Python 3
 		return self.title
@@ -94,7 +94,7 @@ class Task(models.Model):
 			#if self.id is None:
 					#self.slug = slugify(self.title)
 			self.slug = slugify(self.title)
-			super(Category, self).save(*args, **kwargs)
+			super(Task, self).save(*args, **kwargs)
 	
 
 	def __unicode__(self):      #For Python 2, use __str__ on Python 3
@@ -102,6 +102,7 @@ class Task(models.Model):
 
 
 class Run(models.Model):
+<<<<<<< HEAD
 <<<<<<< HEAD
 	researcher = models.ForeignKey(Researcher)
 	task = models.ForeignKey(Task)
@@ -127,6 +128,8 @@ class Run(models.Model):
 	def __unicode__(self):      #For Python 2, use __str__ on Python 3
 		return self.title
 =======
+=======
+>>>>>>> master
     researcher = models.ForeignKey(Researcher)
     task = models.ForeignKey(Task)
     name = models.CharField(max_length=128)
@@ -141,4 +144,17 @@ class Run(models.Model):
 
     def __unicode__(self):      #For Python 2, use __str__ on Python 3
         return self.title
+<<<<<<< HEAD
+>>>>>>> master
+=======
+	
+	slug = models.SlugField()
+
+	def save(self, *args, **kwargs):
+			# Uncomment if you don't want the slug to change every time the name changes
+			#if self.id is None:
+					#self.slug = slugify(self.name)
+			self.slug = slugify(self.name)
+			super(Run, self).save(*args, **kwargs)
+			
 >>>>>>> master

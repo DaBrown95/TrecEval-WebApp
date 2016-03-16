@@ -62,4 +62,3 @@ target/
 .ipynb_checkpoints
 
 TrecEval/.idea/
-TrecEval/media/runFiles/
