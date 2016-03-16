@@ -1,14 +1,34 @@
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'TrecEval.settings')
 
+from datetime import datetime
+
 import django
 django.setup()
 
 from rango.models import Task, Track, Run, Researcher
 
 def populate():
+
+	#qrels is task
 	
-	## add population data here
+	#res is run
+	
+	joe = add_researcher("joe","www.http://www.google.com","google","joe")
+	jill = add_researcher("jill","www.http://www.yahoo.com","yahoo","jill")
+	jim = add_researcher("jim","www.http://www.bing.com","google","jim")
+	
+	#does it matter what genre is? 
+	track1 = add_track("track1","trecapp/track1","first track added","genre")
+	track2 = add_track("track2","trecapp/track2","second track added","genre")
+	track3 = add_track("track3","trecapp/track3","third track added","genre")
+	
+	task1 = add_task(track1,"task1","description",datetime.now(),"data/web/dg.trec.qrels")
+	task2 = add_task(track2,"task2","description",datetime.now(),"data/robust/aq.trec2005.qrels")
+	task3 = add_task(track3,"task3","description",datetime.now(),"data/news/ap.trec.qrels")
+	
+	#still to add runs
+	
 
 def add_researcher(username, url, organization, name, picture=None):
 	r = Researcher.objects.get_or_create()[0]
@@ -51,14 +71,14 @@ def add_track(title,url,description,genre):
 	
 	return task
 	
-def add_task(track,title,description,year):
+def add_task(track,title,description,year,judgement):
 	
 	t = Task.objects.get_or_create(title=title)[0]
-	
-	
+
 	t.track = track
 	t.description = description
 	t.year = year
+	t.judegement_file = judgement
 	
 	t.save()
 	
