@@ -85,7 +85,7 @@ class Task(models.Model):
 	#task_url = models.FileField()
 	description = models.TextField()
 	year = models.DateField()
-    #judgement_file = models.FileField()
+        #judgement_file = models.FileField()
 	
 	slug = models.SlugField()
 

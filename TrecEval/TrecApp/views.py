@@ -38,8 +38,30 @@ def researcher(request, researcher_name_slug):
 	except Researcher.DoesNotExist:
 		pass
 
-	return render(request, "TrecApp.researcher.html", context_dict)
-	
+	return render(request, "TrecApp/researcher.html", context_dict)
+
+def addResearcher(request):
+    if request.method == 'POST':
+        form = ResearcherForm(request.POST)
+
+        if form.is_valid():
+             
+            # Save the new category to the database.
+            form.save(commit=True)          #slug gets created by save here
+            researcher = Researcher.objects.get(name = form.cleaned_data['name'])   #get researcher from db
+            researcher_name_slug = researcher.slug
+
+            return Researcher(request,researcher_name_slug)
+        else:
+            # The supplied form contained errors - just print them to the terminal.
+            print form.errors
+    else:
+        # If the request was not a POST, display the form to enter details.
+        form = ResearcherForm()
+
+    # Bad form (or form details), no form supplied...
+    # Render the form with error messages (if any).
+    return render(request, 'TrecApp/add_Researcher.html', {'form': form})
 
 def track(request,track_name_slug): #might need something to usinquely identify tracks?
 
@@ -57,7 +79,7 @@ def track(request,track_name_slug): #might need something to usinquely identify 
 	except Track.DoesNotExist:
 		pass
 
-	return render(request, "TrecApp.track.html", context_dict) #track.html not created yet
+	return render(request, "TrecApp/track.html", context_dict) #track.html not created yet
 	
 def task(request,task_name_slug):
 
@@ -77,7 +99,7 @@ def task(request,task_name_slug):
 	except Task.DoesNotExist:
 		pass
 
-	return render(request, "TrecApp.task.html", context_dict) #task.html not created yet
+	return render(request, "TrecApp/task.html", context_dict) #task.html not created yet
 
 def graph(request, run_name_slug):
 
