@@ -13,13 +13,19 @@ def about(request):
 def uploadRun(request):
 
     def handle_uploaded_file(f):
+        qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
         results = trec_eval(qRel, f)
+        return results
 
     if request.method == 'POST':
-        form = RunForm(request.POST,request.FILES)
+        form = RunForm(request.POST, request.FILES)
         if form.is_valid():
-            #newRunFile = Run(runfile = request.FILES['runfile'])      #no files added to context_dict yet
-            form.save()
+            page = form.save(commit=False)
+            result = handle_uploaded_file(request.FILES['runfile'])
+            page.MAP = result['MAP']
+            page.p10 = result['p10']
+            page.p20 = result['p20']
+            page.save()
             return home(request)    #go to home page
     else:
         form = RunForm()
