@@ -9,18 +9,6 @@ def home(request):
 def about(request):
     return render(request, 'trecapp/about.html')
 
-
-def uploadRun(request):
-    if request.method == 'POST':
-        form = RunForm(request.POST,request.FILES)
-        if form.is_valid():
-            newRunFile = Run(runfile = request.FILES['runfile'])      #no files added to context_dict yet
-            newRunFile.save()
-            return home(request)    #go to home page
-    else:
-        form = RunForm()
-
-    return render(request,'TrecApp/uploadRun.html',{'form': form})
 	
 def researcher(request, researcher_name_slug):
 

@@ -1,17 +1,6 @@
 from django import forms
 from TrecApp.models import Run, Researcher, Task
 
-class RunForm(forms.Form):
-    runfile = forms.FileField(label='Select a run to upload',
-                                help_text='max. 42 megabytes')
-    name = forms.CharField(max_length=128, help_text="Please enter a name for this run")
-    description = forms.CharField(max_length=128, help_text="Please enter a description for this run")   
-    task = forms.ModelChoiceField(queryset = Task.objects.all())    #retrieve all tasks from database and let user choose one
-    
-    class Meta:
-        model = Run
-        fields = ('runfile','name','description')
-
 class ResearcherForm(forms.form):
     name = forms.CharField(max_length=128, help_text="Please enter your name")
     display_name = forms.CharField(max_length=128, help_text="Please enter a display name")
