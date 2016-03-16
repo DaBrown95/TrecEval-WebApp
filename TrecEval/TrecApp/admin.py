@@ -6,3 +6,6 @@ admin.site.register(Researcher)
 admin.site.register(Track)
 admin.site.register(Task)
 admin.site.register(Run)
+
+class ResearcherAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug':('name',)}
