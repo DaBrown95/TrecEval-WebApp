@@ -102,7 +102,6 @@ class Task(models.Model):
 
 
 class Run(models.Model):
-<<<<<<< HEAD
     researcher = models.ForeignKey(Researcher)
     task = models.ForeignKey(Task)
     name = models.CharField(max_length=128)
