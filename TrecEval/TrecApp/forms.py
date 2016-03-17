@@ -1,6 +1,35 @@
 from django import forms
-from TrecApp.models import Run, run_type, query_type, feedback_type
+from django.contrib.auth.models import User
 from django_enumfield import enum
+from TrecApp.models import Run, Researcher, Task, run_type, query_type, feedback_type
+
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
+
+
+class ResearcherForm(forms.ModelForm):
+    name = forms.CharField(max_length=128, help_text="Please enter your name")
+    display_name = forms.CharField(max_length=128, help_text="Please enter a display name")
+    organization = forms.CharField(max_length=128, help_text="Please enter your organization")
+    url = forms.URLField(max_length=200, help_text="Please enter the URL of your web-page. Not required",required = False)
+
+    def clean(self):        #tidy up url
+        cleaned_data = self.cleaned_data
+        url = cleaned_data.get('url')
+        # If url is not empty and doesn't start with 'http://', prepend 'http://'.
+        if url and not url.startswith('http://'):
+            url = 'http://' + url
+            cleaned_data['url'] = url
+
+        return cleaned_data
+
+    class Meta:
+        model = Researcher
+        fields = ('name','url','display_name','organization')
+
 
 class RunForm(forms.ModelForm):
 
@@ -22,3 +51,4 @@ class RunForm(forms.ModelForm):
         model = Run
         fields = ('runfile','name','description','run_type','query_type','feedback_type','MAP','p10','p20')
         exclude = ('researcher','task',)
+

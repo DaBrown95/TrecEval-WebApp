@@ -1,5 +1,6 @@
 from django.db import models
 from django_enumfield import enum
+from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
 class run_type(enum.Enum):
@@ -41,6 +42,7 @@ class feedback_type(enum.Enum):
 
 
 class Researcher(models.Model):
+        user = models.OneToOneField(User)
 	name = models.CharField(max_length=128, unique=True)
 	url = models.URLField(max_length=200)
     # PROFILE PICTURE
@@ -85,7 +87,11 @@ class Task(models.Model):
 	#task_url = models.FileField()
 	description = models.TextField()
 	year = models.DateField()
-    #judgement_file = models.FileField()
+
+        #judgement_file = models.FileField()
+	
+        #judgement_file = models.FileField()
+
 
 	slug = models.SlugField()
 
@@ -129,3 +135,4 @@ class Run(models.Model):
 					#self.slug = slugify(self.name)
 			self.slug = slugify(self.name)
 			super(Run, self).save(*args, **kwargs)
+

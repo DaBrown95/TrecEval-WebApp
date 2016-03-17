@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from TrecApp.forms import RunForm
+from TrecApp.forms import *
 from TrecApp.valueExtractor import *
 from TrecApp.models import Run, Researcher
 
@@ -9,6 +9,7 @@ def home(request):
 
 def about(request):
     return render(request, 'trecapp/about.html')
+
 
 
 def uploadRun(request):
@@ -33,6 +34,7 @@ def uploadRun(request):
 
     return render(request,'TrecApp/uploadRun.html',{'form': form})
 
+
 def researcher(request, researcher_name_slug):
 
 	context_dict = {}
@@ -52,6 +54,37 @@ def researcher(request, researcher_name_slug):
 	return render(request, "TrecApp/researcher.html", context_dict)
 
 
+def addResearcher(request):
+    registered = False
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+        researcher_form = ResearcherForm(data=request.POST)
+
+        if user_form.is_valid() and researcher_form.is_valid():
+            #deals with django User model
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+            #deals with our additional attributes
+            researcher = researcher_form.save(commit=False)          #slug gets created by save here
+            researcher.user = user
+            researcher.save()
+            registered = True
+            #return researcher(request,researcher_name_slug)
+        else:
+            # The supplied forms contained errors - just print them to the terminal.
+            print user_form.errors, researched_form.errors
+    else:
+        # If the request was not a POST, display the form to enter details.
+        user_form = UserForm()
+        researcher_form = ResearcherForm()
+
+    # Bad form (or form details), no form supplied...
+    # Render the form with error messages (if any).
+    return render(request, 'TrecApp/addresearcher.html', {'user_form': user_form,'researcher_form':researcher_form, 'registered' : registered} )
+
+
+
 def track(request,track_name_slug): #might need something to usinquely identify tracks?
 
 	context_dict = {}
@@ -69,7 +102,8 @@ def track(request,track_name_slug): #might need something to usinquely identify 
 		pass
 
 	return render(request, "TrecApp/track.html", context_dict) #track.html not created yet
-	
+
+
 def task(request,task_name_slug):
 
 	context_dict = {}
@@ -131,5 +165,5 @@ def run(request,run_name_slug):
 
 	except Run.DoesNotExist:
 		pass
-		
+
 	return render(request, "TrecApp/run.html", context_dict)
