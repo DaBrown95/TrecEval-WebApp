@@ -15,22 +15,30 @@ def about(request):
 
 
 def uploadRun(request):
+    currentUser = User.objects.get(username=request.user.username)      #get current user from request
+    try:            #retrieve researcher for the current user from database
+        researcher = Researcher.objects.get(user=currentUser)
+    except Researcher.DoesNotExist:
+        researcher = None
 
     def handle_uploaded_file(f):
         qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
+        #qRel = "H:\Workspace\WAD\TrecWebApp\TrecEval-WebApp\Extra\TrecEvalProgram\data\news\ap.trec.qrels"
         results = trec_eval(qRel, f)
         return results
 
     if request.method == 'POST':
         form = RunForm(request.POST, request.FILES)
         if form.is_valid():
-            page = form.save(commit=False)
-            result = handle_uploaded_file(request.FILES['runfile'])
-            page.MAP = result['MAP']
-            page.p10 = result['p10']
-            page.p20 = result['p20']
-            page.save()
-            return home(request)    #go to home page
+            if researcher:
+                page = form.save(commit=False)
+                result = handle_uploaded_file(request.FILES['runfile'])
+                page.MAP = result['MAP']
+                page.p10 = result['p10']
+                page.p20 = result['p20']
+                page.researcher = researcher    #foreign key
+                page.save()
+                return home(request)    #go to home page
     else:
         form = RunForm()
 
@@ -115,7 +123,7 @@ def addResearcher(request):
             #return researcher(request,researcher_name_slug)
         else:
             # The supplied forms contained errors - just print them to the terminal.
-            print user_form.errors, researched_form.errors
+            print user_form.errors, researcher_form.errors
     else:
         # If the request was not a POST, display the form to enter details.
         user_form = UserForm()
