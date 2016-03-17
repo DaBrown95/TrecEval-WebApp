@@ -64,4 +64,5 @@ target/
 TrecEval/.idea/
 TrecEval/media/runFiles/
 TrecEval/media/processingFile.txt
+TrecEval/TrecApp/migrations/
 TrecEval/db.sqlite3
