@@ -37,13 +37,18 @@
 				<a href=/trecapp/> Home </a>
 				<a href=/trecapp/run/> Run </a>
 				<a href=/trecapp/about/> About </a>
-				<a href=/trecapp/addresearcher/> Register </a>
+
+				{% if not user.is_authenticated %}
 				<a href=/trecapp/login/> Login </a>
+				<a href=/trecapp/addresearcher/> Register </a>
+				{% endif %}
+
+				{% if user.is_authenticated %}
+				<a href=/trecapp/logout/> Logout</a>
+				{% endif %}
 
 			</div>
 		</nav>
-
-
 
 
 		<div>
