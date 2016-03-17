@@ -102,6 +102,7 @@ class Task(models.Model):
 
 
 class Run(models.Model):
+
     researcher = models.ForeignKey(Researcher)
     task = models.ForeignKey(Task)
     #researcher = models.ForeignKey(Researcher)
@@ -129,3 +130,6 @@ class Run(models.Model):
 					#self.slug = slugify(self.name)
 			self.slug = slugify(self.name)
 			super(Run, self).save(*args, **kwargs)
+
+	def __unicode__(self):      #For Python 2, use __str__ on Python 3
+		return self.name0
