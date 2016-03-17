@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from TrecApp.forms import *
 from TrecApp.valueExtractor import *
 from TrecApp.models import Run, Researcher
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 
 def home(request):
@@ -83,6 +84,16 @@ def user_login(request):
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
         return render(request, 'trecapp/login.html', {})
+
+
+def restricted(request):
+    return HttpResponse("Since you're logged in, you can see this!")
+
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/trecapp/')
 
 
 def researcher(request, researcher_name_slug):
