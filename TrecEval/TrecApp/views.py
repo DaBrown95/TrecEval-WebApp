@@ -2,11 +2,13 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from TrecApp.models import Researcher, Run, Task, Track
-import json
 
-from TrecApp.forms import RunForm
+from TrecApp.forms import *
 from TrecApp.valueExtractor import *
-
+from TrecApp.models import Run, Researcher
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect, HttpResponse
 
 def home(request):
 	runs_list = Run.objects.order_by('name')[:5]
@@ -19,27 +21,87 @@ def about(request):
     return render(request, 'trecapp/about.html')
 
 
+
 def uploadRun(request):
+    currentUser = User.objects.get(username=request.user.username)      #get current user from request
+    try:            #retrieve researcher for the current user from database
+        researcher = Researcher.objects.get(user=currentUser)
+    except Researcher.DoesNotExist:
+        researcher = None
 
     def handle_uploaded_file(f):
         qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
+        #qRel = "H:\Workspace\WAD\TrecWebApp\TrecEval-WebApp\Extra\TrecEvalProgram\data\news\ap.trec.qrels"
         results = trec_eval(qRel, f)
         return results
 
     if request.method == 'POST':
         form = RunForm(request.POST, request.FILES)
         if form.is_valid():
-            page = form.save(commit=False)
-            result = handle_uploaded_file(request.FILES['runfile'])
-            page.MAP = result['MAP']
-            page.p10 = result['p10']
-            page.p20 = result['p20']
-            page.save()
-            return home(request)    #go to home page
+            if researcher:
+                page = form.save(commit=False)
+                result = handle_uploaded_file(request.FILES['runfile'])
+                page.MAP = result['MAP']
+                page.p10 = result['p10']
+                page.p20 = result['p20']
+                page.researcher = researcher    #foreign key
+                page.save()
+                return home(request)    #go to home page
     else:
         form = RunForm()
 
     return render(request,'TrecApp/uploadRun.html',{'form': form})
+
+def user_login(request):
+    # If the request is a HTTP POST, try to pull out the relevant information.
+    if request.method == 'POST':
+        # Gather the username and password provided by the user.
+        # This information is obtained from the login form.
+                # We use request.POST.get('<variable>') as opposed to request.POST['<variable>'],
+                # because the request.POST.get('<variable>') returns None, if the value does not exist,
+                # while the request.POST['<variable>'] will raise key error exception
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # Use Django's machinery to attempt to see if the username/password
+        # combination is valid - a User object is returned if it is.
+        user = authenticate(username=username, password=password)
+
+        # If we have a User object, the details are correct.
+        # If None (Python's way of representing the absence of a value), no user
+        # with matching credentials was found.
+        if user:
+            # Is the account active? It could have been disabled.
+            if user.is_active:
+                # If the account is valid and active, we can log the user in.
+                # We'll send the user back to the homepage.
+                login(request, user)
+                return HttpResponseRedirect('/trecapp/')
+            else:
+                # An inactive account was used - no logging in!
+                return HttpResponse("Your TrecEval account is disabled.")
+        else:
+            # Bad login details were provided. So we can't log the user in.
+            print "Invalid login details: {0}, {1}".format(username, password)
+            return HttpResponse("Invalid login details supplied.")
+
+    # The request is not a HTTP POST, so display the login form.
+    # This scenario would most likely be a HTTP GET.
+    else:
+        # No context variables to pass to the template system, hence the
+        # blank dictionary object...
+        return render(request, 'trecapp/login.html', {})
+
+
+def restricted(request):
+    return HttpResponse("Since you're logged in, you can see this!")
+
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/trecapp/')
+
 
 def researcher(request, researcher_name_slug):
 
@@ -59,6 +121,38 @@ def researcher(request, researcher_name_slug):
 
 	return render(request, "TrecApp/researcher.html", context_dict)
 
+
+def addResearcher(request):
+    registered = False
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+        researcher_form = ResearcherForm(data=request.POST)
+
+        if user_form.is_valid() and researcher_form.is_valid():
+            #deals with django User model
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+            #deals with our additional attributes
+            researcher = researcher_form.save(commit=False)          #slug gets created by save here
+            researcher.user = user
+            researcher.save()
+            registered = True
+            #return researcher(request,researcher_name_slug)
+        else:
+            # The supplied forms contained errors - just print them to the terminal.
+            print user_form.errors, researcher_form.errors
+    else:
+        # If the request was not a POST, display the form to enter details.
+        user_form = UserForm()
+        researcher_form = ResearcherForm()
+
+    # Bad form (or form details), no form supplied...
+    # Render the form with error messages (if any).
+    return render(request, 'TrecApp/addresearcher.html', {'user_form': user_form,'researcher_form':researcher_form, 'registered' : registered} )
+
+
+
 def track(request,track_name_slug): #might need something to usinquely identify tracks?
 
 	context_dict = {}
@@ -76,7 +170,8 @@ def track(request,track_name_slug): #might need something to usinquely identify 
 		pass
 
 	return render(request, "TrecApp/track.html", context_dict) #track.html not created yet
-	
+
+
 def task(request,task_name_slug):
 
 	context_dict = {}
@@ -167,5 +262,5 @@ def run(request,run_name_slug):
 
 	except Run.DoesNotExist:
 		pass
-		
+
 	return render(request, "TrecApp/run.html", context_dict)

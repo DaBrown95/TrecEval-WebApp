@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %} Trec Eval{% endblock %}
+
+{% block body_block %}
+	<h1> Registration </h1>
+		{% if registered %}
+        TrecEval says: <strong>thank you for registering!</strong>
+		<a href="/trecapp/">Return to the homepage.</a><br />
+
+		{% else %}
+        TrecEval says: <strong>register here!</strong><br />
+		<form id="user_form" method="post" action="/trecapp/addresearcher/" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ user_form.as_p }}
+				{{ researcher_form.as_p }}
+                <input type="submit" value="Submit" value ="Register" />
+        </form>
+		{% endif %}
+{% endblock %}
