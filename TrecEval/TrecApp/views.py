@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from TrecApp.models import Researcher, Run, Task, Track
+import json
 
 def home(request):
 	runs_list = Run.objects.order_by('name')[:5]
@@ -101,22 +102,16 @@ def lineGraph(request, researcher_name_slug):
 		
 		r = Researcher.objects.get(slug=researcher_name_slug)
 		
-		runs = Run.objects.filter(researcher=r)
+		runs = Run.objects.filter(researcher=r).order_by("-MAP") #might need to limit amount
 		
 		context_dict["researcher"] = r
 		
-		context_dict["runs"] = []
-		i = 0
-		for run in runs:
-			context_dict["runs"] += [run]
-			i+=1
+		context_dict["runs"] = runs
 		
-		context_dict["amount_of_runs"] = i
-	
+		print runs[0].p10
+		
 	except:
 		pass
-
-	print context_dict["amount_of_runs"]
 		
 	return render(request, "TrecApp/lineGraph.html", context_dict)
 

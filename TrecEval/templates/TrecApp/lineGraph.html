@@ -7,12 +7,19 @@
 
     function drawChart() {
       // Define the chart to be drawn.
-	  
-	  
+	
+		// could loop here for extra runs	
+		var run = [ String("{{runs.0.name}}"), parseFloat("{{runs.0.MAP}}"),
+			parseFloat("{{runs.0.p10}}"), parseFloat("{{runs.0.p20}}")
+		]
+		
+		document.write(parseFloat("{{runs.0.p10}}")
+		
 		var data = google.visualization.arrayToDataTable([
-			['run', 'map', 'p10', 'p20'],
-			["test",0.5,0.5,0.5]
-		 ]);
+		  ['run', 'map', 'p20','p10'],
+          [String("{{runs.0.name}}"),  0.5), 
+		  0.6, 0.5],
+		]);
 	
 	  var options = {'title':'runs by ' + String('{{researcher.name}}'),
 			   'width':500,
