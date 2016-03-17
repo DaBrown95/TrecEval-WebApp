@@ -10,12 +10,12 @@
       data.addColumn('string', 'Element');
       data.addColumn('number', '%');
       data.addRows([
-			['map', 0.78],
-			['p10', 0.21],
-			['p20', 0.01]
+			['map', 0.8],
+			['p10', 0.7],
+			['p20', 0.7]
       ]);
 	  
-	  var options = {'title':'runs by researcher', // {{title}}
+	  var options = {'title': 'by',
 		   'width':500,
 		   'height':500 };
 
@@ -28,6 +28,10 @@
 <body>
 
 <!-- Identify where the chart should be drawn. -->
+	{% if run %}
+		<div id="ColumnChart"/>
+	{% else %}
+		run does not exist
+	{% endif %}
 
-<div id="ColumnChart"/>
 </body>

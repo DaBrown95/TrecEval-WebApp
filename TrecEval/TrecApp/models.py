@@ -110,7 +110,7 @@ class Run(models.Model):
 	run_type = enum.EnumField(run_type, default=run_type.AUTOMATIC)
 	query_type = enum.EnumField(query_type, default=query_type.TITLE)
 	feedback_type = enum.EnumField(feedback_type, default=feedback_type.NONE)
-	map = models.DecimalField(max_digits=100, decimal_places=5)
+	MAP = models.DecimalField(max_digits=100, decimal_places=5)
 	p10 = models.DecimalField(max_digits=100, decimal_places=5)
 	p20 = models.DecimalField(max_digits=100, decimal_places=5)
 	
@@ -124,4 +124,4 @@ class Run(models.Model):
 			super(Run, self).save(*args, **kwargs)
 
 	def __unicode__(self):      #For Python 2, use __str__ on Python 3
-		return self.title
+		return self.name

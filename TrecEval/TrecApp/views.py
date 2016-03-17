@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from TrecApp.models import Researcher
+from TrecApp.models import Researcher, Run, Task, Track
 
 def home(request):
-    return render(request, 'trecapp/home.html')
+	runs_list = Run.objects.order_by('name')[:5]
+	context_dict = {'runs': runs_list}
+
+    # Render the response and send it back!
+	return render(request, 'TrecApp/home.html', context_dict)
 
 def about(request):
     return render(request, 'trecapp/about.html')
@@ -70,11 +74,34 @@ def graph(request, run_name_slug):
 	context_dict = {}
 	
 	try:
+	
 		run = Run.objects.get(slug=run_name_slug)
+		
 		context_dict["name"] = run.name
-		context_dict["map"] = run.Map
+		r = run.researcher
+		context_dict["researcher_name"] = r.name
+		context_dict["map"] = run.MAP
 		context_dict["p10"] = run.p10
 		context_dict["p20"] = run.p20
+		
+		context_dict["run"] = run
+	
+	except:
+		pass
+
+	return render(request, "TrecApp/graph.html", context_dict)
+	
+
+def lineGraph(request, resarcher_name_slug):
+
+	context_dict = {}
+	
+	try:
+		
+		researcher = Researcher.objects.get(slug=researcher_name_slug)
+	
+		runs = Run.objects.filter(researcher=r)
+		
 	
 	except:
 		pass
@@ -92,11 +119,12 @@ def run(request,run_name_slug):
 			
 		run = Run.objects.get(slug=run_name_slug)
 		
+		context_dict["run"] = run
 		context_dict["name"] = run.name
 		context_dict["researcher"] = run.researcher
 		context_dict["task"] = run.task
 		#context_dict["result_file"] = run.result_file
-		context_dict["map"] = run.Map
+		context_dict["map"] = run.MAP
 		context_dict["description"] = run.description
 		context_dict["p10"] = run.p10
 		context_dict["p20"] = run.p20
