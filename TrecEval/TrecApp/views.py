@@ -132,10 +132,14 @@ def addResearcher(request):
             user.save()
             #deals with our additional attributes
             researcher = researcher_form.save(commit=False)          #slug gets created by save here
+
+            if 'picture' in request.FILES:
+                researcher.picture = request.FILES['picture']
+
             researcher.user = user
             researcher.save()
             registered = True
-            
+
             loggedinUser = authenticate(username=userUsername,password=userPassword)    #logs user in
             if loggedinUser.is_active:
                 login(request, loggedinUser)

@@ -43,7 +43,7 @@ class feedback_type(enum.Enum):
 class Researcher(models.Model):
     user = models.OneToOneField(User)
     url = models.URLField(max_length=20)
-    # PROFILE PICTUR
+    picture = models.ImageField(upload_to='profile_images', blank=True)
     display_name = models.CharField(max_length=128)
     organization = models.CharField(max_length=128)
 
