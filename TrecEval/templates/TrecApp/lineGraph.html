@@ -8,26 +8,29 @@
     function drawChart() {
       // Define the chart to be drawn.
 	  
-		var data = google.visualization.arrayToDataTable([
-          ['run', 'map', 'p10', 'p20'],
-          ['run1',  0.1, 0.2, 0.4],
-          ['run2',  0.5, 0.7, 0.8],
-          ['run3',  0.66, 0.9, 0.8]
-        ]);
 	  
-	  var options = {'title':'runs by researcher', // {{title}}
+		var data = google.visualization.arrayToDataTable([
+			['run', 'map', 'p10', 'p20'],
+			["test",0.5,0.5,0.5]
+		 ]);
+	
+	  var options = {'title':'runs by ' + String('{{researcher.name}}'),
 			   'width':500,
 			   'height':500 };
-
+			   
       // Instantiate and draw the chart.
       var chart = new google.visualization.LineChart(document.getElementById('LineChart'));
-      chart.draw(data, options);
+	  
+	  chart.draw(data, options);
     }
   </script>
 </head>
 <body>
 
 <!-- Identify where the chart should be drawn. -->
-
-<div id="LineChart"/>
+{% if researcher %}
+	<div id="LineChart"/>
+{% else %}
+	researcher does not exist
+{% endif %}
 </body>

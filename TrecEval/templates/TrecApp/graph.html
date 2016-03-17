@@ -10,12 +10,12 @@
       data.addColumn('string', 'Element');
       data.addColumn('number', '%');
       data.addRows([
-			['map', 0.8],
-			['p10', 0.7],
-			['p20', 0.7]
+			['map', parseFloat("{{map}}")],
+			['p10', parseFloat("{{p10}}")],
+			['p20', parseFloat("{{p20}}")]
       ]);
 	  
-	  var options = {'title': 'by',
+	  var options = {'title': '{{name }}' + ' by ' + '{{researcher_name}}',
 		   'width':500,
 		   'height':500 };
 

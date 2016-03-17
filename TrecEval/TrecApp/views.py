@@ -89,24 +89,36 @@ def graph(request, run_name_slug):
 	except:
 		pass
 
+	#print context_dict
 	return render(request, "TrecApp/graph.html", context_dict)
 	
 
-def lineGraph(request, resarcher_name_slug):
+def lineGraph(request, researcher_name_slug):
 
 	context_dict = {}
 	
 	try:
 		
-		researcher = Researcher.objects.get(slug=researcher_name_slug)
-	
+		r = Researcher.objects.get(slug=researcher_name_slug)
+		
 		runs = Run.objects.filter(researcher=r)
 		
+		context_dict["researcher"] = r
+		
+		context_dict["runs"] = []
+		i = 0
+		for run in runs:
+			context_dict["runs"] += [run]
+			i+=1
+		
+		context_dict["amount_of_runs"] = i
 	
 	except:
 		pass
 
-	return render(request, "TrecApp/graph.html", context_dict)
+	print context_dict["amount_of_runs"]
+		
+	return render(request, "TrecApp/lineGraph.html", context_dict)
 
 	
 	
