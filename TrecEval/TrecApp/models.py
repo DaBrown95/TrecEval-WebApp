@@ -51,8 +51,8 @@ class Researcher(models.Model):
 
     def save(self, *args, **kwargs):
             # Uncomment if you don't want the slug to change every time the name changes
-            if self.id is None:
-                    self.slug = slugify(self.user.username)
+            #if self.id is None:
+            #        self.slug = slugify(self.user.username)
             self.slug = slugify(self.user.username)
             super(Researcher, self).save(*args, **kwargs)
 

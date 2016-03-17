@@ -22,11 +22,11 @@ def uploadRun(request):
         researcher = None
 
     def handle_uploaded_file(f):
-        #qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
-        qRel = "H:\Workspace\WAD\TrecWebApp\TrecEval-WebApp\Extra\TrecEvalProgram\data\news\ap.trec.qrels"
+        qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
+        #qRel = "H:\Workspace\WAD\TrecWebApp\TrecEval-WebApp\Extra\TrecEvalProgram\data\news\ap.trec.qrels"
         results = trec_eval(qRel, f)
         return results
-    
+
     if request.method == 'POST':
         form = RunForm(request.POST, request.FILES)
         if form.is_valid():
