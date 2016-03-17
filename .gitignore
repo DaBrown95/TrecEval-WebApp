@@ -64,3 +64,4 @@ target/
 TrecEval/.idea/
 TrecEval/media/runFiles/
 TrecEval/media/processingFile.txt
+TrecEval/db.sqlite3

@@ -53,6 +53,7 @@ def researcher(request, researcher_name_slug):
 
 	return render(request, "TrecApp/researcher.html", context_dict)
 
+
 def addResearcher(request):
     registered = False
     if request.method == 'POST':
@@ -101,9 +102,6 @@ def track(request,track_name_slug): #might need something to usinquely identify 
 		pass
 
 	return render(request, "TrecApp/track.html", context_dict) #track.html not created yet
-	
-
-	return render(request, "TrecApp.track.html", context_dict) #track.html not created yet
 
 
 def task(request,task_name_slug):
@@ -140,7 +138,7 @@ def graph(request, run_name_slug):
 	except:
 		pass
 
-	return render(request, TrecApp.graph.html, context_dict)
+	return render(request, "TrecApp/graph.html", context_dict)
 
 
 
@@ -168,4 +166,4 @@ def run(request,run_name_slug):
 	except Run.DoesNotExist:
 		pass
 
-	return render(request, TrecApp.run.html, context_dict)
+	return render(request, "TrecApp/run.html", context_dict)
