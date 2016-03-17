@@ -1,0 +1,33 @@
+<head>
+	<!--Load the AJAX API-->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {packages: ['corechart']}); //allows standard graphs (column bar line pie etc)
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      // Define the chart to be drawn.
+	  
+		var data = google.visualization.arrayToDataTable([
+          ['run', 'map', 'p10', 'p20'],
+          ['run1',  0.1, 0.2, 0.4],
+          ['run2',  0.5, 0.7, 0.8],
+          ['run3',  0.66, 0.9, 0.8]
+        ]);
+	  
+	  var options = {'title':'runs by researcher', // {{title}}
+			   'width':500,
+			   'height':500 };
+
+      // Instantiate and draw the chart.
+      var chart = new google.visualization.LineChart(document.getElementById('LineChart'));
+      chart.draw(data, options);
+    }
+  </script>
+</head>
+<body>
+
+<!-- Identify where the chart should be drawn. -->
+
+<div id="LineChart"/>
+</body>

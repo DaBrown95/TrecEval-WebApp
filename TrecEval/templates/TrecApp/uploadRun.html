@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Upload a Run</title>
+    </head>
+    <body>
+        <form action="{% url 'uploadRun' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            {% for field in form.visible_fields %}
+                {{ field.errors }}
+                {{ field.help_text }}
+                {{ field }}
+                <br>
+            {% endfor %}
+              <!--<input type="submit" value="Upload" />-->
+              <input type="submit" value ="Submit"/>
+            </p>
+        </form>
+    </body>
+</html>
