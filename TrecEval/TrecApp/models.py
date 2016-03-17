@@ -40,77 +40,73 @@ class feedback_type(enum.Enum):
             OTHER: 'Other'
         }
 
-
 class Researcher(models.Model):
-        user = models.OneToOneField(User)
-	name = models.CharField(max_length=128, unique=True)
-	url = models.URLField(max_length=200)
-    # PROFILE PICTURE
-	display_name = models.CharField(max_length=128)
-	organization = models.CharField(max_length=128)
+    user = models.OneToOneField(User)
+    url = models.URLField(max_length=20)
+    # PROFILE PICTUR
+    display_name = models.CharField(max_length=128)
+    organization = models.CharField(max_length=128)
 
-	slug = models.SlugField()
+    slug = models.SlugField()
 
-	def save(self, *args, **kwargs):
-			# Uncomment if you don't want the slug to change every time the name changes
-			#if self.id is None:
-					#self.slug = slugify(self.name)
-			self.slug = slugify(self.name)
-			super(Researcher, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+            # Uncomment if you don't want the slug to change every time the name changes
+            if self.id is None:
+                    self.slug = slugify(self.user.username)
+            self.slug = slugify(self.user.username)
+            super(Researcher, self).save(*args, **kwargs)
 
-	def __unicode__(self):  #For Python 2, use __str__ on Python 3
-		return self.name
+    def __unicode__(self):  #For Python 2, use __str__ on Python 3
+        return self.user.username
 
 
 class Track(models.Model):
-	title = models.CharField(max_length=128, unique=True)
-	track_url = models.URLField(max_length=200)
-	description = models.TextField()
-	genre = models.CharField(max_length=128)
+    title = models.CharField(max_length=128, unique=True)
+    track_url = models.URLField(max_length=200)
+    description = models.TextField()
+    genre = models.CharField(max_length=128)
 
-	slug = models.SlugField()
+    slug = models.SlugField()
 
-	def save(self, *args, **kwargs):
-			# Uncomment if you don't want the slug to change every time the name changes
-			#if self.id is None:
-					#self.slug = slugify(self.title)
-			self.slug = slugify(self.title)
-			super(Track, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+            # Uncomment if you don't want the slug to change every time the name changes
+            #if self.id is None:
+                    #self.slug = slugify(self.title)
+            self.slug = slugify(self.title)
+            super(Track, self).save(*args, **kwargs)
 
-	def __unicode__(self):      #For Python 2, use __str__ on Python 3
-		return self.title
+    def __unicode__(self):      #For Python 2, use __str__ on Python 3
+        return self.title
 
 
 class Task(models.Model):
-	track = models.ForeignKey(Track)
-	title = models.CharField(max_length=128)
-	#task_url = models.FileField()
-	description = models.TextField()
-	year = models.DateField()
+    #track = models.ForeignKey(Track)
+    title = models.CharField(max_length=128)
+    #task_url = models.FileField()
+    description = models.TextField()
+    year = models.DateField()
 
         #judgement_file = models.FileField()
-	
+
         #judgement_file = models.FileField()
 
 
-	slug = models.SlugField()
+    slug = models.SlugField()
 
-	def save(self, *args, **kwargs):
-			# Uncomment if you don't want the slug to change every time the name changes
-			#if self.id is None:
-					#self.slug = slugify(self.title)
-			self.slug = slugify(self.title)
-			super(Task, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+            # Uncomment if you don't want the slug to change every time the name changes
+            #if self.id is None:
+                    #self.slug = slugify(self.title)
+            self.slug = slugify(self.title)
+            super(Task, self).save(*args, **kwargs)
 
 
-	def __unicode__(self):      #For Python 2, use __str__ on Python 3
-		return self.title
+    def __unicode__(self):      #For Python 2, use __str__ on Python 3
+        return self.title
 
 
 class Run(models.Model):
     researcher = models.ForeignKey(Researcher)
-    task = models.ForeignKey(Task)
-    #researcher = models.ForeignKey(Researcher)
     #task = models.ForeignKey(Task)
     name = models.CharField(max_length=128)
 
@@ -127,12 +123,11 @@ class Run(models.Model):
     def __unicode__(self):      #For Python 2, use __str__ on Python 3
         return self.name
 
-	slug = models.SlugField()
+    slug = models.SlugField()
 
-	def save(self, *args, **kwargs):
-			# Uncomment if you don't want the slug to change every time the name changes
-			#if self.id is None:
-					#self.slug = slugify(self.name)
-			self.slug = slugify(self.name)
-			super(Run, self).save(*args, **kwargs)
-
+    def save(self, *args, **kwargs):
+            # Uncomment if you don't want the slug to change every time the name changes
+            #if self.id is None:
+                    #self.slug = slugify(self.name)
+            self.slug = slugify(self.name)
+            super(Run, self).save(*args, **kwargs)
