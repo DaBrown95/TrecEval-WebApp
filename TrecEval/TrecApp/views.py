@@ -131,6 +131,10 @@ def addResearcher(request):
         if user_form.is_valid() and researcher_form.is_valid():
             #deals with django User model
             user = user_form.save()
+            userUsername = user.username
+            userPassword = user.password
+            print userUsername
+            print userPassword
             user.set_password(user.password)
             user.save()
             #deals with our additional attributes
@@ -138,7 +142,14 @@ def addResearcher(request):
             researcher.user = user
             researcher.save()
             registered = True
-            #return researcher(request,researcher_name_slug)
+            
+            loggedinUser = authenticate(username=userUsername,password=userPassword)    #logs user in
+            if loggedinUser.is_active:
+                login(request, loggedinUser)
+                return home(request)
+            else:
+                # An inactive account was used - no logging in!
+                return HttpResponse("Your TrecEval account is disabled.")
         else:
             # The supplied forms contained errors - just print them to the terminal.
             print user_form.errors, researcher_form.errors
@@ -244,7 +255,6 @@ def run(request,run_name_slug):
 	context_dict = {}
 
 	try:
-
 		run = Run.objects.get(slug=run_name_slug)
 		
 		context_dict["run"] = run
