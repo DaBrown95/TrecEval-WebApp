@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from TrecApp.forms import RunForm
+from TrecApp.forms import *
 from TrecApp.valueExtractor import *
 from TrecApp.models import Run, Researcher
 
@@ -10,9 +10,7 @@ def home(request):
 def about(request):
     return render(request, 'trecapp/about.html')
 
-<<<<<<< HEAD
-	
-=======
+
 
 def uploadRun(request):
 
@@ -36,7 +34,7 @@ def uploadRun(request):
 
     return render(request,'TrecApp/uploadRun.html',{'form': form})
 
->>>>>>> a655f53c026574f2bc29efeb5496bd7e4f8493eb
+
 def researcher(request, researcher_name_slug):
 
 	context_dict = {}
@@ -53,7 +51,6 @@ def researcher(request, researcher_name_slug):
 	except Researcher.DoesNotExist:
 		pass
 
-<<<<<<< HEAD
 	return render(request, "TrecApp/researcher.html", context_dict)
 
 def addResearcher(request):
@@ -72,7 +69,7 @@ def addResearcher(request):
             researcher.user = user
             researcher.save()
             registered = True
-            return Researcher(request,researcher_name_slug)
+            #return researcher(request,researcher_name_slug)
         else:
             # The supplied forms contained errors - just print them to the terminal.
             print user_form.errors, researched_form.errors
@@ -83,9 +80,9 @@ def addResearcher(request):
 
     # Bad form (or form details), no form supplied...
     # Render the form with error messages (if any).
-    return render(request, 'TrecApp/add_Researcher.html', {'user_form': user_form,'researcher_form':researcher_form, 'registered' : registered} )
+    return render(request, 'TrecApp/addresearcher.html', {'user_form': user_form,'researcher_form':researcher_form, 'registered' : registered} )
 
->>>>>>> a655f53c026574f2bc29efeb5496bd7e4f8493eb
+
 
 def track(request,track_name_slug): #might need something to usinquely identify tracks?
 
@@ -103,13 +100,12 @@ def track(request,track_name_slug): #might need something to usinquely identify 
 	except Track.DoesNotExist:
 		pass
 
-<<<<<<< HEAD
 	return render(request, "TrecApp/track.html", context_dict) #track.html not created yet
 	
-=======
+
 	return render(request, "TrecApp.track.html", context_dict) #track.html not created yet
 
->>>>>>> a655f53c026574f2bc29efeb5496bd7e4f8493eb
+
 def task(request,task_name_slug):
 
 	context_dict = {}

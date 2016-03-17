@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
-from TrecApp.models import Run, Researcher, Task
+from django_enumfield import enum
+from TrecApp.models import Run, Researcher, Task, run_type, query_type, feedback_type
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -29,10 +30,6 @@ class ResearcherForm(forms.ModelForm):
         model = Researcher
         fields = ('name','url','display_name','organization')
 
-  
-=======
-from TrecApp.models import Run, run_type, query_type, feedback_type
-from django_enumfield import enum
 
 class RunForm(forms.ModelForm):
 
@@ -54,4 +51,4 @@ class RunForm(forms.ModelForm):
         model = Run
         fields = ('runfile','name','description','run_type','query_type','feedback_type','MAP','p10','p20')
         exclude = ('researcher','task',)
->>>>>>> a655f53c026574f2bc29efeb5496bd7e4f8493eb
+

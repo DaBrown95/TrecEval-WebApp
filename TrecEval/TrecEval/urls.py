@@ -9,6 +9,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^trecapp/', include('TrecApp.urls')),
+    
     )
 
 if settings.DEBUG:

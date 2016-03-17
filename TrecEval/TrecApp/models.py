@@ -87,13 +87,12 @@ class Task(models.Model):
 	#task_url = models.FileField()
 	description = models.TextField()
 	year = models.DateField()
-<<<<<<< HEAD
+
         #judgement_file = models.FileField()
 	
-=======
-    #judgement_file = models.FileField()
+        #judgement_file = models.FileField()
 
->>>>>>> a655f53c026574f2bc29efeb5496bd7e4f8493eb
+
 	slug = models.SlugField()
 
 	def save(self, *args, **kwargs):
@@ -134,7 +133,4 @@ class Run(models.Model):
 					#self.slug = slugify(self.name)
 			self.slug = slugify(self.name)
 			super(Run, self).save(*args, **kwargs)
-<<<<<<< HEAD
-			
-=======
->>>>>>> a655f53c026574f2bc29efeb5496bd7e4f8493eb
+
