@@ -27,7 +27,7 @@ class ResearcherForm(forms.ModelForm):
 
     class Meta:
         model = Researcher
-        fields = ('url','display_name','organization')
+        fields = ('url','display_name','organization','picture')
 
 
 class RunForm(forms.ModelForm):
