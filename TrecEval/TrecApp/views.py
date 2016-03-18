@@ -113,11 +113,10 @@ def researcher(request, researcher_name_slug):
 	try:
 
 		researcher = Researcher.objects.get(slug=researcher_name_slug)
-
-		context_dict["username"] = researcher.display_name
-		context_dict["name"] = researcher.name
+		context_dict["display_name"] = researcher.display_name
 		context_dict["url"] = researcher.url
 		context_dict["organization"] = researcher.organization
+        #context_dict["user"] = researcher.username
 
 	except Researcher.DoesNotExist:
 		pass
@@ -136,8 +135,6 @@ def addResearcher(request):
             user = user_form.save()
             userUsername = user.username
             userPassword = user.password
-            print userUsername
-            print userPassword
             user.set_password(user.password)
             user.save()
             #deals with our additional attributes
