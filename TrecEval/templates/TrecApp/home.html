@@ -5,5 +5,13 @@
 {% block title %} - Home{% endblock %}
 
 {% block body_block %}
-
+	{% if runs %}
+	<ul>
+		{%for run in runs%}
+		<li><a href=/trecapp/run/{{run.slug}}> {{run.name}} </a></li>
+		{% endfor %}
+	</ul>
+	{% else %}
+		There are no runs
+	{% endif %}	
 {% endblock %}

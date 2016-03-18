@@ -2,10 +2,27 @@
 
 {% extends 'base.html' %}
 
-{% block title %} - {{name }}{% endblock %} 
+{% block title %} - {{name}}{% endblock %}
 
 {% block body_block %}
 
-	<a href=/trecapp/run/graph>
+	{% if run %}
+		<a href="/trecapp/graph/{{run.slug}}">Graph of this run</a>
+		<a href="/trecapp/linegraph/{{run.researcher.slug}}">Compare your runs</a> </br>
+		<p>
+			Name - {{ name }} </br>
+			Researcher - {{ researcher }} </br>
+			Description - {{ description }} </br>
+			Run Type - {{ run_type }} </br>
+			Feedback Type - {{ feedback_type }} </br>
+			Query Type - {{ query_type }} </br>
+			MAP - {{ map }} </br>
+			p10 - {{ p10 }} </br>
+			p20 - {{ p20 }} </br>
+
+
+	{% else %}
+		run does not exist
+	{% endif %}
 
 {% endblock %}

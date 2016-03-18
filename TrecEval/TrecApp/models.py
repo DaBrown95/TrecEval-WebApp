@@ -65,6 +65,7 @@ class Track(models.Model):
     track_url = models.URLField(max_length=200)
     description = models.TextField()
     genre = models.CharField(max_length=128)
+    judgement_file = models.FileField()
     slug = models.SlugField()
 
     def save(self, *args, **kwargs):
@@ -102,7 +103,7 @@ class Task(models.Model):
 class Run(models.Model):
     researcher = models.ForeignKey(Researcher)
     task = models.ForeignKey(Task)
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, unique=True)
 
     runfile = models.FileField(upload_to="runFiles")
 
@@ -114,14 +115,14 @@ class Run(models.Model):
     p10 = models.DecimalField(max_digits=100, decimal_places=5,)
     p20 = models.DecimalField(max_digits=100, decimal_places=5,)
 
+    slug = models.SlugField()
+
     def __unicode__(self):      #For Python 2, use __str__ on Python 3
         return self.name
 
-    slug = models.SlugField()
-
     def save(self, *args, **kwargs):
-            # Uncomment if you don't want the slug to change every time the name changes
-            #if self.id is None:
-                    #self.slug = slugify(self.name)
-            self.slug = slugify(self.name)
-            super(Run, self).save(*args, **kwargs)
+        # Uncomment if you don't want the slug to change every time the name changes
+        #if self.id is None:
+                #self.slug = slugify(self.name)
+        self.slug = slugify(self.name)
+        super(Run, self).save(*args, **kwargs)
