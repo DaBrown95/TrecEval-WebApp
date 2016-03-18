@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+
+from TrecApp.models import Researcher, Run, Task, Track
+
 from TrecApp.forms import *
 from TrecApp.valueExtractor import *
 from TrecApp.models import Run, Researcher
@@ -8,7 +11,14 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 
 def home(request):
-    return render(request, 'trecapp/home.html')
+	runs_list = Run.objects.order_by('name')[:5]
+	
+	context_dict = {}
+	
+	#context_dict = {'runs': runs_list}
+	
+    # Render the response and send it back!
+	return render(request, 'TrecApp/home.html', context_dict)
 
 def about(request):
     return render(request, 'trecapp/about.html')
@@ -202,17 +212,45 @@ def graph(request, run_name_slug):
 	context_dict = {}
 
 	try:
+	
 		run = Run.objects.get(slug=run_name_slug)
+		
 		context_dict["name"] = run.name
-		context_dict["map"] = run.Map
+		r = run.researcher
+		context_dict["researcher_name"] = r.name
+		context_dict["map"] = run.MAP
 		context_dict["p10"] = run.p10
 		context_dict["p20"] = run.p20
-
+		
+		context_dict["run"] = run
+	
 	except:
 		pass
 
+	#print context_dict
 	return render(request, "TrecApp/graph.html", context_dict)
+	
 
+def lineGraph(request, researcher_name_slug):
+
+	context_dict = {}
+	
+	try:
+		
+		r = Researcher.objects.get(slug=researcher_name_slug)
+		
+		runs = Run.objects.filter(researcher=r).order_by("-MAP") #might need to limit amount
+		
+		context_dict["researcher"] = r
+		
+		context_dict["runs"] = runs
+		
+		print runs[0].p10
+		
+	except:
+		pass
+		
+	return render(request, "TrecApp/lineGraph.html", context_dict)
 
 
 
@@ -222,10 +260,13 @@ def run(request,run_name_slug):
 
 	try:
 		run = Run.objects.get(slug=run_name_slug)
+		
+		context_dict["run"] = run
 		context_dict["name"] = run.name
 		context_dict["researcher"] = run.researcher
 		context_dict["task"] = run.task
-		context_dict["map"] = run.Map
+		#context_dict["result_file"] = run.result_file
+		context_dict["map"] = run.MAP
 		context_dict["description"] = run.description
 		context_dict["p10"] = run.p10
 		context_dict["p20"] = run.p20

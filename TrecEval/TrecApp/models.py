@@ -106,28 +106,31 @@ class Task(models.Model):
 
 
 class Run(models.Model):
-    researcher = models.ForeignKey(Researcher)
+
+	researcher = models.ForeignKey(Researcher)
     #task = models.ForeignKey(Task)
-    name = models.CharField(max_length=128)
+	name = models.CharField(max_length=128)
 
-    runfile = models.FileField(upload_to="runFiles")
+	runfile = models.FileField(upload_to="runFiles")
+	
+	description = models.TextField()
+	run_type = enum.EnumField(run_type, default=run_type.AUTOMATIC)
+	query_type = enum.EnumField(query_type, default=query_type.TITLE)
+	feedback_type = enum.EnumField(feedback_type, default=feedback_type.NONE)
+	MAP = models.DecimalField(max_digits=100, decimal_places=5,)
+	p10 = models.DecimalField(max_digits=100, decimal_places=5,)
+	p20 = models.DecimalField(max_digits=100, decimal_places=5,)
 
-    description = models.TextField()
-    run_type = enum.EnumField(run_type, default=run_type.AUTOMATIC)
-    query_type = enum.EnumField(query_type, default=query_type.TITLE)
-    feedback_type = enum.EnumField(feedback_type, default=feedback_type.NONE)
-    MAP = models.DecimalField(max_digits=100, decimal_places=5,)
-    p10 = models.DecimalField(max_digits=100, decimal_places=5,)
-    p20 = models.DecimalField(max_digits=100, decimal_places=5,)
+	slug = models.SlugField()
+	
+	def __unicode__(self):      #For Python 2, use __str__ on Python 3
+		return self.name
 
-    def __unicode__(self):      #For Python 2, use __str__ on Python 3
-        return self.name
+	def save(self, *args, **kwargs):
+		# Uncomment if you don't want the slug to change every time the name changes
+		#if self.id is None:
+				#self.slug = slugify(self.name)
+		self.slug = slugify(self.name)
+		super(Run, self).save(*args, **kwargs)
 
-    slug = models.SlugField()
 
-    def save(self, *args, **kwargs):
-            # Uncomment if you don't want the slug to change every time the name changes
-            #if self.id is None:
-                    #self.slug = slugify(self.name)
-            self.slug = slugify(self.name)
-            super(Run, self).save(*args, **kwargs)

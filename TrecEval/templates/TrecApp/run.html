@@ -2,10 +2,15 @@
 
 {% extends 'base.html' %}
 
-{% block title %} - {{name }}{% endblock %} 
+{% block title %} - {{name}}{% endblock %} 
 
 {% block body_block %}
-
-	<a href=/trecapp/run/graph>
-
+	
+	{% if run %}
+		<a href="/trecapp/graph/{{run.slug}}">Graph of this run</a>
+		<a href="/trecapp/linegraph/{{run.researcher.slug}}">Compare your runs</a>
+	{% else %}
+		run does not exist
+	{% endif %}
+	
 {% endblock %}
