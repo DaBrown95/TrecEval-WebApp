@@ -23,11 +23,17 @@ def populate():
 	track2 = add_track("track2","trecapp/track2","second track added","genre")
 	track3 = add_track("track3","trecapp/track3","third track added","genre")
 	
+	#not sure if this is how to use qrels
 	task1 = add_task(track1,"task1","description",datetime.now(),"data/web/dg.trec.qrels")
 	task2 = add_task(track2,"task2","description",datetime.now(),"data/robust/aq.trec2005.qrels")
 	task3 = add_task(track3,"task3","description",datetime.now(),"data/news/ap.trec.qrels")
 	
-	#still to add runs
+	
+	#might have to replace some of these values with actual data
+	#havent put anything in for files yet
+	run1 = add_run("run1", joe, task1, "description", 1, 2, 3, 0.5, 0.6, 0.4)
+	run2 = add_run("run1", jill, task2, "description", 1, 3, 2, 0.6, 0.9, 0.8)
+	run3 = add_run("run1", jim, task3, "description", 3, 2, 1, 0.2, 0.3, 0.7)
 	
 
 def add_researcher(username, url, organization, name, picture=None):
@@ -43,6 +49,7 @@ def add_researcher(username, url, organization, name, picture=None):
 
 
 def add_run(name, researcher, task, description, run_type, query_type, feedback_type, map, p10, p20):
+	
 	r = Run.objects.get_or_create(name=name)[0]
 	
 	r.feedback_type = feedback_type

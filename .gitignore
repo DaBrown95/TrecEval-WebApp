@@ -62,3 +62,8 @@ target/
 .ipynb_checkpoints
 
 TrecEval/.idea/
+TrecEval/media/runFiles/
+TrecEval/media/profile_images
+TrecEval/media/processingFile.txt
+TrecEval/TrecApp/migrations/
+TrecEval/db.sqlite3

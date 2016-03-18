@@ -18,6 +18,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^trecapp/', include('TrecApp.urls')),
+<<<<<<< HEAD
     url(r'^$', views.home, name='home'),
     url(r'about/$', views.about, name='about'),
 <<<<<<< HEAD
@@ -25,6 +26,9 @@ urlpatterns = patterns('',
     url(r'^accounts/$', include('registration.backends.simple.urls')),
 )
 =======
+=======
+    
+>>>>>>> master
     )
 
 if settings.DEBUG:

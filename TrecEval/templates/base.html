@@ -9,18 +9,19 @@
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-  
+
 		<link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
 		<title> Trec {% block title %}{% endblock %}</title>
 
 		<link href="bootstrap.min.css" rel="stylesheet">
 		<link href="freelancer.css" rel="stylesheet">
-		
+
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+<<<<<<< HEAD
 	<style>
     html, body {
         height:100%;
@@ -121,9 +122,13 @@
         height: 2em;
     }
     </style>
+=======
+
+>>>>>>> master
 	</head>
-	
+
 	<body>
+<<<<<<< HEAD
 	
 	<div id="header">
         <a href=/trecapp/ class="heading"><em>TREC</em></a>
@@ -151,4 +156,45 @@
         <!-- Include all compiled plugins (below), or include individual            files as needed -->
     <script src="js/bootstrap.min.js"></script>
 	</body>	
+=======
+		<nav class = "navbar navbar-default navbar-fixed-top">
+			<div class="container-fluid">
+
+				{% if user.is_authenticated %}
+				<h1> TrecEval says wassup {{ user.username }}!</h1>
+				{% else %}
+				<h1> TrecEval says who are you..?</h1>
+				{% endif %}
+
+				<a href=/trecapp/> Home </a>
+
+				<!--<a href=/trecapp/run/> Run </a> -->
+				<a href=/trecapp/about/> About </a>
+
+				{% if not user.is_authenticated %}
+				<a href=/trecapp/login/> Login </a>
+				<a href=/trecapp/addresearcher/> Register </a>
+				{% endif %}
+
+
+				{% if user.is_authenticated %}
+				<a href =/trecapp/uploadrun/> Upload a Run </a>
+				<a href="/trecapp/researcher/{{ user.username }}"> {{ user.username}} </a>
+				<a href=/trecapp/logout/> Logout </a>
+				{% endif %}
+			</div>
+		</nav>
+
+
+		<div>
+			{% block body_block %}{% endblock %}
+		</div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+
+	</body>
+>>>>>>> master
 </html>

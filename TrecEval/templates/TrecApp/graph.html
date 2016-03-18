@@ -1,29 +1,38 @@
 <head>
+	<!--Load the AJAX API-->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
-    google.charts.load('current', {packages: ['corechart']});
+    google.charts.load('current', {packages: ['corechart']}); //allows standard graphs (column bar line pie etc)
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
       // Define the chart to be drawn.
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Element');
-      data.addColumn('number', 'Percentage');
+      data.addColumn('number', '%');
       data.addRows([
-			['value1', 0.78],
-			['value2', 0.21],
-			['value3', 0.01]
+			['map', parseFloat("{{map}}")],
+			['p10', parseFloat("{{p10}}")],
+			['p20', parseFloat("{{p20}}")]
       ]);
+	  
+	  var options = {'title': '{{name }}' + ' by ' + '{{researcher_name}}',
+		   'width':500,
+		   'height':500 };
 
       // Instantiate and draw the chart.
       var chart = new google.visualization.ColumnChart(document.getElementById('ColumnChart'));
-      chart.draw(data, null);
+      chart.draw(data, options);
     }
   </script>
 </head>
 <body>
 
 <!-- Identify where the chart should be drawn. -->
+	{% if run %}
+		<div id="ColumnChart"/>
+	{% else %}
+		run does not exist
+	{% endif %}
 
-<div id="ColumnChart"/>
 </body>
