@@ -12,8 +12,11 @@ from django.http import HttpResponseRedirect, HttpResponse
 
 def home(request):
 	runs_list = Run.objects.order_by('name')[:5]
-	context_dict = {'runs': runs_list}
-
+	
+	context_dict = {}
+	
+	#context_dict = {'runs': runs_list}
+	
     # Render the response and send it back!
 	return render(request, 'TrecApp/home.html', context_dict)
 
