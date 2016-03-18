@@ -36,6 +36,7 @@ def uploadRun(request):
     def handle_uploaded_file(qRel,f):
         #qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
         #qRel = "H:\Workspace\WAD\TrecWebApp\TrecEval-WebApp\Extra\TrecEvalProgram\data\news\ap.trec.qrels"
+        print qRel
         results = trec_eval(qRel, f)
         return results
 
@@ -44,6 +45,7 @@ def uploadRun(request):
         if form.is_valid():
             if researcher:
                 page = form.save(commit=False)
+                print "Hello! Just about to call trec_eval"
                 result = handle_uploaded_file(page.task.judgement_file.path,request.FILES['runfile'])
                 slugFinder = page.name
                 page.MAP = result['MAP']
