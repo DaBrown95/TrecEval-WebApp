@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from TrecApp.models import Researcher, Run, Task, Track
+from TrecApp.models import Researcher, Run, Task, Track, run_type, query_type, feedback_type
 
 from TrecApp.forms import *
 from TrecApp.valueExtractor import *
@@ -44,16 +44,21 @@ def uploadRun(request):
             if researcher:
                 page = form.save(commit=False)
                 result = handle_uploaded_file(request.FILES['runfile'])
+                slugFinder = page.name
                 page.MAP = result['MAP']
                 page.p10 = result['p10']
                 page.p20 = result['p20']
                 page.researcher = researcher    #foreign key
                 page.save()
-                return home(request)    #go to home page
+
+                #runObject = Run.objects.get(name=slugFinder)
+                #slugFinder = runObject.slug
+                slugFinder = Run.objects.get(name=slugFinder).slug
+                return run(request, slugFinder)    #go to home page
     else:
         form = RunForm()
 
-    return render(request,'TrecApp/uploadRun.html',{'form': form})
+    return render(request, 'TrecApp/uploadRun.html',{'form': form})
 
 def user_login(request):
     # If the request is a HTTP POST, try to pull out the relevant information.
@@ -266,15 +271,15 @@ def run(request,run_name_slug):
         context_dict["run"] = run
         context_dict["name"] = run.name
         context_dict["researcher"] = run.researcher
-        context_dict["task"] = run.task
+        #context_dict["task"] = run.task
         #context_dict["result_file"] = run.result_file
         context_dict["map"] = run.MAP
         context_dict["description"] = run.description
         context_dict["p10"] = run.p10
         context_dict["p20"] = run.p20
-        context_dict["run_type"] = run.run_type
-        context_dict["feedback_type"] = run.feedback_type
-        context_dict["query_type"] = run.query_type
+        context_dict["run_type"] = run_type.labels[run.run_type]
+        context_dict["feedback_type"] = feedback_type.labels[run.feedback_type]
+        context_dict["query_type"] = query_type.labels[run.feedback_type]
 
     except Run.DoesNotExist:
         pass

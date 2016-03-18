@@ -109,10 +109,10 @@ class Run(models.Model):
 
 	researcher = models.ForeignKey(Researcher)
     #task = models.ForeignKey(Task)
-	name = models.CharField(max_length=128)
+	name = models.CharField(max_length=128, unique=True)
 
 	runfile = models.FileField(upload_to="runFiles")
-	
+
 	description = models.TextField()
 	run_type = enum.EnumField(run_type, default=run_type.AUTOMATIC)
 	query_type = enum.EnumField(query_type, default=query_type.TITLE)
@@ -122,7 +122,7 @@ class Run(models.Model):
 	p20 = models.DecimalField(max_digits=100, decimal_places=5,)
 
 	slug = models.SlugField()
-	
+
 	def __unicode__(self):      #For Python 2, use __str__ on Python 3
 		return self.name
 
@@ -132,5 +132,3 @@ class Run(models.Model):
 				#self.slug = slugify(self.name)
 		self.slug = slugify(self.name)
 		super(Run, self).save(*args, **kwargs)
-
-
