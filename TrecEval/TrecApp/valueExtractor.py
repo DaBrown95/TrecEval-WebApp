@@ -1,8 +1,14 @@
 import subprocess
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-TREC_PATH = os.path.join(BASE_DIR, 'TrecApp/trec_eval_macosx')
 RUN_FILES = os.path.join(BASE_DIR, 'media/runFiles')
+
+if os.name == 'nt':
+    TREC_PATH = os.path.join(BASE_DIR, 'TrecApp/trec_eval_dos')
+elif os.name == 'posix':
+    TREC_PATH = os.path.join(BASE_DIR, 'TrecApp/trec_eval_macosx')
+#elif os.name == 'UNIX/LINUX':
+    #TREC_PATH = os.path.join(BASE_DIR, 'TrecApp/trec_eval_unix')
 
 
 def trec_eval(qRel, res):
