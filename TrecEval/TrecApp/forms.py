@@ -37,7 +37,7 @@ class RunForm(forms.ModelForm):
     query_type = forms.TypedChoiceField(choices=query_type.choices(), coerce=int)
     feedback_type = forms.TypedChoiceField(choices=feedback_type.choices(), coerce=int)
     description = forms.CharField(widget=forms.Textarea)
-
+    task = forms.ModelChoiceField(queryset=Task.objects.all().order_by('title'))
     runfile = forms.FileField(label='runUpload',help_text='Upload your run file')
 
     MAP = forms.DecimalField(widget=forms.HiddenInput(), required=False)
@@ -48,5 +48,5 @@ class RunForm(forms.ModelForm):
     class Meta:
         # Provide an association between the ModelForm and a model
         model = Run
-        fields = ('runfile','name','description','run_type','query_type','feedback_type','MAP','p10','p20')
-        exclude = ('researcher','task',)
+        fields = ('runfile','name','description','run_type','query_type','feedback_type','MAP','p10','p20','task',)
+        exclude = ('researcher',)
