@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %} Trec Eval{% endblock %}
+
+{% block body_block %}
+
+<h1> Update your Profile </h1>
+
+  {% if not user.is_authenticated %}
+      TrecEval says: <strong> You are not registered idot. </strong>
+      <a href="/trecapp/">Return to the homepage.</a><br />
+  {% else %}
+
+      TrecEval says: <strong>Change your detials here.... </strong><br />
+      <form id="user_form" method="post" action="/trecapp/updateprofile/" enctype="multipart/form-data">
+              {% csrf_token %}
+              {{ researcher_update_form.as_p }}
+              <input type="submit" value="Submit" value ="Change" />
+      </form>
+  {% endif %}
+{% endblock %}

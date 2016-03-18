@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 
+
 def home(request):
     runs_list = Run.objects.order_by('name')[:5]
 
@@ -19,6 +20,8 @@ def home(request):
 
     # Render the response and send it back!
     return render(request, 'TrecApp/home.html', context_dict)
+
+
 
 def about(request):
     return render(request, 'trecapp/about.html')
@@ -63,6 +66,8 @@ def uploadRun(request):
 
     return render(request, 'TrecApp/uploadRun.html',{'form': form})
 
+
+
 def user_login(request):
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
@@ -104,14 +109,17 @@ def user_login(request):
         return render(request, 'trecapp/login.html', {})
 
 
+
 def restricted(request):
     return HttpResponse("Since you're logged in, you can see this!")
+
 
 
 @login_required
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/trecapp/')
+
 
 
 def researcher(request, researcher_name_slug):
@@ -130,6 +138,7 @@ def researcher(request, researcher_name_slug):
         pass
 
     return render(request, "TrecApp/researcher.html", context_dict)
+
 
 
 def addResearcher(request):
@@ -178,6 +187,35 @@ def addResearcher(request):
 
 
 
+def update_profile(request):
+    if request.method == 'POST':
+
+        #form = UpdateResearcherForm(request.POST, instance=request.user)
+        #form.actual_user = request.user
+        form = UpdateResearcherForm(request.POST)
+
+        if form.is_valid():
+            page = form.save(commit=False)
+            userProfile = Researcher.objects.get(user=request.user)
+            if page.display_name != '':
+                userProfile.display_name = page.display_name
+            if page.url != '':
+                userProfile.url = page.url
+            if page.organization != '':
+                userProfile.organization = page.organization
+
+            if 'picture' in request.FILES:
+                userProfile.picture = request.FILES['picture']
+
+            userProfileSlug = userProfile.slug
+            userProfile.save()
+            return researcher(request, userProfileSlug)
+    else:
+        researcher_update_form = UpdateResearcherForm()
+
+    return render(request, 'TrecApp/updateprofile.html', {'researcher_update_form': researcher_update_form})
+
+
 def track(request,track_name_slug): #might need something to usinquely identify tracks?
 
     context_dict = {}
@@ -195,6 +233,7 @@ def track(request,track_name_slug): #might need something to usinquely identify 
         pass
 
     return render(request, "TrecApp/track.html", context_dict) #track.html not created yet
+
 
 
 def task(request,task_name_slug):
@@ -216,6 +255,8 @@ def task(request,task_name_slug):
         pass
 
     return render(request, "TrecApp/task.html", context_dict) #task.html not created yet
+
+
 
 def graph(request, run_name_slug):
 
@@ -239,6 +280,7 @@ def graph(request, run_name_slug):
 
     #print context_dict
     return render(request, "TrecApp/graph.html", context_dict)
+
 
 
 def lineGraph(request, researcher_name_slug):

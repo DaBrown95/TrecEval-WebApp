@@ -12,10 +12,10 @@
 
 		{% else %}
         TrecEval says: <strong>register here!</strong><br />
-		<form id="user_form" method="post" action="/trecapp/addresearcher/" enctype="multipart/form-data">
+				<form id="user_form" method="post" action="/trecapp/addresearcher/" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ user_form.as_p }}
-				{{ researcher_form.as_p }}
+								{{ researcher_form.as_p }}
                 <input type="submit" value="Submit" value ="Register" />
         </form>
 		{% endif %}
