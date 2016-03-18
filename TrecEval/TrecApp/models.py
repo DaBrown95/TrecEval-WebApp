@@ -101,7 +101,7 @@ class Task(models.Model):
 
 class Run(models.Model):
     researcher = models.ForeignKey(Researcher)
-    #task = models.ForeignKey(Task)
+    task = models.ForeignKey(Task)
     name = models.CharField(max_length=128)
 
     runfile = models.FileField(upload_to="runFiles")
