@@ -82,7 +82,7 @@ def add_task(track,title,description,year,judgement):
 	t.track = track
 	t.description = description
 	t.year = year
-	t.judegement_file = judgement
+	t.judgement_file = judgement
 	
 	t.save()
 	

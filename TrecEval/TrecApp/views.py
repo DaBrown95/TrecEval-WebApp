@@ -15,14 +15,15 @@ def about(request):
 
 
 def uploadRun(request):
+
     currentUser = User.objects.get(username=request.user.username)      #get current user from request
     try:            #retrieve researcher for the current user from database
         researcher = Researcher.objects.get(user=currentUser)
     except Researcher.DoesNotExist:
         researcher = None
 
-    def handle_uploaded_file(f):
-        qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
+    def handle_uploaded_file(qRel,f):
+        #qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
         #qRel = "H:\Workspace\WAD\TrecWebApp\TrecEval-WebApp\Extra\TrecEvalProgram\data\news\ap.trec.qrels"
         results = trec_eval(qRel, f)
         return results
@@ -32,7 +33,7 @@ def uploadRun(request):
         if form.is_valid():
             if researcher:
                 page = form.save(commit=False)
-                result = handle_uploaded_file(request.FILES['runfile'])
+                result = handle_uploaded_file(page.task.judgement_file.path,request.FILES['runfile'])
                 page.MAP = result['MAP']
                 page.p10 = result['p10']
                 page.p20 = result['p20']
