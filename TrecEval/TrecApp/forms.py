@@ -30,6 +30,16 @@ class ResearcherForm(forms.ModelForm):
         fields = ('url','display_name','organization','picture')
 
 
+class UpdateResearcherForm(forms.ModelForm):
+    display_name = forms.CharField(max_length=128, help_text="Please enter your new display name.")
+    organization = forms.CharField(max_length=128, help_text="Please enter your new organization.")
+    url = forms.URLField(max_length=200, help_text="Please enter your new URL", required=False)
+
+    class Meta:
+        model = Researcher
+        fields = ('url', 'display_name','organization','picture')
+        
+
 class RunForm(forms.ModelForm):
 
     name = forms.CharField(max_length=128, help_text="Please enter name of your run")
