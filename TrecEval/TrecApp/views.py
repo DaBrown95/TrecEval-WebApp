@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from TrecApp.models import Researcher, Run, Task, Track
+from TrecApp.models import Researcher, Run, Task, Track, run_type, query_type, feedback_type
 
 from TrecApp.forms import *
 from TrecApp.valueExtractor import *
@@ -277,9 +277,9 @@ def run(request,run_name_slug):
         context_dict["description"] = run.description
         context_dict["p10"] = run.p10
         context_dict["p20"] = run.p20
-        context_dict["run_type"] = run.run_type
-        context_dict["feedback_type"] = run.feedback_type
-        context_dict["query_type"] = run.query_type
+        context_dict["run_type"] = run_type.labels[run.run_type]
+        context_dict["feedback_type"] = feedback_type.labels[run.feedback_type]
+        context_dict["query_type"] = query_type.labels[run.feedback_type]
 
     except Run.DoesNotExist:
         pass
