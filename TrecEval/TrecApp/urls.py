@@ -13,4 +13,8 @@ urlpatterns = patterns('',
 		url(r'^login/$', views.user_login, name='login'),
 		url(r'^logout/$', views.user_logout, name='logout'),
 		url(r'^restricted/', views.restricted, name='restricted'),
-		url(r'^researcher/(?P<researcher_name_slug>[\w\-]+)/$', views.researcher, name='researcher'),)
+		url(r'^researcher/(?P<researcher_name_slug>[\w\-]+)/$', views.researcher, name='researcher'),
+                url(r'^tracks/(?P<track_name_slug>[\w\-]+)/$', views.track, name='track'),
+                url(r'^tracks/(?P<track_name_slug>[\w\-]+)/(?P<task_name_slug>[\w\-]+)/$', views.task, name='track'),
+                url(r'^tracklist/$', views.trackList, name='trackList'),
+                )

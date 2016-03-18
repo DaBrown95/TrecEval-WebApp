@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+{% block title %} - {{track}}{% endblock %}
+
+{% block body_block %}
+	{% if track %}
+		<h1>{{ title }}</h1>
+		{% if tasks %}
+		<ul>
+			{% for task in tasks %}
+			<li><a href ="{{ task.slug }}"> {{task.title}} </a> </li>
+			{% endfor %}
+		</ul>
+		{% else %}
+            <strong>No tasks in this track</strong>
+        {% endif %}
+	{% else %}
+			<strong>There is no track with this name</strong>
+	{% endif %}
+
+{% endblock %}

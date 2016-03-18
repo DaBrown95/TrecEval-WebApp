@@ -181,11 +181,13 @@ def addResearcher(request):
 def track(request,track_name_slug): #might need something to usinquely identify tracks?
 
     context_dict = {}
-
+    
+    
     try:
-
         track = Track.objects.get(slug=track_name_slug)
-
+        tasks = Task.objects.filter(track=track)
+        context_dict["track"] = track
+        context_dict["tasks"] = tasks
         context_dict["title"] = track.title
         context_dict["url"] = track.track_url
         context_dict["description"] = track.description
@@ -196,15 +198,29 @@ def track(request,track_name_slug): #might need something to usinquely identify 
 
     return render(request, "TrecApp/track.html", context_dict) #track.html not created yet
 
+def trackList(request):
+    context_dict = {}
+    
+    try:
+        tracks = Track.objects.filter()
+        context_dict["tracks"] = tracks
 
-def task(request,task_name_slug):
+
+    except Track.DoesNotExist:
+        pass
+
+    return render(request, "TrecApp/tracklist.html", context_dict) #track.html not created yet
+    
+
+
+def task(request,track_name_slug,task_name_slug):
 
     context_dict = {}
 
     try:
-
+        runs = Run.objects.all()
         task = Task.objects.get(slug=task_name_slug)
-
+        context_dict["runs"] = runs
         context_dict["title"] = task.title
         context_dict["task"] = task.track
         context_dict["description"] = task.description
