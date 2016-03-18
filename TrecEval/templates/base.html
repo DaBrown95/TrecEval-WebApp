@@ -36,7 +36,7 @@
 
 				<a href=/trecapp/> Home </a>
 
-				<a href=/trecapp/run/> Run </a>
+				<!--<a href=/trecapp/run/> Run </a> -->
 				<a href=/trecapp/about/> About </a>
 
 				{% if not user.is_authenticated %}
@@ -46,6 +46,7 @@
 
 
 				{% if user.is_authenticated %}
+				<a href =/trecapp/uploadrun/> Upload a Run </a>
 				<a href="/trecapp/researcher/{{ user.username }}"> {{ user.username}} </a>
 				<a href=/trecapp/logout/> Logout </a>
 				{% endif %}
