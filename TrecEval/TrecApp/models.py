@@ -43,7 +43,7 @@ class feedback_type(enum.Enum):
 class Researcher(models.Model):
     user = models.OneToOneField(User)
     url = models.URLField(max_length=20)
-    # PROFILE PICTUR
+    picture = models.ImageField(upload_to='profile_images', blank=True)
     display_name = models.CharField(max_length=128)
     organization = models.CharField(max_length=128)
 
@@ -65,7 +65,6 @@ class Track(models.Model):
     track_url = models.URLField(max_length=200)
     description = models.TextField()
     genre = models.CharField(max_length=128)
-
     slug = models.SlugField()
 
     def save(self, *args, **kwargs):
@@ -80,17 +79,12 @@ class Track(models.Model):
 
 
 class Task(models.Model):
-    #track = models.ForeignKey(Track)
+    track = models.ForeignKey(Track)
     title = models.CharField(max_length=128)
-    #task_url = models.FileField()
+    task_url = models.CharField(max_length=200)
     description = models.TextField()
-    year = models.DateField()
-
-        #judgement_file = models.FileField()
-
-        #judgement_file = models.FileField()
-
-
+    year = models.IntegerField()
+    judgement_file = models.FileField()
     slug = models.SlugField()
 
     def save(self, *args, **kwargs):
