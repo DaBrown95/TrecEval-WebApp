@@ -215,7 +215,7 @@ def update_profile(request):
     return render(request, 'TrecApp/updateprofile.html', {'researcher_update_form': researcher_update_form})
 
 
-def track(request,track_name_slug): #might need something to usinquely identify tracks?
+def track(request,track_name_slug):
 
     context_dict = {}
 
@@ -231,7 +231,24 @@ def track(request,track_name_slug): #might need something to usinquely identify 
     except Track.DoesNotExist:
         pass
 
-    return render(request, "TrecApp/track.html", context_dict) #track.html not created yet
+    return render(request, "TrecApp/track.html", context_dict) 
+
+def tracks(request):
+
+    context_dict = {}
+
+    try:
+
+        tracks = Track.objects.order_by("title")
+		
+        print tracks
+
+        context_dict["tracks"] = tracks
+
+    except Track.DoesNotExist:
+        pass
+
+    return render(request, "TrecApp/tracks.html", context_dict)
 
 
 

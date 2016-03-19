@@ -6,8 +6,9 @@
 
 {% block body_block %}
 	{% if task %}
+		<h2> {{title}} </h2>
 		{% if runs %}
-		<h2> Best runs </h2>
+		<h3> Best runs </h3>
 		<ul>
 			{%for run in runs%}
 			<li><a href=/trecapp/run/{{run.slug}}> {{run.name}} </a></li>
