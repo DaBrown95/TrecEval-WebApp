@@ -16,7 +16,7 @@ def home(request):
 
     context_dict = {}
 
-    #context_dict = {'runs': runs_list}
+    context_dict = {'runs': runs_list}
 
     # Render the response and send it back!
     return render(request, 'TrecApp/home.html', context_dict)
@@ -263,17 +263,15 @@ def graph(request, run_name_slug):
     context_dict = {}
 
     try:
-
-        run = Run.objects.get(slug=run_name_slug)
-
-        context_dict["name"] = run.name
-        r = run.researcher
-        context_dict["researcher_name"] = r.name
-        context_dict["map"] = run.MAP
-        context_dict["p10"] = run.p10
-        context_dict["p20"] = run.p20
-
-        context_dict["run"] = run
+		run = Run.objects.get(slug=run_name_slug)
+		
+		context_dict["name"] = run.name
+		r = run.researcher
+		context_dict["researcher_name"] = r.display_name
+		context_dict["map"] = run.MAP
+		context_dict["p10"] = run.p10
+		context_dict["p20"] = run.p20
+		context_dict["run"] = run
 
     except:
         pass
