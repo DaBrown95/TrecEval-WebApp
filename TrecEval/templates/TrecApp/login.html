@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
 
-{% block title %} - {{display_name}} {% endblock %}
+{% block title %} - Log In {% endblock %}
 
 {% block body_block %}
 
@@ -9,9 +9,9 @@
 
   <form id="login_form" method="post" action="/trecapp/login/">
       {% csrf_token %}
-      Username: <input type="text" name="username" value="" size="50" />
+      Username: <input type="text" name="username" value="" size="30" />
       <br />
-      Password: <input type="password" name="password" value="" size="50" />
+      Password: <input type="password" name="password" value="" size="30" />
       <br />
 
       <input type="submit" value="submit" />
