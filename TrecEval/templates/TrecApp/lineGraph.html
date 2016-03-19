@@ -7,21 +7,34 @@
 
     function drawChart() {
       // Define the chart to be drawn.
-	
-		// could loop here for extra runs	
-		var run = [ String("{{runs.0.name}}"), parseFloat("{{runs.0.MAP}}"),
-			parseFloat("{{runs.0.p10}}"), parseFloat("{{runs.0.p20}}")
-		]
 		
-		document.write(parseFloat("{{runs.0.p10}}")
+		var run1 = ["{{run1.name}}",parseFloat("{{run1.map}}"),parseFloat("{{run1.p10}}"),parseFloat("{{run1.p20}}")];
+		var run2 = ["{{run2.name}}",parseFloat("{{run2.map}}"),parseFloat("{{run2.p10}}"),parseFloat("{{run2.p20}}")];
+		
+		for (var i = 1; i < 4; i++ ){
+			if (isNaN(run1[i])){
+				run1[i] = 0.0;
+			}
+		};
+		
+		for (var i = 1; i < 4; i++ ){
+			if (isNaN(run2[i])){
+				run2[i] = 0.0;
+			}
+		};
+		
+		//need to change 1,2,3 to map p10 and p20
 		
 		var data = google.visualization.arrayToDataTable([
-		  ['run', 'map', 'p20','p10'],
-          [String("{{runs.0.name}}"),  0.5), 
-		  0.6, 0.5],
-		]);
+          ['measurement', run1[0], run2[0] ],
+          [1, run1[1], run2[1] ],
+          [2, run1[2], run2[2] ],
+          [3, run1[3], run2[3] ]
+        ]);
+		
+		
 	
-	  var options = {'title':'runs by ' + String('{{researcher.name}}'),
+	  var options = {'title': '{{name}}',
 			   'width':500,
 			   'height':500 };
 			   
@@ -35,10 +48,10 @@
 <body>
 
 <!-- Identify where the chart should be drawn. -->
-{% if researcher %}
+{% if name %}
 	<div id="LineChart"/>
 {% else %}
-	researcher does not exist
+	Graph does not exist
 {% endif %}
 
 </body>

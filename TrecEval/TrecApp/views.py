@@ -283,22 +283,17 @@ def graph(request, run_name_slug):
 
 
 
-def lineGraph(request, researcher_name_slug):
+def lineGraph(request, name, run1, run2):
 
     context_dict = {}
 
     try:
 
-        r = Researcher.objects.get(slug=researcher_name_slug)
-
-        runs = Run.objects.filter(researcher=r).order_by("-MAP") #might need to limit amount
-
-        context_dict["researcher"] = r
-
-        context_dict["runs"] = runs
-
-        print runs[0].p10
-
+		context_dict["name"] = name
+		context_dict["run1"] = run1
+		context_dict["run2"] = run2
+		
+	
     except:
         pass
 
@@ -330,3 +325,21 @@ def run(request,run_name_slug):
         pass
 
     return render(request, "TrecApp/run.html", context_dict)
+	
+def compareRuns(request):
+
+    if request.method == 'POST':
+        form = CompareForm(request.POST, request.FILES)
+        if form.is_valid():
+		
+			name = form.cleaned_data["name"]
+			run1 = form.cleaned_data["run1"]
+			run2 = form.cleaned_data["run2"]
+			
+			print "Hello! Just about to generate graph"
+			
+			return lineGraph(request,name,run1,run2)    #generate graph
+    else:
+        form = CompareForm()
+
+    return render(request, 'TrecApp/compareRuns.html',{'form': form})
