@@ -27,7 +27,6 @@ def about(request):
     return render(request, 'trecapp/about.html')
 
 
-
 def uploadRun(request):
 
     currentUser = User.objects.get(username=request.user.username)      #get current user from request
@@ -236,6 +235,20 @@ def track(request,track_name_slug): #might need something to usinquely identify 
 
 
 
+def tasks(request):
+
+    context_dict = {}
+
+    try:
+
+        tasks = Task.objects.order_by("title")
+        context_dict["tasks"] = tasks 		
+
+    except Task.DoesNotExist:
+        pass
+
+    return render(request, "TrecApp/tasks.html", context_dict)
+	
 def task(request,task_name_slug):
 
     context_dict = {}
@@ -243,13 +256,18 @@ def task(request,task_name_slug):
     try:
 
         task = Task.objects.get(slug=task_name_slug)
+		
+        runs = Run.objects.filter(task=task)
+		
+        context_dict["runs"] = runs
+        context_dict["task"] = task
 
         context_dict["title"] = task.title
-        context_dict["task"] = task.track
+        context_dict["track"] = task.track
+        context_dict["track"] = task.track
         context_dict["description"] = task.description
-        #context_dict["url"] = task.task_url
+        context_dict["url"] = task.task_url
         context_dict["year"] = task.year
-        #context_dict["judgement_file"] = task.judgement_file
 
     except Task.DoesNotExist:
         pass
