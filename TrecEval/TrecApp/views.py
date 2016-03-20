@@ -68,43 +68,23 @@ def uploadRun(request):
 
 
 def user_login(request):
-    # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
-        # Gather the username and password provided by the user.
-        # This information is obtained from the login form.
-                # We use request.POST.get('<variable>') as opposed to request.POST['<variable>'],
-                # because the request.POST.get('<variable>') returns None, if the value does not exist,
-                # while the request.POST['<variable>'] will raise key error exception
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        # Use Django's machinery to attempt to see if the username/password
-        # combination is valid - a User object is returned if it is.
         user = authenticate(username=username, password=password)
 
-        # If we have a User object, the details are correct.
-        # If None (Python's way of representing the absence of a value), no user
-        # with matching credentials was found.
         if user:
-            # Is the account active? It could have been disabled.
             if user.is_active:
-                # If the account is valid and active, we can log the user in.
-                # We'll send the user back to the homepage.
                 login(request, user)
                 return HttpResponseRedirect('/trecapp/')
             else:
-                # An inactive account was used - no logging in!
                 return HttpResponse("Your TrecEval account is disabled.")
         else:
-            # Bad login details were provided. So we can't log the user in.
             print "Invalid login details: {0}, {1}".format(username, password)
             return HttpResponse("Invalid login details supplied.")
 
-    # The request is not a HTTP POST, so display the login form.
-    # This scenario would most likely be a HTTP GET.
     else:
-        # No context variables to pass to the template system, hence the
-        # blank dictionary object...
         return render(request, 'trecapp/login.html', {})
 
 
@@ -131,6 +111,7 @@ def researcher(request, researcher_name_slug):
         context_dict["display_name"] = researcher.display_name
         context_dict["url"] = researcher.url
         context_dict["organization"] = researcher.organization
+        context_dict["runs"] = Run.objects.filter(researcher=researcher).order_by("MAP")
         #context_dict["user"] = researcher.username
 
     except Researcher.DoesNotExist:
@@ -202,7 +183,6 @@ def update_profile(request):
                 userProfile.url = page.url
             if page.organization != '':
                 userProfile.organization = page.organization
-
             if 'picture' in request.FILES:
                 userProfile.picture = request.FILES['picture']
 
@@ -231,7 +211,7 @@ def track(request,track_name_slug):
     except Track.DoesNotExist:
         pass
 
-    return render(request, "TrecApp/track.html", context_dict) 
+    return render(request, "TrecApp/track.html", context_dict)
 
 def tracks(request):
 
@@ -240,7 +220,7 @@ def tracks(request):
     try:
 
         tracks = Track.objects.order_by("title")
-		
+
         print tracks
 
         context_dict["tracks"] = tracks
@@ -259,13 +239,13 @@ def tasks(request):
     try:
 
         tasks = Task.objects.order_by("title")
-        context_dict["tasks"] = tasks 		
+        context_dict["tasks"] = tasks
 
     except Task.DoesNotExist:
         pass
 
     return render(request, "TrecApp/tasks.html", context_dict)
-	
+
 def task(request,task_name_slug):
 
     context_dict = {}
@@ -273,9 +253,9 @@ def task(request,task_name_slug):
     try:
 
         task = Task.objects.get(slug=task_name_slug)
-		
+
         runs = Run.objects.filter(task=task)
-		
+
         context_dict["runs"] = runs
         context_dict["task"] = task
 
@@ -299,7 +279,7 @@ def graph(request, run_name_slug):
 
     try:
 		run = Run.objects.get(slug=run_name_slug)
-		
+
 		context_dict["name"] = run.name
 		r = run.researcher
 		context_dict["researcher_name"] = r.display_name
@@ -325,8 +305,8 @@ def lineGraph(request, name, run1, run2):
 		context_dict["name"] = name
 		context_dict["run1"] = run1
 		context_dict["run2"] = run2
-		
-	
+
+
     except:
         pass
 
@@ -353,24 +333,25 @@ def run(request,run_name_slug):
         context_dict["run_type"] = run_type.labels[run.run_type]
         context_dict["feedback_type"] = feedback_type.labels[run.feedback_type]
         context_dict["query_type"] = query_type.labels[run.feedback_type]
+        context_dict["task"] = run.task
 
     except Run.DoesNotExist:
         pass
 
     return render(request, "TrecApp/run.html", context_dict)
-	
+
 def compareRuns(request):
 
     if request.method == 'POST':
         form = CompareForm(request.POST, request.FILES)
         if form.is_valid():
-		
+
 			name = form.cleaned_data["name"]
 			run1 = form.cleaned_data["run1"]
 			run2 = form.cleaned_data["run2"]
-			
+
 			print "Hello! Just about to generate graph"
-			
+
 			return lineGraph(request,name,run1,run2)    #generate graph
     else:
         form = CompareForm()

@@ -1,7 +1,7 @@
 import subprocess
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-RUN_FILES = os.path.join(BASE_DIR, 'media/runFiles')
+from TrecEval.settings import BASE_DIR, RUN_FILES
+
 
 if os.name == 'nt':
     TREC_PATH = os.path.join(BASE_DIR, 'TrecApp/trec_eval_dos')
