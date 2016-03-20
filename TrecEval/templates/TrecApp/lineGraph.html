@@ -32,6 +32,18 @@
         ]);
 		
 		
+		data = new google.visualization.DataTable();
+		
+		data.addColumn('string','measurement');
+		data.addColumn('number',run1[0]);
+		data.addColumn('number',run2[0]);
+		
+		data.addRows([
+		["map",run1[1],run2[1]],
+		["p10",run1[2],run2[2]],
+		["p20",run1[3],run2[3]],
+		]);
+		
 	
 	  var options = {'title': '{{name}}',
 			   'width':500,
