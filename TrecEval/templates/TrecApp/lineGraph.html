@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %} Compare runs - {{name}}{% endblock %}
+
+{% block head_block %}
+
+
 <head>
 	<!--Load the AJAX API-->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -11,26 +20,30 @@
 		var run1 = ["{{run1.name}}",parseFloat("{{run1.map}}"),parseFloat("{{run1.p10}}"),parseFloat("{{run1.p20}}")];
 		var run2 = ["{{run2.name}}",parseFloat("{{run2.map}}"),parseFloat("{{run2.p10}}"),parseFloat("{{run2.p20}}")];
 		
-		for (var i = 1; i < 4; i++ ){
+		
+		for (var i = 1; i < 4; i++ ){	//error checking
 			if (isNaN(run1[i])){
 				run1[i] = 0.0;
 			}
 		};
 		
-		for (var i = 1; i < 4; i++ ){
+		for (var i = 1; i < 4; i++ ){	//error checking
 			if (isNaN(run2[i])){
 				run2[i] = 0.0;
 			}
-		};
+		};		
 		
-		//need to change 1,2,3 to map p10 and p20		
-		var data = google.visualization.arrayToDataTable([
-          ['measurement', run1[0], run2[0] ],
-          [1, run1[1], run2[1] ],
-          [2, run1[2], run2[2] ],
-          [3, run1[3], run2[3] ]
-        ]);
+		var data = new google.visualization.DataTable();
 		
+		data.addColumn('string','measurement');
+		data.addColumn('number',run1[0]);
+		data.addColumn('number',run2[0]);
+		
+		data.addRows([
+		["map",run1[1],run2[1]],
+		["p10",run1[2],run2[2]],
+		["p20",run1[3],run2[3]],
+		]);
 		
 	
 	  var options = {'title': '{{name}}',
@@ -44,7 +57,10 @@
     }
   </script>
 </head>
-<body>
+
+{% endblock %}
+
+{% block body_block %}
 
 <!-- Identify where the chart should be drawn. -->
 {% if name %}
@@ -53,4 +69,4 @@
 	Graph does not exist
 {% endif %}
 
-</body>
+{% endblock %}
