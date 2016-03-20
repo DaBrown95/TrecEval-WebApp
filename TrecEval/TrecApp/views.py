@@ -16,7 +16,7 @@ def home(request):
 
     context_dict = {}
 
-    #context_dict = {'runs': runs_list}
+    context_dict = {'runs': runs_list}
 
     # Render the response and send it back!
     return render(request, 'TrecApp/home.html', context_dict)
@@ -25,7 +25,6 @@ def home(request):
 
 def about(request):
     return render(request, 'trecapp/about.html')
-
 
 
 def uploadRun(request):
@@ -216,7 +215,7 @@ def update_profile(request):
     return render(request, 'TrecApp/updateprofile.html', {'researcher_update_form': researcher_update_form})
 
 
-def track(request,track_name_slug): #might need something to usinquely identify tracks?
+def track(request,track_name_slug):
 
     context_dict = {}
 
@@ -232,10 +231,41 @@ def track(request,track_name_slug): #might need something to usinquely identify 
     except Track.DoesNotExist:
         pass
 
-    return render(request, "TrecApp/track.html", context_dict) #track.html not created yet
+    return render(request, "TrecApp/track.html", context_dict) 
+
+def tracks(request):
+
+    context_dict = {}
+
+    try:
+
+        tracks = Track.objects.order_by("title")
+		
+        print tracks
+
+        context_dict["tracks"] = tracks
+
+    except Track.DoesNotExist:
+        pass
+
+    return render(request, "TrecApp/tracks.html", context_dict)
 
 
 
+def tasks(request):
+
+    context_dict = {}
+
+    try:
+
+        tasks = Task.objects.order_by("title")
+        context_dict["tasks"] = tasks 		
+
+    except Task.DoesNotExist:
+        pass
+
+    return render(request, "TrecApp/tasks.html", context_dict)
+	
 def task(request,task_name_slug):
 
     context_dict = {}
@@ -243,13 +273,18 @@ def task(request,task_name_slug):
     try:
 
         task = Task.objects.get(slug=task_name_slug)
+		
+        runs = Run.objects.filter(task=task)
+		
+        context_dict["runs"] = runs
+        context_dict["task"] = task
 
         context_dict["title"] = task.title
-        context_dict["task"] = task.track
+        context_dict["track"] = task.track
+        context_dict["track"] = task.track
         context_dict["description"] = task.description
-        #context_dict["url"] = task.task_url
+        context_dict["url"] = task.task_url
         context_dict["year"] = task.year
-        #context_dict["judgement_file"] = task.judgement_file
 
     except Task.DoesNotExist:
         pass
@@ -263,17 +298,15 @@ def graph(request, run_name_slug):
     context_dict = {}
 
     try:
-
-        run = Run.objects.get(slug=run_name_slug)
-
-        context_dict["name"] = run.name
-        r = run.researcher
-        context_dict["researcher_name"] = r.name
-        context_dict["map"] = run.MAP
-        context_dict["p10"] = run.p10
-        context_dict["p20"] = run.p20
-
-        context_dict["run"] = run
+		run = Run.objects.get(slug=run_name_slug)
+		
+		context_dict["name"] = run.name
+		r = run.researcher
+		context_dict["researcher_name"] = r.display_name
+		context_dict["map"] = run.MAP
+		context_dict["p10"] = run.p10
+		context_dict["p20"] = run.p20
+		context_dict["run"] = run
 
     except:
         pass
@@ -283,22 +316,17 @@ def graph(request, run_name_slug):
 
 
 
-def lineGraph(request, researcher_name_slug):
+def lineGraph(request, name, run1, run2):
 
     context_dict = {}
 
     try:
 
-        r = Researcher.objects.get(slug=researcher_name_slug)
-
-        runs = Run.objects.filter(researcher=r).order_by("-MAP") #might need to limit amount
-
-        context_dict["researcher"] = r
-
-        context_dict["runs"] = runs
-
-        print runs[0].p10
-
+		context_dict["name"] = name
+		context_dict["run1"] = run1
+		context_dict["run2"] = run2
+		
+	
     except:
         pass
 
@@ -330,3 +358,21 @@ def run(request,run_name_slug):
         pass
 
     return render(request, "TrecApp/run.html", context_dict)
+	
+def compareRuns(request):
+
+    if request.method == 'POST':
+        form = CompareForm(request.POST, request.FILES)
+        if form.is_valid():
+		
+			name = form.cleaned_data["name"]
+			run1 = form.cleaned_data["run1"]
+			run2 = form.cleaned_data["run2"]
+			
+			print "Hello! Just about to generate graph"
+			
+			return lineGraph(request,name,run1,run2)    #generate graph
+    else:
+        form = CompareForm()
+
+    return render(request, 'TrecApp/compareRuns.html',{'form': form})

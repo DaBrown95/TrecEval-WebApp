@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %} - {{title}} {% endblock %}
+
+{% block body_block %}
+	{% if task %}
+		<h2> {{title}} </h2>
+		{% if runs %}
+		<h3> Best runs </h3>
+		<ul>
+			{%for run in runs%}
+			<li><a href=/trecapp/run/{{run.slug}}> {{run.name}} </a></li>
+			{% endfor %}
+		</ul>
+		{% else %}
+			There are no runs for this task
+		{% endif %}
+		<p>
+		Track - {{track}}</br>
+		Url - {{url}}</br>
+		Decription - {{description}}</br>
+		Year - {{year}}</br>
+		</p>
+	{% else %}
+		Task does not exist
+	{% endif %}
+{% endblock %}
