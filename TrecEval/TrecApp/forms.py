@@ -31,14 +31,14 @@ class ResearcherForm(forms.ModelForm):
 
 
 class UpdateResearcherForm(forms.ModelForm):
-    display_name = forms.CharField(max_length=128, help_text="Please enter your new display name.")
-    organization = forms.CharField(max_length=128, help_text="Please enter your new organization.")
+    display_name = forms.CharField(max_length=128, help_text="Please enter your new display name.", required=False)
+    organization = forms.CharField(max_length=128, help_text="Please enter your new organization.", required=False)
     url = forms.URLField(max_length=200, help_text="Please enter your new URL", required=False)
 
     class Meta:
         model = Researcher
         fields = ('url', 'display_name','organization','picture')
-        
+
 
 class RunForm(forms.ModelForm):
 
@@ -61,9 +61,9 @@ class RunForm(forms.ModelForm):
         fields = ('runfile','name','description','run_type','query_type','feedback_type','MAP','p10','p20','task',)
         exclude = ('researcher',)
 
-		
+
 class CompareForm(forms.Form):
-	
+
 	name = forms.CharField(max_length=128, help_text="Please enter name of your comparison")
 	run1 = forms.ModelChoiceField(queryset=Run.objects.all().order_by('name'))
 	run2 = forms.ModelChoiceField(queryset=Run.objects.all().order_by('name'))
