@@ -35,6 +35,16 @@ class UpdateResearcherForm(forms.ModelForm):
     organization = forms.CharField(max_length=128, help_text="Please enter your new organization.", required=False)
     url = forms.URLField(max_length=200, help_text="Please enter your new URL", required=False)
 
+    def clean(self):        #tidy up url
+        cleaned_data = self.cleaned_data
+        url = cleaned_data.get('url')
+        # If url is not empty and doesn't start with 'http://', prepend 'http://'.
+        if url and not url.startswith('http://'):
+            url = 'http://' + url
+            cleaned_data['url'] = url
+
+        return cleaned_data
+
     class Meta:
         model = Researcher
         fields = ('url', 'display_name','organization','picture')
