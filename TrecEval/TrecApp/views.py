@@ -333,6 +333,7 @@ def run(request,run_name_slug):
         context_dict["run_type"] = run_type.labels[run.run_type]
         context_dict["feedback_type"] = feedback_type.labels[run.feedback_type]
         context_dict["query_type"] = query_type.labels[run.feedback_type]
+        context_dict["task"] = run.task
 
     except Run.DoesNotExist:
         pass
