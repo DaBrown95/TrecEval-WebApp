@@ -202,6 +202,8 @@ def track(request,track_name_slug):
     try:
 
         track = Track.objects.get(slug=track_name_slug)
+		
+        context_dict["track"] = track
 
         context_dict["title"] = track.title
         context_dict["url"] = track.track_url
