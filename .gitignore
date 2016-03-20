@@ -67,3 +67,4 @@ TrecEval/media/profile_images
 TrecEval/media/processingFile.txt
 TrecEval/TrecApp/migrations/
 TrecEval/db.sqlite3
+*.db.sqlite3
