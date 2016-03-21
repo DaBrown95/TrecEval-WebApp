@@ -13,6 +13,7 @@ class RunTable(tables.Table):
     MAP = tables.Column()
     p10 = tables.Column(verbose_name = 'P10')
     p20 = tables.Column(verbose_name = 'P20')
+    organization = tables.Column(verbose_name = 'Organization')
     class Meta:
         model = Run
 

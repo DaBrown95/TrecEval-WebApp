@@ -266,8 +266,28 @@ def task(request,task_name_slug):
         task = Task.objects.get(slug=task_name_slug)
         
         runs = Run.objects.filter(task=task)
+        print runs
+        runList = []
+        for run in runs:        #creates dictionary for the table. This is needed to include the organization
+            print run
+            runDict = {}
+            runDict['name']= run.name
+            runDict['researcher']= run.researcher
+            runDict['task']= run.task
+            runDict['runfile']= run.runfile
+            runDict['description']= run.description
+            runDict['run_type']= run.run_type
+            runDict['query_type']= run.query_type
+            runDict['feedback_type']= run.feedback_type
+            runDict['MAP']= run.MAP
+            runDict['p10']= run.p10
+            runDict['p20']= run.p20
+            runDict['organization']= run.researcher.organization
+            runList += [runDict]
+        
 
-        table = RunTable(runs)
+        
+        table = RunTable(runList)
         RequestConfig(request).configure(table)
         table.exclude = ('runfile','slug',)
 

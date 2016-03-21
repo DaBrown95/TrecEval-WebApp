@@ -115,7 +115,6 @@ class Run(models.Model):
     MAP = models.DecimalField(max_digits=100, decimal_places=5,)
     p10 = models.DecimalField(max_digits=100, decimal_places=5,)
     p20 = models.DecimalField(max_digits=100, decimal_places=5,)
-
     slug = models.SlugField()
 
     def __unicode__(self):      #For Python 2, use __str__ on Python 3
