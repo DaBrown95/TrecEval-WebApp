@@ -222,7 +222,8 @@ def track(request,track_name_slug):
     try:
 
         track = Track.objects.get(slug=track_name_slug)
-
+		
+        context_dict["track"] = track
         context_dict["title"] = track.title
         context_dict["url"] = track.track_url
         context_dict["description"] = track.description
@@ -240,8 +241,6 @@ def tracks(request):
     try:
 
         tracks = Track.objects.order_by("title")
-		
-        print tracks
 
         context_dict["tracks"] = tracks
 
@@ -266,7 +265,7 @@ def tasks(request):
 
     return render(request, "TrecApp/tasks.html", context_dict)
 	
-def task(request,task_name_slug):
+def task(request,task_name_slug, rankBy = "MAP"):
 
     context_dict = {}
 
@@ -274,11 +273,12 @@ def task(request,task_name_slug):
 
         task = Task.objects.get(slug=task_name_slug)
 		
-        runs = Run.objects.filter(task=task)
+        context_dict["rankBy"] = rankBy
+        runs = Run.objects.filter(task=task).order_by(rankBy)
 		
         context_dict["runs"] = runs
         context_dict["task"] = task
-
+		
         context_dict["title"] = task.title
         context_dict["track"] = task.track
         context_dict["track"] = task.track
@@ -289,8 +289,8 @@ def task(request,task_name_slug):
     except Task.DoesNotExist:
         pass
 
-    return render(request, "TrecApp/task.html", context_dict) #task.html not created yet
-
+    return render(request, "TrecApp/task.html", context_dict) #task.html not created yet		
+	
 
 
 def graph(request, run_name_slug):
