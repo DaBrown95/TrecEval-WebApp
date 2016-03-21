@@ -365,3 +365,6 @@ def compareRuns(request):
         form = CompareForm()
 
     return render(request, 'TrecApp/compareRuns.html',{'form': form})
+
+def terms(request):
+    return render(request, 'TrecApp/termsandconditions.html')
