@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %} Compare Runs - {{name}}{% endblock %}
+
+{% block head_block %}
+
 <head>
 	<!--Load the AJAX API-->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -26,13 +34,18 @@
     }
   </script>
 </head>
-<body>
 
+{% endblock %}
+
+{% block body_block %}
+
+<h1> Compare Runs - {{name}} </h1>
 <!-- Identify where the chart should be drawn. -->
+	<center>
 	{% if run %}
 		<div id="ColumnChart"/>
 	{% else %}
 		run does not exist
 	{% endif %}
-
-</body>
+	</center>
+{% endblock %}

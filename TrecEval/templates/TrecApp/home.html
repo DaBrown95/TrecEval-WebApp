@@ -2,11 +2,12 @@
 
 {% extends 'base.html' %}
 
-{% block title %} - Home{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block body_block %}
-	<h1>WELCOME</h1>
+	<h1>Welcome</h1>
 	{% if runs %}
+	<h4> Best runs </h4>
 	<ul>
 		{%for run in runs%}
 		<li><a href=/trecapp/run/{{run.slug}}> {{run.name}} </a></li>

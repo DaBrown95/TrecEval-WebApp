@@ -2,21 +2,22 @@
 
 {% extends 'base.html' %}
 
-{% block title %} Register{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block body_block %}
 	<h1> Registration </h1>
+	<div id="reg">
 		{% if registered %}
         TrecEval says: <strong>thank you for registering!</strong>
-		<a href="/trecapp/">Return to the homepage.</a><br />
+		<a href="/trecapp/"><button type="button" class="btn btn-primary navbar-btn"> Return to the homepage.</button></a><br />
 
 		{% else %}
-        TrecEval says: <strong>register here!</strong><br/>
-				<form id="user_form" method="post" action="/trecapp/addresearcher/" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ user_form.as_p }}
-								{{ researcher_form.as_p }}
-                <input type="submit" value="Submit" value ="Register" />
+			<form id="user_form" method="post" action="/trecapp/addresearcher/" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+							{{ researcher_form.as_p }}
+            <button type="submit" class="btn btn-primary navbar-btn" value="Register" align="right"> Submit </button>
         </form>
 		{% endif %}
+	</div>
 {% endblock %}

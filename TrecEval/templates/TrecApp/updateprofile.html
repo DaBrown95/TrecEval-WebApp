@@ -10,13 +10,13 @@
 
   {% if not user.is_authenticated %}
       TrecEval says: <strong> You are not registered idiot </strong>
-      <a href="/trecapp/"><button type="button" class="btn btn-default navbar-btn">Return to homepage</button></a><br/>
+      <a href="/trecapp/"><button type="button" class="btn btn-primary navbar-btn">Return to homepage</button></a><br/>
   {% else %}
       <br><strong>Change your detials here.... </strong><br/>
       <form id="user_form" method="post" action="/trecapp/updateprofile/" enctype="multipart/form-data">
               {% csrf_token %}
               {{ researcher_update_form.as_p }}
-              <input type="submit" value="Submit" value ="Change" />
+              <button type="submit" class="btn btn-primary navbar-btn" value="Change"> Submit </button>
       </form>
   {% endif %}
 {% endblock %}
