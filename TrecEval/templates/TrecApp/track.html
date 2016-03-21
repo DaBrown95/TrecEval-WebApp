@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 <!DOCTYPE html>
 
@@ -21,3 +22,24 @@
 	{% endif %}
 
 {% endblock %}
+=======
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %} - {{title}} {% endblock %}
+
+{% block body_block %}
+	{% if track %}
+		<h2> {{title}} </h2>
+		<p>
+		Title - {{title}}</br>
+		Url - {{url}}</br>
+		Decription - {{description}}</br>
+		Genre - {{genre}}</br>
+		</p>
+	{% else %}
+		Track does not exist
+	{% endif %}
+{% endblock %}
+>>>>>>> d6fde98d64504264ede79993d66c42818bfb764f

@@ -10,19 +10,30 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 
+
 def home(request):
     runs_list = Run.objects.order_by('name')[:5]
 
     context_dict = {}
 
-    #context_dict = {'runs': runs_list}
+    context_dict = {'runs': runs_list}
 
     # Render the response and send it back!
     return render(request, 'TrecApp/home.html', context_dict)
+	
+def researchers(request):
+	researchers_list = Researcher.objects.order_by("display_name")
+	
+	context_dict = {}
+	
+	context_dict["researchers"] = researchers_list
+	
+	return render(request, "TrecApp/researchers.html",context_dict)
+
+
 
 def about(request):
     return render(request, 'trecapp/about.html')
-
 
 
 def uploadRun(request):
@@ -63,55 +74,40 @@ def uploadRun(request):
 
     return render(request, 'TrecApp/uploadRun.html',{'form': form})
 
+
+
 def user_login(request):
-    # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
-        # Gather the username and password provided by the user.
-        # This information is obtained from the login form.
-                # We use request.POST.get('<variable>') as opposed to request.POST['<variable>'],
-                # because the request.POST.get('<variable>') returns None, if the value does not exist,
-                # while the request.POST['<variable>'] will raise key error exception
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        # Use Django's machinery to attempt to see if the username/password
-        # combination is valid - a User object is returned if it is.
         user = authenticate(username=username, password=password)
 
-        # If we have a User object, the details are correct.
-        # If None (Python's way of representing the absence of a value), no user
-        # with matching credentials was found.
         if user:
-            # Is the account active? It could have been disabled.
             if user.is_active:
-                # If the account is valid and active, we can log the user in.
-                # We'll send the user back to the homepage.
                 login(request, user)
                 return HttpResponseRedirect('/trecapp/')
             else:
-                # An inactive account was used - no logging in!
                 return HttpResponse("Your TrecEval account is disabled.")
         else:
-            # Bad login details were provided. So we can't log the user in.
             print "Invalid login details: {0}, {1}".format(username, password)
             return HttpResponse("Invalid login details supplied.")
 
-    # The request is not a HTTP POST, so display the login form.
-    # This scenario would most likely be a HTTP GET.
     else:
-        # No context variables to pass to the template system, hence the
-        # blank dictionary object...
         return render(request, 'trecapp/login.html', {})
+
 
 
 def restricted(request):
     return HttpResponse("Since you're logged in, you can see this!")
 
 
+
 @login_required
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/trecapp/')
+
 
 
 def researcher(request, researcher_name_slug):
@@ -124,12 +120,14 @@ def researcher(request, researcher_name_slug):
         context_dict["display_name"] = researcher.display_name
         context_dict["url"] = researcher.url
         context_dict["organization"] = researcher.organization
+        context_dict["runs"] = Run.objects.filter(researcher=researcher).order_by("MAP")
         #context_dict["user"] = researcher.username
 
     except Researcher.DoesNotExist:
         pass
 
     return render(request, "TrecApp/researcher.html", context_dict)
+
 
 
 def addResearcher(request):
@@ -178,16 +176,43 @@ def addResearcher(request):
 
 
 
-def track(request,track_name_slug): #might need something to usinquely identify tracks?
+def update_profile(request):
+    if request.method == 'POST':
+
+        #form = UpdateResearcherForm(request.POST, instance=request.user)
+        #form.actual_user = request.user
+        form = UpdateResearcherForm(request.POST)
+
+        if form.is_valid():
+            page = form.save(commit=False)
+            userProfile = Researcher.objects.get(user=request.user)
+            if page.display_name != '':
+                userProfile.display_name = page.display_name
+            if page.url != '':
+                userProfile.url = page.url
+            if page.organization != '':
+                userProfile.organization = page.organization
+            if 'picture' in request.FILES:
+                userProfile.picture = request.FILES['picture']
+
+            userProfileSlug = userProfile.slug
+            userProfile.save()
+            return researcher(request, userProfileSlug)
+    else:
+        researcher_update_form = UpdateResearcherForm()
+
+    return render(request, 'TrecApp/updateprofile.html', {'researcher_update_form': researcher_update_form})
+
+
+def track(request,track_name_slug):
 
     context_dict = {}
     
     
     try:
         track = Track.objects.get(slug=track_name_slug)
-        tasks = Task.objects.filter(track=track)
+	
         context_dict["track"] = track
-        context_dict["tasks"] = tasks
         context_dict["title"] = track.title
         context_dict["url"] = track.track_url
         context_dict["description"] = track.description
@@ -196,21 +221,39 @@ def track(request,track_name_slug): #might need something to usinquely identify 
     except Track.DoesNotExist:
         pass
 
-    return render(request, "TrecApp/track.html", context_dict) #track.html not created yet
+    return render(request, "TrecApp/track.html", context_dict)
 
-def trackList(request):
+def tracks(request):
+
     context_dict = {}
-    
-    try:
-        tracks = Track.objects.filter()
-        context_dict["tracks"] = tracks
 
+    try:
+
+        tracks = Track.objects.order_by("title")
+
+        context_dict["tracks"] = tracks
 
     except Track.DoesNotExist:
         pass
 
-    return render(request, "TrecApp/tracklist.html", context_dict) #track.html not created yet
-    
+    return render(request, "TrecApp/tracks.html", context_dict)
+
+
+
+
+def tasks(request):
+
+    context_dict = {}
+
+    try:
+
+        tasks = Task.objects.order_by("title")
+        context_dict["tasks"] = tasks
+
+    except Task.DoesNotExist:
+        pass
+
+    return render(request, "TrecApp/tasks.html", context_dict)
 
 
 def task(request,track_name_slug,task_name_slug):
@@ -218,37 +261,41 @@ def task(request,track_name_slug,task_name_slug):
     context_dict = {}
 
     try:
-        runs = Run.objects.all()
         task = Task.objects.get(slug=task_name_slug)
+        runs = Run.objects.filter(task=task)
+
         context_dict["runs"] = runs
+        context_dict["task"] = task
+		
+
         context_dict["title"] = task.title
-        context_dict["task"] = task.track
+        context_dict["track"] = task.track
+        context_dict["track"] = task.track
         context_dict["description"] = task.description
-        #context_dict["url"] = task.task_url
+        context_dict["url"] = task.task_url
         context_dict["year"] = task.year
-        #context_dict["judgement_file"] = task.judgement_file
 
     except Task.DoesNotExist:
         pass
 
-    return render(request, "TrecApp/task.html", context_dict) #task.html not created yet
+    return render(request, "TrecApp/task.html", context_dict) #task.html not created yet		
+	
+
 
 def graph(request, run_name_slug):
 
     context_dict = {}
 
     try:
+		run = Run.objects.get(slug=run_name_slug)
 
-        run = Run.objects.get(slug=run_name_slug)
-
-        context_dict["name"] = run.name
-        r = run.researcher
-        context_dict["researcher_name"] = r.name
-        context_dict["map"] = run.MAP
-        context_dict["p10"] = run.p10
-        context_dict["p20"] = run.p20
-
-        context_dict["run"] = run
+		context_dict["name"] = run.name
+		r = run.researcher
+		context_dict["researcher_name"] = r.display_name
+		context_dict["map"] = run.MAP
+		context_dict["p10"] = run.p10
+		context_dict["p20"] = run.p20
+		context_dict["run"] = run
 
     except:
         pass
@@ -257,21 +304,17 @@ def graph(request, run_name_slug):
     return render(request, "TrecApp/graph.html", context_dict)
 
 
-def lineGraph(request, researcher_name_slug):
+
+def lineGraph(request, name, run1, run2):
 
     context_dict = {}
 
     try:
 
-        r = Researcher.objects.get(slug=researcher_name_slug)
+		context_dict["name"] = name
+		context_dict["run1"] = run1
+		context_dict["run2"] = run2
 
-        runs = Run.objects.filter(researcher=r).order_by("-MAP") #might need to limit amount
-
-        context_dict["researcher"] = r
-
-        context_dict["runs"] = runs
-
-        print runs[0].p10
 
     except:
         pass
@@ -299,8 +342,27 @@ def run(request,run_name_slug):
         context_dict["run_type"] = run_type.labels[run.run_type]
         context_dict["feedback_type"] = feedback_type.labels[run.feedback_type]
         context_dict["query_type"] = query_type.labels[run.feedback_type]
+        context_dict["task"] = run.task
 
     except Run.DoesNotExist:
         pass
 
     return render(request, "TrecApp/run.html", context_dict)
+
+def compareRuns(request):
+
+    if request.method == 'POST':
+        form = CompareForm(request.POST, request.FILES)
+        if form.is_valid():
+
+			name = form.cleaned_data["name"]
+			run1 = form.cleaned_data["run1"]
+			run2 = form.cleaned_data["run2"]
+
+			print "Hello! Just about to generate graph"
+
+			return lineGraph(request,name,run1,run2)    #generate graph
+    else:
+        form = CompareForm()
+
+    return render(request, 'TrecApp/compareRuns.html',{'form': form})

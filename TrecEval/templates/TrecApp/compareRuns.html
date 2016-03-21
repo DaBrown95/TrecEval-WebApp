@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %} - Compare runs {% endblock %}
+
+{% block body_block %}
+
+	<form action="{% url 'compareRuns' %}" method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+
+		{% for hidden in form.hidden_fields %}
+			{{ hidden }}
+		{% endfor %}
+
+		{% for field in form.visible_fields %}
+			{{ field.errors }}
+			{{ field.help_text }}
+			{{ field }}
+			<br>
+			
+		{% endfor %}
+		  <!--<input type="submit" value="compare" />-->
+		  <input type="submit" value ="Submit"/>
+		</p>
+
+{% endblock %}

@@ -30,6 +30,26 @@ class ResearcherForm(forms.ModelForm):
         fields = ('url','display_name','organization','picture')
 
 
+class UpdateResearcherForm(forms.ModelForm):
+    display_name = forms.CharField(max_length=128, help_text="Please enter your new display name.", required=False)
+    organization = forms.CharField(max_length=128, help_text="Please enter your new organization.", required=False)
+    url = forms.URLField(max_length=200, help_text="Please enter your new URL", required=False)
+
+    def clean(self):        #tidy up url
+        cleaned_data = self.cleaned_data
+        url = cleaned_data.get('url')
+        # If url is not empty and doesn't start with 'http://', prepend 'http://'.
+        if url and not url.startswith('http://'):
+            url = 'http://' + url
+            cleaned_data['url'] = url
+
+        return cleaned_data
+
+    class Meta:
+        model = Researcher
+        fields = ('url', 'display_name','organization','picture')
+
+
 class RunForm(forms.ModelForm):
 
     name = forms.CharField(max_length=128, help_text="Please enter name of your run")
@@ -50,3 +70,10 @@ class RunForm(forms.ModelForm):
         model = Run
         fields = ('runfile','name','description','run_type','query_type','feedback_type','MAP','p10','p20','task',)
         exclude = ('researcher',)
+
+
+class CompareForm(forms.Form):
+
+	name = forms.CharField(max_length=128, help_text="Please enter name of your comparison")
+	run1 = forms.ModelChoiceField(queryset=Run.objects.all().order_by('name'))
+	run2 = forms.ModelChoiceField(queryset=Run.objects.all().order_by('name'))

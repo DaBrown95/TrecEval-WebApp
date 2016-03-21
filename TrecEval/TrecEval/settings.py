@@ -11,10 +11,11 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
+RUN_FILES = os.path.join(BASE_DIR, 'media/runFiles')
 TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates')
 
 LOGIN_URL = '/trecapp/login/'
+AUTH_PROFILE_MODULE = "TrecApp.Researcher"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -53,9 +54,11 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+
 TEMPLATE_CONTEXT_PROCESSORS = ('django.core.context_processors.request',
                                 'django.contrib.auth.context_processors.auth',
                                )
+
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
