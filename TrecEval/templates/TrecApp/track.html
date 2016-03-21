@@ -1,28 +1,4 @@
-<<<<<<< HEAD
 
-<!DOCTYPE html>
-
-{% extends 'base.html' %}
-{% block title %} - {{track}}{% endblock %}
-
-{% block body_block %}
-	{% if track %}
-		<h1>{{ title }}</h1>
-		{% if tasks %}
-		<ul>
-			{% for task in tasks %}
-			<li><a href ="{{ task.slug }}"> {{task.title}} </a> </li>
-			{% endfor %}
-		</ul>
-		{% else %}
-            <strong>No tasks in this track</strong>
-        {% endif %}
-	{% else %}
-			<strong>There is no track with this name</strong>
-	{% endif %}
-
-{% endblock %}
-=======
 <!DOCTYPE html>
 
 {% extends 'base.html' %}
@@ -42,4 +18,4 @@
 		Track does not exist
 	{% endif %}
 {% endblock %}
->>>>>>> d6fde98d64504264ede79993d66c42818bfb764f
+
