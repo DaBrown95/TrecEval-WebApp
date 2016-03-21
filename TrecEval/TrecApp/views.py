@@ -365,15 +365,11 @@ def compareRuns(request):
         form = CompareForm()
 
     return render(request, 'TrecApp/compareRuns.html',{'form': form})
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
 def terms(request):
     return render(request, 'TrecApp/termsandconditions.html')
->>>>>>> master
-=======
+
 
 def terms(request):
     return render(request, 'TrecApp/termsandconditions.html')
->>>>>>> master
+
