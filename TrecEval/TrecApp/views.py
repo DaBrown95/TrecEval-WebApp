@@ -9,6 +9,8 @@ from TrecApp.models import Run, Researcher
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
+from TrecApp.tables import RunTable
+from django_tables2   import RequestConfig
 
 
 def home(request):
@@ -206,11 +208,11 @@ def update_profile(request):
 def track(request,track_name_slug):
 
     context_dict = {}
-
+    
+    
     try:
-
         track = Track.objects.get(slug=track_name_slug)
-		
+	
         context_dict["track"] = track
         context_dict["title"] = track.title
         context_dict["url"] = track.track_url
@@ -238,6 +240,7 @@ def tracks(request):
 
 
 
+
 def tasks(request):
 
     context_dict = {}
@@ -252,19 +255,46 @@ def tasks(request):
 
     return render(request, "TrecApp/tasks.html", context_dict)
 
+
 def task(request,task_name_slug):
 
     context_dict = {}
 
     try:
-
         task = Task.objects.get(slug=task_name_slug)
-
+        
         runs = Run.objects.filter(task=task)
+        print runs
+        runList = []
+        for run in runs:        #creates dictionary for the table. This is needed to include the organization
+            print run
+            runDict = {}
+            runDict['name']= run.name
+            runDict['researcher']= run.researcher
+            runDict['task']= run.task
+            runDict['runfile']= run.runfile
+            runDict['description']= run.description
+            runDict['run_type']= run.run_type
+            runDict['query_type']= run.query_type
+            runDict['feedback_type']= run.feedback_type
+            runDict['MAP']= run.MAP
+            runDict['p10']= run.p10
+            runDict['p20']= run.p20
+            runDict['organization']= run.researcher.organization
+            runList += [runDict]
+        
+
+        
+        table = RunTable(runList)
+        RequestConfig(request).configure(table)
+        table.exclude = ('runfile','slug',)
+
+        
 
         context_dict["runs"] = runs
         context_dict["task"] = task
-		
+	context_dict["table"] = table
+
         context_dict["title"] = task.title
         context_dict["track"] = task.track
         context_dict["track"] = task.track

@@ -2,6 +2,7 @@ from django.db import models
 from django_enumfield import enum
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+import django_tables2 as tables
 
 class run_type(enum.Enum):
     AUTOMATIC = 0
@@ -99,11 +100,11 @@ class Task(models.Model):
     def __unicode__(self):      #For Python 2, use __str__ on Python 3
         return self.title
 
-
 class Run(models.Model):
+    name = models.CharField(max_length=128, unique=True,primary_key = True)
     researcher = models.ForeignKey(Researcher)
     task = models.ForeignKey(Task)
-    name = models.CharField(max_length=128, unique=True)
+    
 
     runfile = models.FileField(upload_to="runFiles")
 
@@ -114,7 +115,6 @@ class Run(models.Model):
     MAP = models.DecimalField(max_digits=100, decimal_places=5,)
     p10 = models.DecimalField(max_digits=100, decimal_places=5,)
     p20 = models.DecimalField(max_digits=100, decimal_places=5,)
-
     slug = models.SlugField()
 
     def __unicode__(self):      #For Python 2, use __str__ on Python 3
@@ -126,3 +126,10 @@ class Run(models.Model):
                 #self.slug = slugify(self.name)
         self.slug = slugify(self.name)
         super(Run, self).save(*args, **kwargs)
+
+
+
+
+
+
+    

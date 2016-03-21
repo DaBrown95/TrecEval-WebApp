@@ -1,12 +1,14 @@
+
 <!DOCTYPE html>
 
 {% extends 'base.html' %}
-
-{% block title %} {{title}} {% endblock %}
+{% load render_table from django_tables2 %}
+{% block title %} - {{title}} {% endblock %}
 
 {% block body_block %}
 	{% if task %}
-		<h1> {{title}} </h1>
+		
+		<h2> {{title}} </h2>
 		{% if runs %}
 		<h3> Best runs ordered by {{rankBy}}</h3>
 			{%for run in runs%}
@@ -21,9 +23,12 @@
 		Decription - {{description}}</br>
 		Year - {{year}}</br>
 		</p>
+		
 		Order by something else?
 
 	{% else %}
 		Task does not exist
 	{% endif %}
+	{% render_table table %}
 {% endblock %}
+
