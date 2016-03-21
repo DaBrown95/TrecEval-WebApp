@@ -80,9 +80,7 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-
         user = authenticate(username=username, password=password)
-
         if user:
             if user.is_active:
                 login(request, user)
@@ -90,8 +88,7 @@ def user_login(request):
             else:
                 return HttpResponse("Your TrecEval account is disabled.")
         else:
-            print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+        	return render(request, 'trecapp/login.html', {})
 
     else:
         return render(request, 'trecapp/login.html', {})

@@ -6,12 +6,6 @@
 
 {% block body_block %}
 
-{% if user.is_authenticated %}
-	<p>Welcome {{ user.username }}!</p>
-{% else %}
-	<p>To use TREC comprehensively, login or register</p>
-{% endif %} 
-
 	<h1> About </h1>
 
     <a href = "http://trec.nist.gov"> <strong> TextRetrievalConference: </strong> </a>
@@ -26,7 +20,6 @@
         support research within the information retrieval community by providing the infrastructure necessary for
         large-scale evaluation of text retrieval methodologies. In particular, the TREC workshop
         series has the following goals:
-        <center>
         <p>to encourage research in information retrieval based on large test collections;</p>
         <p>to increase communication among industry, academia, and government by creating an open forum for
             the exchange of research ideas;</p>
@@ -34,7 +27,6 @@
             substantial improvements in retrieval methodologies on real-world problems; and</p>
         <p>to increase the availability of appropriate evaluation techniques for use by industry and academia,
             including development of new evaluation techniques more applicable to current systems.</p>
-        </center>
         TREC is overseen by a program committee consisting of representatives from government, industry, and academia.
         For each TREC, NIST provides a test set of documents and questions. Participants run their own retrieval systems
         on the data, and return to NIST a list of the retrieved top-ranked documents. NIST pools the individual results,
