@@ -5,6 +5,7 @@
 {% block title %} - Home{% endblock %}
 
 {% block body_block %}
+	<h1>WELCOME</h1>
 	{% if runs %}
 	<ul>
 		{%for run in runs%}
@@ -12,6 +13,6 @@
 		{% endfor %}
 	</ul>
 	{% else %}
-		There are no runs
+		There are no runs to display
 	{% endif %}	
 {% endblock %}

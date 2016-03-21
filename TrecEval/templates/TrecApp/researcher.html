@@ -6,11 +6,12 @@
 
 {% block body_block %}
 
-	<p>
-		Welcome - {{display_name}} </br>
-		Organization - {{organization}} </br> </br>
-		<a href = '/trecapp/updateprofile'> Update Your Profile </a>
-		<!--<a href={{url}}></a>-->
-	</p>
+	<table vertical-align="center">
+		<tc> <img src=path/to/images/{{ user.get_picture }}"> </tc>
+		<tc> Welcome - {{display_name}}
+		<br> Organization - {{organization}}</br> <br><a href = '/trecapp/updateprofile'> 
+		<button type="button" class="btn btn-default navbar-btn">Update Your Profile</button></a></br>
+		<!--<a href={{url}}></a>--></tc>
+	</table>
 
 {% endblock %}

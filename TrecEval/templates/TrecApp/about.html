@@ -5,14 +5,24 @@
 {% block title %} - About{% endblock %} 
 
 {% block body_block %}
-	
-	<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-	  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-	   ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-	   aliquip ex ea commodo consequat. Duis aute irure dolor in
-	   reprehenderit in voluptate velit esse cillum dolore eu fugiat
-		nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-		sunt in culpa qui officia deserunt mollit anim id est laborum
-	</p>
-
+	{% if user.is_authenticated %}
+		<p>Welcome {{ user.username }}!</p>
+	{% else %}
+		<p>To use TREC comprehensively, login or register</p>
+	{% endif %} 
+<p><br>The Text REtrieval Conference (TREC), co-sponsored by the National Institute of Standards and Technology (NIST)
+ and U.S. Department of Defense, was started in 1992 as part of the TIPSTER Text program. 
+ Its purpose was to support research within the information retrieval community by providing the 
+ infrastructure necessary for large-scale evaluation of text retrieval methodologies. In particular, 
+ the TREC workshop series has the following goals:</br>
+<ul>
+	<li>to encourage research in information retrieval based on large test collections;</li>
+	<li>to increase communication among industry, academia, and government by 
+		creating an open forum for the exchange of research ideas;</li>
+	<li>to speed the transfer of technology from research labs into commercial 
+		products by demonstrating substantial improvements in retrieval methodologies on real-world problems;</li>
+	<li>to increase the availability of appropriate evaluation techniques for use by industry
+		and academia, including development of new evaluation techniques more applicable to current systems</li>
+</ul>
+</p>
 {% endblock %}

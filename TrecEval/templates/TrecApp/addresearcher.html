@@ -11,7 +11,7 @@
 		<a href="/trecapp/">Return to the homepage.</a><br />
 
 		{% else %}
-        TrecEval says: <strong>register here!</strong><br />
+        TrecEval says: <strong>register here!</strong><br/>
 				<form id="user_form" method="post" action="/trecapp/addresearcher/" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ user_form.as_p }}
