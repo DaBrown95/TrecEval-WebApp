@@ -34,7 +34,7 @@ def populate():
 	run1 = add_run("run1", joe, task1, "description", 1, 2, 3, 0.5, 0.6, 0.4)
 	run2 = add_run("run2", jill, task2, "description", 1, 3, 2, 0.6, 0.9, 0.8)
 	run3 = add_run("run3", jim, task3, "description", 0, 2, 1, 0.2, 0.3, 0.7)
-	run4 = add_run("run4", jim, task3, "description", 0, 2, 1, 0.4, 0.2, 0.6)
+	run4 = add_run("run4", jill, task3, "description", 1, 2, 1, 0.4, 0.2, 0.6)
 	
 
 def add_researcher(username,password, url, organization, name, picture=None):

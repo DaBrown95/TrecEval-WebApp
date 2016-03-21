@@ -9,6 +9,8 @@ from TrecApp.models import Run, Researcher
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
+from TrecApp.tables import RunTable
+from django_tables2   import RequestConfig
 
 
 def home(request):
@@ -256,17 +258,24 @@ def tasks(request):
     return render(request, "TrecApp/tasks.html", context_dict)
 
 
-def task(request,track_name_slug,task_name_slug):
+def task(request,task_name_slug):
 
     context_dict = {}
 
     try:
         task = Task.objects.get(slug=task_name_slug)
+        
         runs = Run.objects.filter(task=task)
+
+        table = RunTable(runs)
+        RequestConfig(request).configure(table)
+        table.exclude = ('runfile','slug',)
+
+        
 
         context_dict["runs"] = runs
         context_dict["task"] = task
-		
+	context_dict["table"] = table
 
         context_dict["title"] = task.title
         context_dict["track"] = task.track
