@@ -266,7 +266,6 @@ def task(request,task_name_slug):
         task = Task.objects.get(slug=task_name_slug)
         
         runs = Run.objects.filter(task=task)
-        print runs
         runList = []
         for run in runs:        #creates dictionary for the table. This is needed to include the organization
             print run
@@ -284,8 +283,7 @@ def task(request,task_name_slug):
             runDict['p20']= run.p20
             runDict['organization']= run.researcher.organization
             runList += [runDict]
-        
-
+        print runList
         
         table = RunTable(runList)
         RequestConfig(request).configure(table)

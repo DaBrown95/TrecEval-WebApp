@@ -66,7 +66,6 @@ class Track(models.Model):
     track_url = models.URLField(max_length=200)
     description = models.TextField()
     genre = models.CharField(max_length=128)
-    judgement_file = models.FileField()
     slug = models.SlugField()
 
     def save(self, *args, **kwargs):
