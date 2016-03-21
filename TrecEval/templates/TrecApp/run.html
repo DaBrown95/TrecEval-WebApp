@@ -8,7 +8,6 @@
 
 	{% if run %}
 		<a href="/trecapp/graph/{{run.slug}}">Graph of this run</a>
-		<p>
 			<strong> {{ name }} </strong><a href="{{request.META.HTTP_REFERER}}">Go back</a></br>
 			Researcher - <a href = /trecapp/researcher/{{ researcher.slug }}> {{researcher}} </a> </br>
 			Description - {{ description }} </br>
