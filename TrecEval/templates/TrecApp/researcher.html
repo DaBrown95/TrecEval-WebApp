@@ -8,7 +8,19 @@
 
 	<p>
 		Welcome - {{display_name}} </br>
-		Organization - {{organization}} </br> </br>
+		Organization - {{organization}} </br>
+		URL - <a href = {{url}}> {{url}} </a></br>
+
+		<h3> Submitted Runs </h3>
+		{% if runs %}
+			<ul>
+				{% for myRuns in runs %}
+						<li> <a href=/trecapp/run/{{myRuns.slug}}> {{myRuns.name}} ({{myRuns.MAP}})</a></li>
+				{% endfor %}
+			</ul>
+		{% else %}
+				<strong> There are no runs </strong>
+		{% endif %}
 		<a href = '/trecapp/updateprofile'> Update Your Profile </a>
 		<!--<a href={{url}}></a>-->
 	</p>
