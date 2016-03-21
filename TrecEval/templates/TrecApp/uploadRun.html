@@ -2,10 +2,10 @@
 
 {% extends 'base.html' %}
 
-{% block title %} - {{name}}{% endblock %}
+{% block title %} Upload Run{% endblock %}
 
 {% block body_block %}
-
+		<h1> Upload Run </h1>
         <form action="{% url 'uploadRun' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
@@ -20,7 +20,7 @@
                 <br>
             {% endfor %}
               <!--<input type="submit" value="Upload" />-->
-              <input type="submit" value ="Submit"/>
+              <button type="submit" class="btn btn-primary navbar-btn"> Submit </button>
             </p>
 
 {% endblock %}

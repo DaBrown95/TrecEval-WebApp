@@ -2,7 +2,8 @@
 
 {% extends 'base.html' %}
 
-{% block title %} Compare runs - {{name}}{% endblock %}
+{% block title %} Compare Runs: {{name}}{% endblock %}
+
 
 {% block head_block %}
 
@@ -47,7 +48,7 @@
 		
 	
 	  var options = {'title': '{{name}}',
-			   'width':500,
+			   'width':600,
 			   'height':500 };
 			   
       // Instantiate and draw the chart.
@@ -61,12 +62,15 @@
 {% endblock %}
 
 {% block body_block %}
-
+<h1> Compare Runs: {{name}} </h1>
 <!-- Identify where the chart should be drawn. -->
+
+<center>
 {% if name %}
 	<div id="LineChart"/>
 {% else %}
 	Graph does not exist
 {% endif %}
+</center>
 
 {% endblock %}

@@ -2,17 +2,15 @@
 
 {% extends 'base.html' %}
 
-{% block title %} - Researchers {% endblock %}
+{% block title %} Researchers {% endblock %}
 
 {% block body_block %}
-	<h2> Researchers </h2>
-	
+	<h1> Researchers </h1>
 	{% if researchers %}
-		<ul>
 		{%for researcher in researchers %}
-			<li><a href=/trecapp/researcher/{{ researcher.slug }}> {{researcher.display_name}} </a></li>
-		{% endfor %}</ul>
+			<p><a href=/trecapp/researcher/{{ researcher.slug }}> {{researcher.display_name}} </a></p>
+		{% endfor %}
 	{% else %}
-	 there are no reasearchers.
+	<h4>there are no reasearchers.</h4>
 	{% endif %}
 {% endblock %}
