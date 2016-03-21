@@ -48,14 +48,14 @@ def add_researcher(username, url, organization, name, picture=None):
 	
 
 
-def add_run(name, researcher, task, description, run_type, query_type, feedback_type, map, p10, p20):
+def add_run(name, researcher, task, description, run_type, query_type, feedback_type, MAP, p10, p20):
 	
 	r = Run.objects.get_or_create(name=name)[0]
 	
 	r.feedback_type = feedback_type
 	r.run_type = run_type
 	r.query_type = query_type
-	r.MAP = map
+	r.MAP = MAP
 	r.p10 = p10
 	r.p20 = p20
 	r.description = description
