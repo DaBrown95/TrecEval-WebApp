@@ -2,7 +2,11 @@
 
 {% extends 'base.html' %}
 
+<<<<<<< HEAD
 {% block title %} Compare Runs: {{name}}{% endblock %}
+=======
+{% block title %} Compare runs - {{name}}{% endblock %}
+>>>>>>> master
 
 {% block head_block %}
 
@@ -63,12 +67,13 @@
 {% block body_block %}
 <h1> Compare Runs: {{name}} </h1>
 <!-- Identify where the chart should be drawn. -->
+
 <center>
 {% if name %}
 	<div id="LineChart"/>
 {% else %}
 	Graph does not exist
 {% endif %}
-
 </center>
+
 {% endblock %}

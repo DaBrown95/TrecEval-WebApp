@@ -2,7 +2,7 @@
 
 {% extends 'base.html' %}
 
-{% block title %} Compare Runs - {{name}}{% endblock %}
+{% block title %} Compare Runs: {{name}}{% endblock %}
 
 {% block head_block %}
 
@@ -36,12 +36,11 @@
   </script>
 </head>
 
-
 {% endblock %}
 
 {% block body_block %}
 
-<h1> Compare Runs - {{name}} </h1>
+<h1> Compare Runs: {{name}} </h1>
 <!-- Identify where the chart should be drawn. -->
 	<center>
 	{% if run %}

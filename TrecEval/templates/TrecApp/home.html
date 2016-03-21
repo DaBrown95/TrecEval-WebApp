@@ -8,12 +8,9 @@
 	<h1>Welcome</h1>
 	{% if runs %}
 	<h4> Best runs </h4>
-
-	<ul>
 		{%for run in runs%}
-		<li><a href=/trecapp/run/{{run.slug}}> {{run.name}} </a></li>
+		<p><a href=/trecapp/run/{{run.slug}}> {{run.name}} </a></p>
 		{% endfor %}
-	</ul>
 	{% else %}
 		There are no runs to display
 	{% endif %}	

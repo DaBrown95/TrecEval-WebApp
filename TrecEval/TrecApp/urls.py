@@ -3,6 +3,7 @@ from TrecApp import views
 
 urlpatterns = patterns('',
 <<<<<<< HEAD
+<<<<<<< HEAD
 		url(r'^$', views.home, name='home'),
 		url(r'about/$', views.about, name='about'),
 		url(r'tasks/$', views.tasks, name='tasks'),
@@ -23,6 +24,8 @@ urlpatterns = patterns('',
 		url(r'^researcher/(?P<researcher_name_slug>[\w\-]+)/$', views.researcher, name='researcher'),
 		url(r'^updateprofile/$', views.update_profile, name='updateprofile'),)
 =======
+=======
+>>>>>>> master
                        url(r'^$', views.home, name='home'),
                        url(r'about/$', views.about, name='about'),
                        url(r'tasks/$', views.tasks, name='tasks'),
@@ -43,4 +46,7 @@ urlpatterns = patterns('',
                        url(r'^researcher/(?P<researcher_name_slug>[\w\-]+)/$', views.researcher, name='researcher'),
                        url(r'^updateprofile/$', views.update_profile, name='updateprofile'),
                        url(r'^termsandconditions/$', views.terms, name='terms'),)
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
