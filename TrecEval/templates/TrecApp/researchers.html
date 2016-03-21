@@ -7,10 +7,9 @@
 {% block body_block %}
 	<h1> Researchers </h1>
 	{% if researchers %}
-		<ul>
 		{%for researcher in researchers %}
-			<li><a href=/trecapp/researcher/{{ researcher.slug }}> {{researcher.display_name}} </a></li>
-		{% endfor %}</ul>
+			<p><a href=/trecapp/researcher/{{ researcher.slug }}> {{researcher.display_name}} </a></p>
+		{% endfor %}
 	{% else %}
 	<h4>there are no reasearchers.</h4>
 	{% endif %}

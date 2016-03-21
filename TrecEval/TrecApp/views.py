@@ -80,7 +80,9 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+
         user = authenticate(username=username, password=password)
+
         if user:
             if user.is_active:
                 login(request, user)
@@ -223,7 +225,6 @@ def track(request,track_name_slug):
 def tracks(request):
 
     context_dict = {}
-
     try:
 
         tracks = Track.objects.order_by("title")
@@ -362,10 +363,6 @@ def compareRuns(request):
         form = CompareForm()
 
     return render(request, 'TrecApp/compareRuns.html',{'form': form})
-
-def terms(request):
-    return render(request, 'TrecApp/termsandconditions.html')
-
 
 def terms(request):
     return render(request, 'TrecApp/termsandconditions.html')
