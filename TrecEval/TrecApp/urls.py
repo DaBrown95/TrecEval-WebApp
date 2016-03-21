@@ -18,5 +18,6 @@ urlpatterns = patterns('',
 		url(r'^login/$', views.user_login, name='login'),
 		url(r'^logout/$', views.user_logout, name='logout'),
 		url(r'^restricted/', views.restricted, name='restricted'),
+		url(r'^researchers/', views.researchers, name = 'researcher'),
 		url(r'^researcher/(?P<researcher_name_slug>[\w\-]+)/$', views.researcher, name='researcher'),
 		url(r'^updateprofile/$', views.update_profile, name='updateprofile'),)

@@ -20,6 +20,15 @@ def home(request):
 
     # Render the response and send it back!
     return render(request, 'TrecApp/home.html', context_dict)
+	
+def researchers(request):
+	researchers_list = Researcher.objects.order_by("display_name")
+	
+	context_dict = {}
+	
+	context_dict["researchers"] = researchers_list
+	
+	return render(request, "TrecApp/researchers.html",context_dict)
 
 
 
