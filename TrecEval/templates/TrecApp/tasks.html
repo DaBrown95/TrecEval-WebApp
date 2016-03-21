@@ -2,16 +2,15 @@
 
 {% extends 'base.html' %}
 
-{% block title %} - Tasks {% endblock %}
+{% block title %}Tasks {% endblock %}
 
 {% block body_block %}
-	<h2> Tasks </h2>
+	<h1> Tasks </h1>
 	
 	{% if tasks %}
-		<ul>
 		{%for task in tasks%}
-			<li><a href=/trecapp/tasks/{{task.slug}}> {{task.title}} </a></li>
-		{% endfor %}</ul>
+			<p><a href=/trecapp/tasks/{{task.slug}}> {{task.title}} </a></p>
+		{% endfor %}
 	{% else %}
 	 there are no tasks.
 	{% endif %}

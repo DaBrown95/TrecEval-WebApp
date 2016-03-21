@@ -2,11 +2,12 @@
 
 {% extends 'base.html' %}
 
+
 {% block title %} Researchers {% endblock %}
 
 {% block body_block %}
 	<h1> Researchers </h1>
-	
+
 	{% if researchers %}
 		<ul>
 		{%for researcher in researchers %}
@@ -14,5 +15,6 @@
 		{% endfor %}</ul>
 	{% else %}
 	<h4>there are no reasearchers.</h4>
+
 	{% endif %}
 {% endblock %}
