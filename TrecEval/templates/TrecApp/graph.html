@@ -2,7 +2,7 @@
 
 {% extends 'base.html' %}
 
-{% block title %} Compare runs - {{name}}{% endblock %}
+{% block title %} Compare Runs: {{name}}{% endblock %}
 
 {% block head_block %}
 
@@ -40,11 +40,14 @@
 
 {% block body_block %}
 
+<h1> Compare Runs: {{name}} </h1>
 <!-- Identify where the chart should be drawn. -->
+	<center>
 	{% if run %}
 		<div id="ColumnChart"/>
 	{% else %}
 		run does not exist
 	{% endif %}
+	</center>
 
 {% endblock %}

@@ -2,12 +2,13 @@
 
 {% extends 'base.html' %}
 
-{% block title %} - About{% endblock %} 
+{% block title %}About{% endblock %} 
 
 {% block body_block %}
+
 	<h1> About </h1>
 
-    <a href = "http://trec.nist.gov"> <strong> TextRetrievalConference </strong> </a>
+    <a href = "http://trec.nist.gov"> <strong> TextRetrievalConference: </strong> </a>
 	
 	<p> This website allows researchers to take part in the TREConference and easily compare efforts. This website
         facilitates the comparison and ranking of runs in a manner that, we hope, makes it easy for the researcher. </br>
@@ -19,15 +20,14 @@
         support research within the information retrieval community by providing the infrastructure necessary for
         large-scale evaluation of text retrieval methodologies. In particular, the TREC workshop
         series has the following goals:
-        <ul>
-        <li>to encourage research in information retrieval based on large test collections;</li>
-        <li>to increase communication among industry, academia, and government by creating an open forum for
-            the exchange of research ideas;</li>
-        <li>to speed the transfer of technology from research labs into commercial products by demonstrating
-            substantial improvements in retrieval methodologies on real-world problems; and</li>
-        <li>to increase the availability of appropriate evaluation techniques for use by industry and academia,
-            including development of new evaluation techniques more applicable to current systems.</li>
-        </ul>
+
+        <p>to encourage research in information retrieval based on large test collections;</p>
+        <p>to increase communication among industry, academia, and government by creating an open forum for
+            the exchange of research ideas;</p>
+        <p>to speed the transfer of technology from research labs into commercial products by demonstrating
+            substantial improvements in retrieval methodologies on real-world problems; and</p>
+        <p>to increase the availability of appropriate evaluation techniques for use by industry and academia,
+            including development of new evaluation techniques more applicable to current systems.</p>
         TREC is overseen by a program committee consisting of representatives from government, industry, and academia.
         For each TREC, NIST provides a test set of documents and questions. Participants run their own retrieval systems
         on the data, and return to NIST a list of the retrieved top-ranked documents. NIST pools the individual results,
@@ -47,5 +47,6 @@
         collections are large enough so that they realistically model operational settings. Most of today's commercial
         search engines include technology first developed in TREC."
 	</p>
+
 
 {% endblock %}

@@ -2,26 +2,45 @@
 
 {% extends 'base.html' %}
 
-{% block title %} - {{name}}{% endblock %}
+{% block title %} {{name}}{% endblock %}
 
 {% block body_block %}
 
 	{% if run %}
-		<a href="/trecapp/graph/{{run.slug}}">Graph of this run</a>
-			<strong> {{ name }} </strong><a href="{{request.META.HTTP_REFERER}}">Go back</a></br>
-			Researcher - <a href = /trecapp/researcher/{{ researcher.slug }}> {{researcher}} </a> </br>
-			Description - {{ description }} </br>
-			<a href = /trecapp/tasks/{{ task }}> {{ task }} </a> from the <a href = /trecapp/tracks/{{task.track}}> {{task.track}} </a> track</br>
-			Run Type - {{ run_type }} </br>
-			Feedback Type - {{ feedback_type }} </br>
-			Query Type - {{ query_type }} </br>
-			MAP - {{ map }} </br>
-			p10 - {{ p10 }} </br>
-			p20 - {{ p20 }} </br>
-
+		<h1> Run: {{ name }} </h1>
+		<div align:"center">
+			<div style="width: 30%;float:left">
+				<strong>Researcher </br> 
+				Description </br>
+				Track </br>
+				Task</br> 
+				Run Type </br>
+				Feedback Type </br>
+				Query Type</br>
+				MAP</br>
+				p10</br>
+				p20</br></strong>
+			</div>
+			<div style="width: 50%;float:right">
+				<a href = /trecapp/researcher/{{ researcher.slug }}> {{researcher}} </a> </br>
+				{{ description }} </br>
+				<a href = /trecapp/tracks/{{task.track}}> {{task.track}} </a></br>
+				<a href = /trecapp/tasks/{{ task }}> {{ task }} </a> </br>
+				{{ run_type }} </br>
+				{{ feedback_type }} </br>
+				{{ query_type }} </br>
+				{{ map }} </br>
+				{{ p10 }} </br>
+				{{ p20 }} </br>
+			</div>
+		</div>
+		<center>
+		<a href="/trecapp/graph/{{run.slug}}"> <button type="submit" class="btn btn-primary navbar-btn"> Graph of this run </button></a>
+		<a href="{{request.META.HTTP_REFERER}}"><button type="submit" class="btn btn-primary navbar-btn">Go back</a> </button></br>
+		</center>
 
 	{% else %}
-		run does not exist
+		<h4>run does not exist</h4>
 	{% endif %}
 
 {% endblock %}

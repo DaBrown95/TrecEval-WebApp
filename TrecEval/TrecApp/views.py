@@ -90,8 +90,7 @@ def user_login(request):
             else:
                 return HttpResponse("Your TrecEval account is disabled.")
         else:
-            print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+        	return render(request, 'trecapp/login.html', {})
 
     else:
         return render(request, 'trecapp/login.html', {})
@@ -226,7 +225,6 @@ def track(request,track_name_slug):
 def tracks(request):
 
     context_dict = {}
-
     try:
 
         tracks = Track.objects.order_by("title")
@@ -368,3 +366,4 @@ def compareRuns(request):
 
 def terms(request):
     return render(request, 'TrecApp/termsandconditions.html')
+
