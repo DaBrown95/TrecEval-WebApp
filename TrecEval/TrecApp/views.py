@@ -20,6 +20,15 @@ def home(request):
 
     # Render the response and send it back!
     return render(request, 'TrecApp/home.html', context_dict)
+	
+def researchers(request):
+	researchers_list = Researcher.objects.order_by("display_name")
+	
+	context_dict = {}
+	
+	context_dict["researchers"] = researchers_list
+	
+	return render(request, "TrecApp/researchers.html",context_dict)
 
 
 
@@ -204,7 +213,6 @@ def track(request,track_name_slug):
         track = Track.objects.get(slug=track_name_slug)
 		
         context_dict["track"] = track
-
         context_dict["title"] = track.title
         context_dict["url"] = track.track_url
         context_dict["description"] = track.description
@@ -222,8 +230,6 @@ def tracks(request):
     try:
 
         tracks = Track.objects.order_by("title")
-
-        print tracks
 
         context_dict["tracks"] = tracks
 
@@ -260,7 +266,7 @@ def task(request,task_name_slug):
 
         context_dict["runs"] = runs
         context_dict["task"] = task
-
+		
         context_dict["title"] = task.title
         context_dict["track"] = task.track
         context_dict["track"] = task.track
@@ -271,8 +277,8 @@ def task(request,task_name_slug):
     except Task.DoesNotExist:
         pass
 
-    return render(request, "TrecApp/task.html", context_dict) #task.html not created yet
-
+    return render(request, "TrecApp/task.html", context_dict) #task.html not created yet		
+	
 
 
 def graph(request, run_name_slug):
