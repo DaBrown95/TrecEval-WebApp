@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 import django_tables2 as tables
 
+
 class run_type(enum.Enum):
     AUTOMATIC = 0
     MANUAL = 1
@@ -12,6 +13,7 @@ class run_type(enum.Enum):
         AUTOMATIC: 'Automatic',
         MANUAL: 'Manual'
     }
+
 
 class query_type(enum.Enum):
     TITLE = 0
@@ -28,18 +30,20 @@ class query_type(enum.Enum):
         OTHER: 'Other'
     }
 
-class feedback_type(enum.Enum):
-        NONE = 0
-        PSEUDO = 1
-        RELEVANCE = 2
-        OTHER = 3
 
-        labels = {
-            NONE: 'None',
-            PSEUDO: 'Pseudo',
-            RELEVANCE: 'Relevance',
-            OTHER: 'Other'
-        }
+class feedback_type(enum.Enum):
+    NONE = 0
+    PSEUDO = 1
+    RELEVANCE = 2
+    OTHER = 3
+
+    labels = {
+        NONE: 'None',
+        PSEUDO: 'Pseudo',
+        RELEVANCE: 'Relevance',
+        OTHER: 'Other'
+    }
+
 
 class Researcher(models.Model):
     user = models.OneToOneField(User)
@@ -51,13 +55,13 @@ class Researcher(models.Model):
     slug = models.SlugField()
 
     def save(self, *args, **kwargs):
-            # Uncomment if you don't want the slug to change every time the name changes
-            #if self.id is None:
-            #        self.slug = slugify(self.user.username)
-            self.slug = slugify(self.user.username)
-            super(Researcher, self).save(*args, **kwargs)
+        # Uncomment if you don't want the slug to change every time the name changes
+        # if self.id is None:
+        #        self.slug = slugify(self.user.username)
+        self.slug = slugify(self.user.username)
+        super(Researcher, self).save(*args, **kwargs)
 
-    def __unicode__(self):  #For Python 2, use __str__ on Python 3
+    def __unicode__(self):  # For Python 2, use __str__ on Python 3
         return self.user.username
 
 
@@ -70,13 +74,13 @@ class Track(models.Model):
     slug = models.SlugField()
 
     def save(self, *args, **kwargs):
-            # Uncomment if you don't want the slug to change every time the name changes
-            #if self.id is None:
-                    #self.slug = slugify(self.title)
-            self.slug = slugify(self.title)
-            super(Track, self).save(*args, **kwargs)
+        # Uncomment if you don't want the slug to change every time the name changes
+        # if self.id is None:
+        # self.slug = slugify(self.title)
+        self.slug = slugify(self.title)
+        super(Track, self).save(*args, **kwargs)
 
-    def __unicode__(self):      #For Python 2, use __str__ on Python 3
+    def __unicode__(self):  # For Python 2, use __str__ on Python 3
         return self.title
 
 
@@ -90,21 +94,20 @@ class Task(models.Model):
     slug = models.SlugField()
 
     def save(self, *args, **kwargs):
-            # Uncomment if you don't want the slug to change every time the name changes
-            #if self.id is None:
-                    #self.slug = slugify(self.title)
-            self.slug = slugify(self.title)
-            super(Task, self).save(*args, **kwargs)
+        # Uncomment if you don't want the slug to change every time the name changes
+        # if self.id is None:
+        # self.slug = slugify(self.title)
+        self.slug = slugify(self.title)
+        super(Task, self).save(*args, **kwargs)
 
-
-    def __unicode__(self):      #For Python 2, use __str__ on Python 3
+    def __unicode__(self):  # For Python 2, use __str__ on Python 3
         return self.title
 
+
 class Run(models.Model):
-    name = models.CharField(max_length=128, unique=True,primary_key = True)
+    name = models.CharField(max_length=128, unique=True, primary_key=True)
     researcher = models.ForeignKey(Researcher)
     task = models.ForeignKey(Task)
-    
 
     runfile = models.FileField(upload_to="runFiles")
 
@@ -112,24 +115,17 @@ class Run(models.Model):
     run_type = enum.EnumField(run_type, default=run_type.AUTOMATIC)
     query_type = enum.EnumField(query_type, default=query_type.TITLE)
     feedback_type = enum.EnumField(feedback_type, default=feedback_type.NONE)
-    MAP = models.DecimalField(max_digits=100, decimal_places=5,)
-    p10 = models.DecimalField(max_digits=100, decimal_places=5,)
-    p20 = models.DecimalField(max_digits=100, decimal_places=5,)
+    MAP = models.DecimalField(max_digits=100, decimal_places=5, )
+    p10 = models.DecimalField(max_digits=100, decimal_places=5, )
+    p20 = models.DecimalField(max_digits=100, decimal_places=5, )
     slug = models.SlugField()
 
-    def __unicode__(self):      #For Python 2, use __str__ on Python 3
+    def __unicode__(self):  # For Python 2, use __str__ on Python 3
         return self.name
 
     def save(self, *args, **kwargs):
         # Uncomment if you don't want the slug to change every time the name changes
-        #if self.id is None:
-                #self.slug = slugify(self.name)
+        # if self.id is None:
+        # self.slug = slugify(self.name)
         self.slug = slugify(self.name)
         super(Run, self).save(*args, **kwargs)
-
-
-
-
-
-
-    

@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 RUN_FILES = os.path.join(BASE_DIR, 'media/runFiles')
 TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates')
@@ -29,7 +30,6 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -54,11 +54,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-
 TEMPLATE_CONTEXT_PROCESSORS = ('django.core.context_processors.request',
-                                'django.contrib.auth.context_processors.auth',
+                               'django.contrib.auth.context_processors.auth',
                                )
-
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -70,7 +68,6 @@ TEMPLATE_DIRS = (
 ROOT_URLCONF = 'TrecEval.urls'
 
 WSGI_APPLICATION = 'TrecEval.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -95,11 +92,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
-STATIC_PATH = os.path.join(BASE_DIR,'static')
+STATIC_PATH = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
 
