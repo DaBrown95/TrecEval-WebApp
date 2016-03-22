@@ -17,33 +17,57 @@
 
     function drawChart() {
       // Define the chart to be drawn.
+
+		//currently works for one list, need to change to work for list of lists
 		
-		var run1 = ["{{run1.name}}",parseFloat("{{run1.MAP}}"),parseFloat("{{run1.p10}}"),parseFloat("{{run1.p20}}")];
-		var run2 = ["{{run2.name}}",parseFloat("{{run2.MAP}}"),parseFloat("{{run2.p10}}"),parseFloat("{{run2.p20}}")];
+		var json_list = "{{runs}}"; //this is a string
 		
+		json_list = json_list.substring(1,(json_list.length)-1); //remove outer brackets
 		
-		for (var i = 1; i < 4; i++ ){	//error checking
-			if (isNaN(run1[i])){
-				run1[i] = 0.0;
-			}
+		var runs = json_list.split(']'); //split string into seperate runs
+		
+		runs.splice(runs.length-1); //remove last empty bit
+		
+		var data = [];
+		var test = [];
+		
+		// convert to format need for graph		
+		for (var i = 0; i< runs.length; i++){
+		
+			test = runs[i].split(',');
+			
+			for (var k = 0; k< test.length; k++){
+				test[k] = test[k].replace("[","");
+				test[k] = test[k].replace(" ","");
+			};
+			
+			
+			if (test.length==5){
+				test.splice(0,1); //remove empty thing
+			};
+			
+			test[0] = test[0].substring(6,(test[0].length)-6); //remove "s
+			
+			//change last 3 values to float
+			for (var j = 1; j<4; j++){
+				test[j] = parseFloat(test[j]);
+			};
+			
+		
+		data.push(test);
 		};
 		
-		for (var i = 1; i < 4; i++ ){	//error checking
-			if (isNaN(run2[i])){
-				run2[i] = 0.0;
-			}
-		};		
 		
 		var data = new google.visualization.DataTable();
 		
 		data.addColumn('string','measurement');
-		data.addColumn('number',run1[0]);
-		data.addColumn('number',run2[0]);
+		data.addColumn('number',"string");
+		data.addColumn('number',"string");
 		
 		data.addRows([
-		["map",run1[1],run2[1]],
-		["p10",run1[2],run2[2]],
-		["p20",run1[3],run2[3]],
+		["map",1,2],
+		["p10",2,1],
+		["p20",2,1],
 		]);
 		
 	
