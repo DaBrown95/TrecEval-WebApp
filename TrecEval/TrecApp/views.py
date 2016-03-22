@@ -129,7 +129,6 @@ def addResearcher(request):
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
         researcher_form = ResearcherForm(data=request.POST)
-
         if user_form.is_valid() and researcher_form.is_valid():
             # deals with django User model
             user = user_form.save()
@@ -251,10 +250,9 @@ def task(request, task_name_slug):
         task = Task.objects.get(slug=task_name_slug)
 
         runs = Run.objects.filter(task=task)
-        print runs
+
         runList = []
         for run in runs:  # creates dictionary for the table. This is needed to include the organization
-            print run
             runDict = {}
             runDict['name'] = run.name
             runDict['researcher'] = run.researcher
@@ -268,16 +266,16 @@ def task(request, task_name_slug):
             runDict['p10'] = run.p10
             runDict['p20'] = run.p20
             runDict['organization'] = run.researcher.organization
+            runDict['checkBox'] = run.name
             runList += [runDict]
 
         table = RunTable(runList)
-        RequestConfig(request).configure(table)
+        RequestConfig(request, paginate={"per_page": 2}).configure(table)
         table.exclude = ('runfile', 'slug',)
-
+        table.paginate
         context_dict["runs"] = runs
         context_dict["task"] = task
         context_dict["table"] = table
-
         context_dict["title"] = task.title
         context_dict["track"] = task.track
         context_dict["track"] = task.track
@@ -285,10 +283,21 @@ def task(request, task_name_slug):
         context_dict["url"] = task.task_url
         context_dict["year"] = task.year
 
+        if request.method == 'POST':
+            dataToPass = []
+            checkedRuns = request.POST.getlist('checkBox')
+            for run in checkedRuns:
+                thisRun = Run.objects.get(name=run)
+                thisRun = [thisRun.name,thisRun.MAP,thisRun.p10,thisRun.p20]
+                dataToPass += [thisRun]
+            return lineGraph(request,task, dataToPass)
+        
+        
     except Task.DoesNotExist:
         pass
 
     return render(request, "TrecApp/task.html", context_dict)  # task.html not created yet
+
 
 
 def graph(request, run_name_slug):
