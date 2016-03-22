@@ -276,10 +276,8 @@ def task(request, task_name_slug):
         task = Task.objects.get(slug=task_name_slug)
 
         runs = Run.objects.filter(task=task)
-        print runs
         runList = []
         for run in runs:  # creates dictionary for the table. This is needed to include the organization
-            print run
             runDict = {}
             runDict['name'] = run.name
             runDict['researcher'] = run.researcher
@@ -293,6 +291,7 @@ def task(request, task_name_slug):
             runDict['p10'] = run.p10
             runDict['p20'] = run.p20
             runDict['organization'] = run.researcher.organization
+            runDict['slug'] = run.slug
             runList += [runDict]
 
         table = RunTable(runList)
