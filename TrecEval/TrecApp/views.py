@@ -294,6 +294,7 @@ def task(request, task_name_slug):
             runDict['p20'] = run.p20
             runDict['organization'] = run.researcher.organization
             runDict['checkBox'] = run.name
+            runDict['slug'] = run.slug
             runList += [runDict]
 
         table = RunTable(runList)
