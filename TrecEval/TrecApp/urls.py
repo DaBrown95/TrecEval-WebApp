@@ -21,4 +21,4 @@ urlpatterns = patterns('',
                        url(r'^researchers/', views.researchers, name='researcher'),
                        url(r'^researcher/(?P<researcher_name_slug>[\w\-]+)/$', views.researcher, name='researcher'),
                        url(r'^updateprofile/$', views.update_profile, name='updateprofile'),
-                       url(r'^termsandconditions/$', views.terms, name='terms'),)
+                       url(r'^termsandconditions/$', views.terms, name='terms'), )
