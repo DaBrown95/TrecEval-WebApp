@@ -234,6 +234,7 @@ def track(request, track_name_slug):
         table = TaskTable(taskList)
         RequestConfig(request).configure(table)
         context_dict["table"] = table
+        context_dict["number"] = tasksFromTrack.count()
 
     except Track.DoesNotExist:
         pass

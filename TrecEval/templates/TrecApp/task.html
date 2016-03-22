@@ -6,9 +6,11 @@
 {% block title %} - {{title}} {% endblock %}
 
 {% block body_block %}
+
+    <a href = /trecapp/tracks/{{track.slug}}> < {{ track.title }} </a>
+    <a href = {{request.META.HTTP_REFERER}}> Go Back </a>
 	{% if task %}
-		
-		<h2> {{title}} </h2>
+		<h2> {{ task.title }} </h2>
 		{% if runs %}
 		<h3> Best runs ordered by {{rankBy}}</h3>
 			{%for run in runs%}
@@ -18,7 +20,7 @@
 			There are no runs for this task
 		{% endif %}
 		<p>
-		Track - {{track}}</br>
+		Track - <a href = /trecapp/tracks/{{track.slug}}> {{ track.title }} </a></br>
 		Url - {{url}}</br>
 		Decription - {{description}}</br>
 		Year - {{year}}</br>

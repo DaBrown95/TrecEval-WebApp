@@ -7,15 +7,19 @@
 {% block title %}{{title}} {% endblock %}
 
 {% block body_block %}
+
+    <a href = '/trecapp/tracks/'> < Tracks </a>
+    <a href = {{request.META.HTTP_REFERER}}> Go Back </a>
+
 	{% if track %}
-		<h1> {{title}} </h1>
+        <h1> {{title}} </h1>
 		<p>
 		Title - {{ title }}</br>
 		Url - {{ url }}</br>
 		Decription - {{ description }}</br>
 		Genre - {{ genre }}</br>
 		</p>
-        <h2>Tasks: </h2>
+        <h2>Tasks ({{ number }}): </h2>
         {% comment %}{% if tasks %}
             {% for task in tasks %}
                 <a href = '/trecapp/tasks/{{ task.slug }}'> {{ task.title }}</a>
