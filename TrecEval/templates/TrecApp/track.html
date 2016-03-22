@@ -9,11 +9,19 @@
 	{% if track %}
 		<h1> {{title}} </h1>
 		<p>
-		Title - {{title}}</br>
-		Url - {{url}}</br>
-		Decription - {{description}}</br>
-		Genre - {{genre}}</br>
+		Title - {{ title }}</br>
+		Url - {{ url }}</br>
+		Decription - {{ description }}</br>
+		Genre - {{ genre }}</br>
 		</p>
+        <h2>Tasks: </h2>
+        {% if tasks %}
+            {% for task in tasks %}
+                <a href = '/trecapp/tasks/{{ task.slug }}'> {{ task.title }}</a>
+            {% endfor %}
+        {% else %}
+            <strong> No tasks belong to this run. </strong>
+        {%  endif %}
 	{% else %}
 		Track does not exist
 	{% endif %}

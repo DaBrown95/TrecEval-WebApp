@@ -203,12 +203,15 @@ def track(request, track_name_slug):
 
     try:
         track = Track.objects.get(slug=track_name_slug)
-
+        print track
+        tasksFromTrack = Task.objects.filter(track=track)
+        print tasksFromTrack
         context_dict["track"] = track
         context_dict["title"] = track.title
         context_dict["url"] = track.track_url
         context_dict["description"] = track.description
         context_dict["genre"] = track.genre
+        context_dict["tasks"] = tasksFromTrack
 
     except Track.DoesNotExist:
         pass
