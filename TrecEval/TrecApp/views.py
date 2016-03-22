@@ -60,7 +60,6 @@ def uploadRun(request):
     def handle_uploaded_file(qRel, f):
         # qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
         # qRel = "H:\Workspace\WAD\TrecWebApp\TrecEval-WebApp\Extra\TrecEvalProgram\data\news\ap.trec.qrels"
-        print qRel
         results = trec_eval(qRel, f)
         return results
 
