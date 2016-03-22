@@ -57,17 +57,30 @@
 		data.push(test);
 		};
 		
+		//works up to this point
 		
-		var data = new google.visualization.DataTable();
+		var graph = new google.visualization.DataTable();
 		
-		data.addColumn('string','measurement');
-		data.addColumn('number',"string");
-		data.addColumn('number',"string");
+		graph.addColumn('string','measurement');
 		
-		data.addRows([
-		["map",1,2],
-		["p10",2,1],
-		["p20",2,1],
+		for (var i =0; i < data.length; i++){
+			graph.addColumn('number',data[i][0]);
+		};
+		
+		var map = ["map"];
+		var p10 = ["p10"];
+		var p20 = ["p20"];
+		
+		for (var i = 0; i <data.length; i++){
+			map[map.length] = data[i][1];
+			p10[p10.length] = data[i][2];
+			p20[p20.length] = data[i][3];
+		};
+		
+		//document.write(p10);
+
+		graph.addRows([
+			map,p10,p20
 		]);
 		
 	
@@ -78,7 +91,7 @@
       // Instantiate and draw the chart.
       var chart = new google.visualization.LineChart(document.getElementById('LineChart'));
 	  
-	  chart.draw(data, options);
+	  chart.draw(graph, options);
     }
   </script>
 </head>
