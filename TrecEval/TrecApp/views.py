@@ -9,7 +9,7 @@ from TrecApp.models import Run, Researcher
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from TrecApp.tables import RunTable, TaskTable
+from TrecApp.tables import RunTable, TaskTable, ResearcherTable
 from django_tables2 import RequestConfig
 
 
@@ -25,11 +25,22 @@ def home(request):
 
 
 def researchers(request):
-    researchers_list = Researcher.objects.order_by("display_name")
-
     context_dict = {}
 
-    context_dict["researchers"] = researchers_list
+    allResearchers = Researcher.objects.order_by("display_name")
+    #context_dict["researchers"] = researchers_list
+    researcherList = []
+    for researcherCursor in allResearchers:
+        researcherDict = {}
+        researcherDict['display_name'] = researcherCursor.display_name
+        researcherDict['organization'] = researcherCursor.organization
+        researcherDict['slug'] = researcherCursor.slug
+        researcherDict['numberOfRuns'] = Run.objects.filter(researcher=researcherCursor).count()
+        researcherList += [researcherDict]
+
+    table = ResearcherTable(researcherList)
+    RequestConfig(request).configure(table)
+    context_dict["table"] = table
 
     return render(request, "TrecApp/researchers.html", context_dict)
 
@@ -217,6 +228,7 @@ def track(request, track_name_slug):
             taskDict['title'] = taskCursor.title
             taskDict['year'] = taskCursor.year
             taskDict['number'] = Run.objects.filter(task=taskCursor).count()
+            taskDict['slug'] = taskCursor.slug
             taskList += [taskDict]
 
         table = TaskTable(taskList)

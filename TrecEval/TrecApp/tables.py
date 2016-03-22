@@ -1,4 +1,5 @@
 import django_tables2 as tables
+from django_tables2.utils import A
 from TrecApp.models import Run, Researcher, Task
 
 
@@ -20,7 +21,7 @@ class RunTable(tables.Table):
         model = Run
 
 class TaskTable(tables.Table):
-    title = tables.Column(verbose_name='Title')
+    title = tables.LinkColumn('task',verbose_name='Title',args =[A('slug')])
     year = tables.Column(verbose_name='Year')
     number = tables.Column(verbose_name='Number of Runs')
 
@@ -28,3 +29,11 @@ class TaskTable(tables.Table):
         model = Task
         exclude = ('ID','track','task_url','description','judgement_file','slug')
 
+class ResearcherTable(tables.Table):
+    display_name = tables.LinkColumn('researcher', verbose_name='Name', args=[A('slug')])
+    organization = tables.Column(verbose_name='Organizations')
+    numberOfRuns = tables.Column(verbose_name='No. Runs')
+
+    class Meta:
+        model = Researcher
+        exclude = ('slug','picture','user','url')
