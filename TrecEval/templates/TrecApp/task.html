@@ -12,7 +12,8 @@
 	{% if task %}
 		<h2> {{ task.title }} </h2>
 		{% if runs %}
-		<h3> Best runs ordered by {{rankBy}}</h3>
+{#		<h3> Best runs ordered by{{rankBy}}</h3>#}
+        <h3> Best runs ordered by MAP </h3>
 			{%for run in runs%}
 			<p><a href=/trecapp/run/{{run.slug}}> {{run.name}} </a></p>
 			{% endfor %}
@@ -21,7 +22,7 @@
 		{% endif %}
 		<p>
 		Track - <a href = /trecapp/tracks/{{track.slug}}> {{ track.title }} </a></br>
-		Url - {{url}}</br>
+		Url - <a href={{url}}> {{ url }} </a> </br>
 		Decription - {{description}}</br>
 		Year - {{year}}</br>
 		</p>

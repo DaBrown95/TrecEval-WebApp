@@ -276,7 +276,7 @@ def task(request, task_name_slug):
     try:
         task = Task.objects.get(slug=task_name_slug)
 
-        runs = Run.objects.filter(task=task)
+        runs = Run.objects.filter(task=task).order_by('-MAP')
         runList = []
         for run in runs:  # creates dictionary for the table. This is needed to include the organization
             runDict = {}
