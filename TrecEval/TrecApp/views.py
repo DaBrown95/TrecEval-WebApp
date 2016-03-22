@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from TrecApp.tables import RunTable
 from django_tables2 import RequestConfig
+import simplejson
 
 
 def home(request):
@@ -321,15 +322,17 @@ def graph(request, run_name_slug):
     return render(request, "TrecApp/graph.html", context_dict)
 
 
-def lineGraph(request, name, run1, run2):
+def lineGraph(request, runs, name):
     context_dict = {}
 
     try:
 
-        context_dict["name"] = name
-        context_dict["run1"] = run1
-        context_dict["run2"] = run2
+        json_list = simplejson.dumps(runs)
 
+        context_dict["runs"] = json_list
+
+        context_dict["name"] = name
+ 
 
     except:
         pass
@@ -371,9 +374,16 @@ def compareRuns(request):
             run1 = form.cleaned_data["run1"]
             run2 = form.cleaned_data["run2"]
 
+            data = [run1,run2]
+
+            runs = []
+            for run in data:
+                temp = [run.name,run.MAP,run.p10,run.p20]
+                runs += [temp]
+
             print "Hello! Just about to generate graph"
 
-            return lineGraph(request, name, run1, run2)  # generate graph
+            return lineGraph(request, runs, name)  # generate graph
     else:
         form = CompareForm()
 
