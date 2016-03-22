@@ -18,3 +18,13 @@ class RunTable(tables.Table):
 
     class Meta:
         model = Run
+
+class TaskTable(tables.Table):
+    title = tables.Column(verbose_name='Title')
+    year = tables.Column(verbose_name='Year')
+    number = tables.Column(verbose_name='Number of Runs')
+
+    class Meta:
+        model = Task
+        exclude = ('ID','track','task_url','description','judgement_file','slug')
+

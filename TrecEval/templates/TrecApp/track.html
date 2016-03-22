@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 
 {% extends 'base.html' %}
+{% load render_table from django_tables2 %}
 
 {% block title %}{{title}} {% endblock %}
 
@@ -15,13 +16,15 @@
 		Genre - {{ genre }}</br>
 		</p>
         <h2>Tasks: </h2>
-        {% if tasks %}
+        {% comment %}{% if tasks %}
             {% for task in tasks %}
                 <a href = '/trecapp/tasks/{{ task.slug }}'> {{ task.title }}</a>
             {% endfor %}
         {% else %}
             <strong> No tasks belong to this run. </strong>
-        {%  endif %}
+        {%  endif %}{% endcomment %}
+
+        {%  render_table table %}
 	{% else %}
 		Track does not exist
 	{% endif %}

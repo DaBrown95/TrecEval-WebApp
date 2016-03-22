@@ -9,7 +9,7 @@ from TrecApp.models import Run, Researcher
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from TrecApp.tables import RunTable
+from TrecApp.tables import RunTable, TaskTable
 from django_tables2 import RequestConfig
 
 
@@ -203,15 +203,25 @@ def track(request, track_name_slug):
 
     try:
         track = Track.objects.get(slug=track_name_slug)
-        print track
-        tasksFromTrack = Task.objects.filter(track=track)
-        print tasksFromTrack
         context_dict["track"] = track
         context_dict["title"] = track.title
         context_dict["url"] = track.track_url
         context_dict["description"] = track.description
         context_dict["genre"] = track.genre
-        context_dict["tasks"] = tasksFromTrack
+        # context_dict["tasks"] = tasksFromTrack
+
+        tasksFromTrack = Task.objects.filter(track=track)
+        taskList = []
+        for taskCursor in tasksFromTrack:
+            taskDict = {}
+            taskDict['title'] = taskCursor.title
+            taskDict['year'] = taskCursor.year
+            taskDict['number'] = Run.objects.filter(task=taskCursor).count()
+            taskList += [taskDict]
+
+        table = TaskTable(taskList)
+        RequestConfig(request).configure(table)
+        context_dict["table"] = table
 
     except Track.DoesNotExist:
         pass
