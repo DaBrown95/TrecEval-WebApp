@@ -6,6 +6,9 @@
 
 {% block body_block %}
 
+    <a href = '/trecapp/tasks/{{ task.slug }}'> < {{ task.title }} </a>
+    <a href = {{request.META.HTTP_REFERER}}> Go Back </a>
+
 	{% if run %}
 		<h1> Run: {{ name }} </h1>
 		<div align:"center">
