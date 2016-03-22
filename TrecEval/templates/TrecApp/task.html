@@ -1,19 +1,19 @@
+
 <!DOCTYPE html>
 
 {% extends 'base.html' %}
-
+{% load render_table from django_tables2 %}
 {% block title %} - {{title}} {% endblock %}
 
 {% block body_block %}
 	{% if task %}
+		
 		<h2> {{title}} </h2>
 		{% if runs %}
 		<h3> Best runs ordered by {{rankBy}}</h3>
-		<ul>
 			{%for run in runs%}
-			<li><a href=/trecapp/run/{{run.slug}}> {{run.name}} </a></li>
+			<p><a href=/trecapp/run/{{run.slug}}> {{run.name}} </a></p>
 			{% endfor %}
-		</ul>
 		{% else %}
 			There are no runs for this task
 		{% endif %}
@@ -23,9 +23,12 @@
 		Decription - {{description}}</br>
 		Year - {{year}}</br>
 		</p>
+		
 		Order by something else?
 
 	{% else %}
 		Task does not exist
 	{% endif %}
+	{% render_table table %}
 {% endblock %}
+

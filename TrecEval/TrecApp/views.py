@@ -9,6 +9,8 @@ from TrecApp.models import Run, Researcher
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
+from TrecApp.tables import RunTable
+from django_tables2 import RequestConfig
 
 
 def home(request):
@@ -20,33 +22,32 @@ def home(request):
 
     # Render the response and send it back!
     return render(request, 'TrecApp/home.html', context_dict)
-	
-def researchers(request):
-	researchers_list = Researcher.objects.order_by("display_name")
-	
-	context_dict = {}
-	
-	context_dict["researchers"] = researchers_list
-	
-	return render(request, "TrecApp/researchers.html",context_dict)
 
+
+def researchers(request):
+    researchers_list = Researcher.objects.order_by("display_name")
+
+    context_dict = {}
+
+    context_dict["researchers"] = researchers_list
+
+    return render(request, "TrecApp/researchers.html", context_dict)
 
 
 def about(request):
-    return render(request, 'trecapp/about.html')
+    return render(request, 'TrecApp/about.html')
 
 
 def uploadRun(request):
-
-    currentUser = User.objects.get(username=request.user.username)      #get current user from request
-    try:            #retrieve researcher for the current user from database
+    currentUser = User.objects.get(username=request.user.username)  # get current user from request
+    try:  # retrieve researcher for the current user from database
         researcher = Researcher.objects.get(user=currentUser)
     except Researcher.DoesNotExist:
         researcher = None
 
-    def handle_uploaded_file(qRel,f):
-        #qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
-        #qRel = "H:\Workspace\WAD\TrecWebApp\TrecEval-WebApp\Extra\TrecEvalProgram\data\news\ap.trec.qrels"
+    def handle_uploaded_file(qRel, f):
+        # qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
+        # qRel = "H:\Workspace\WAD\TrecWebApp\TrecEval-WebApp\Extra\TrecEvalProgram\data\news\ap.trec.qrels"
         print qRel
         results = trec_eval(qRel, f)
         return results
@@ -57,23 +58,22 @@ def uploadRun(request):
             if researcher:
                 page = form.save(commit=False)
                 print "Hello! Just about to call trec_eval"
-                result = handle_uploaded_file(page.task.judgement_file.path,request.FILES['runfile'])
+                result = handle_uploaded_file(page.task.judgement_file.path, request.FILES['runfile'])
                 slugFinder = page.name
                 page.MAP = result['MAP']
                 page.p10 = result['p10']
                 page.p20 = result['p20']
-                page.researcher = researcher    #foreign key
+                page.researcher = researcher  # foreign key
                 page.save()
 
-                #runObject = Run.objects.get(name=slugFinder)
-                #slugFinder = runObject.slug
+                # runObject = Run.objects.get(name=slugFinder)
+                # slugFinder = runObject.slug
                 slugFinder = Run.objects.get(name=slugFinder).slug
-                return run(request, slugFinder)    #go to home page
+                return run(request, slugFinder)  # go to home page
     else:
         form = RunForm()
 
-    return render(request, 'TrecApp/uploadRun.html',{'form': form})
-
+    return render(request, 'TrecApp/uploadRun.html', {'form': form})
 
 
 def user_login(request):
@@ -90,17 +90,14 @@ def user_login(request):
             else:
                 return HttpResponse("Your TrecEval account is disabled.")
         else:
-            print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+            return render(request, 'TrecApp/login.html', {})
 
     else:
-        return render(request, 'trecapp/login.html', {})
-
+        return render(request, 'TrecApp/login.html', {})
 
 
 def restricted(request):
     return HttpResponse("Since you're logged in, you can see this!")
-
 
 
 @login_required
@@ -109,9 +106,7 @@ def user_logout(request):
     return HttpResponseRedirect('/trecapp/')
 
 
-
 def researcher(request, researcher_name_slug):
-
     context_dict = {}
 
     try:
@@ -121,13 +116,12 @@ def researcher(request, researcher_name_slug):
         context_dict["url"] = researcher.url
         context_dict["organization"] = researcher.organization
         context_dict["runs"] = Run.objects.filter(researcher=researcher).order_by("MAP")
-        #context_dict["user"] = researcher.username
+        # context_dict["user"] = researcher.username
 
     except Researcher.DoesNotExist:
         pass
 
     return render(request, "TrecApp/researcher.html", context_dict)
-
 
 
 def addResearcher(request):
@@ -137,7 +131,7 @@ def addResearcher(request):
         researcher_form = ResearcherForm(data=request.POST)
 
         if user_form.is_valid() and researcher_form.is_valid():
-            #deals with django User model
+            # deals with django User model
             user = user_form.save()
             user.username = user.username.lower()
 
@@ -145,8 +139,8 @@ def addResearcher(request):
             userPassword = user.password
             user.set_password(user.password)
             user.save()
-            #deals with our additional attributes
-            researcher = researcher_form.save(commit=False)          #slug gets created by save here
+            # deals with our additional attributes
+            researcher = researcher_form.save(commit=False)  # slug gets created by save here
 
             if 'picture' in request.FILES:
                 researcher.picture = request.FILES['picture']
@@ -155,7 +149,7 @@ def addResearcher(request):
             researcher.save()
             registered = True
 
-            loggedinUser = authenticate(username=userUsername,password=userPassword)    #logs user in
+            loggedinUser = authenticate(username=userUsername, password=userPassword)  # logs user in
             if loggedinUser.is_active:
                 login(request, loggedinUser)
                 return home(request)
@@ -172,15 +166,15 @@ def addResearcher(request):
 
     # Bad form (or form details), no form supplied...
     # Render the form with error messages (if any).
-    return render(request, 'TrecApp/addresearcher.html', {'user_form': user_form,'researcher_form':researcher_form, 'registered' : registered} )
-
+    return render(request, 'TrecApp/addresearcher.html',
+                  {'user_form': user_form, 'researcher_form': researcher_form, 'registered': registered})
 
 
 def update_profile(request):
     if request.method == 'POST':
 
-        #form = UpdateResearcherForm(request.POST, instance=request.user)
-        #form.actual_user = request.user
+        # form = UpdateResearcherForm(request.POST, instance=request.user)
+        # form.actual_user = request.user
         form = UpdateResearcherForm(request.POST)
 
         if form.is_valid():
@@ -204,14 +198,12 @@ def update_profile(request):
     return render(request, 'TrecApp/updateprofile.html', {'researcher_update_form': researcher_update_form})
 
 
-def track(request,track_name_slug):
-
+def track(request, track_name_slug):
     context_dict = {}
 
     try:
-
         track = Track.objects.get(slug=track_name_slug)
-		
+
         context_dict["track"] = track
         context_dict["title"] = track.title
         context_dict["url"] = track.track_url
@@ -223,10 +215,9 @@ def track(request,track_name_slug):
 
     return render(request, "TrecApp/track.html", context_dict)
 
+
 def tracks(request):
-
     context_dict = {}
-
     try:
 
         tracks = Track.objects.order_by("title")
@@ -239,9 +230,7 @@ def tracks(request):
     return render(request, "TrecApp/tracks.html", context_dict)
 
 
-
 def tasks(request):
-
     context_dict = {}
 
     try:
@@ -254,19 +243,41 @@ def tasks(request):
 
     return render(request, "TrecApp/tasks.html", context_dict)
 
-def task(request,task_name_slug):
 
+def task(request, task_name_slug):
     context_dict = {}
 
     try:
-
         task = Task.objects.get(slug=task_name_slug)
 
         runs = Run.objects.filter(task=task)
+        print runs
+        runList = []
+        for run in runs:  # creates dictionary for the table. This is needed to include the organization
+            print run
+            runDict = {}
+            runDict['name'] = run.name
+            runDict['researcher'] = run.researcher
+            runDict['task'] = run.task
+            runDict['runfile'] = run.runfile
+            runDict['description'] = run.description
+            runDict['run_type'] = run.run_type
+            runDict['query_type'] = run.query_type
+            runDict['feedback_type'] = run.feedback_type
+            runDict['MAP'] = run.MAP
+            runDict['p10'] = run.p10
+            runDict['p20'] = run.p20
+            runDict['organization'] = run.researcher.organization
+            runList += [runDict]
+
+        table = RunTable(runList)
+        RequestConfig(request).configure(table)
+        table.exclude = ('runfile', 'slug',)
 
         context_dict["runs"] = runs
         context_dict["task"] = task
-		
+        context_dict["table"] = table
+
         context_dict["title"] = task.title
         context_dict["track"] = task.track
         context_dict["track"] = task.track
@@ -277,42 +288,38 @@ def task(request,task_name_slug):
     except Task.DoesNotExist:
         pass
 
-    return render(request, "TrecApp/task.html", context_dict) #task.html not created yet		
-	
+    return render(request, "TrecApp/task.html", context_dict)  # task.html not created yet
 
 
 def graph(request, run_name_slug):
-
     context_dict = {}
 
     try:
-		run = Run.objects.get(slug=run_name_slug)
+        run = Run.objects.get(slug=run_name_slug)
 
-		context_dict["name"] = run.name
-		r = run.researcher
-		context_dict["researcher_name"] = r.display_name
-		context_dict["map"] = run.MAP
-		context_dict["p10"] = run.p10
-		context_dict["p20"] = run.p20
-		context_dict["run"] = run
+        context_dict["name"] = run.name
+        r = run.researcher
+        context_dict["researcher_name"] = r.display_name
+        context_dict["map"] = run.MAP
+        context_dict["p10"] = run.p10
+        context_dict["p20"] = run.p20
+        context_dict["run"] = run
 
     except:
         pass
 
-    #print context_dict
+    # print context_dict
     return render(request, "TrecApp/graph.html", context_dict)
 
 
-
 def lineGraph(request, name, run1, run2):
-
     context_dict = {}
 
     try:
 
-		context_dict["name"] = name
-		context_dict["run1"] = run1
-		context_dict["run2"] = run2
+        context_dict["name"] = name
+        context_dict["run1"] = run1
+        context_dict["run2"] = run2
 
 
     except:
@@ -321,9 +328,7 @@ def lineGraph(request, name, run1, run2):
     return render(request, "TrecApp/lineGraph.html", context_dict)
 
 
-
-def run(request,run_name_slug):
-
+def run(request, run_name_slug):
     context_dict = {}
 
     try:
@@ -332,8 +337,8 @@ def run(request,run_name_slug):
         context_dict["run"] = run
         context_dict["name"] = run.name
         context_dict["researcher"] = run.researcher
-        #context_dict["task"] = run.task
-        #context_dict["result_file"] = run.result_file
+        # context_dict["task"] = run.task
+        # context_dict["result_file"] = run.result_file
         context_dict["map"] = run.MAP
         context_dict["description"] = run.description
         context_dict["p10"] = run.p10
@@ -348,20 +353,23 @@ def run(request,run_name_slug):
 
     return render(request, "TrecApp/run.html", context_dict)
 
-def compareRuns(request):
 
+def compareRuns(request):
     if request.method == 'POST':
         form = CompareForm(request.POST, request.FILES)
         if form.is_valid():
+            name = form.cleaned_data["name"]
+            run1 = form.cleaned_data["run1"]
+            run2 = form.cleaned_data["run2"]
 
-			name = form.cleaned_data["name"]
-			run1 = form.cleaned_data["run1"]
-			run2 = form.cleaned_data["run2"]
+            print "Hello! Just about to generate graph"
 
-			print "Hello! Just about to generate graph"
-
-			return lineGraph(request,name,run1,run2)    #generate graph
+            return lineGraph(request, name, run1, run2)  # generate graph
     else:
         form = CompareForm()
 
-    return render(request, 'TrecApp/compareRuns.html',{'form': form})
+    return render(request, 'TrecApp/compareRuns.html', {'form': form})
+
+
+def terms(request):
+    return render(request, 'TrecApp/termsandconditions.html')
