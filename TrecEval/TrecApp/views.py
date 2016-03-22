@@ -290,7 +290,7 @@ def task(request, task_name_slug):
                 thisRun = Run.objects.get(name=run)
                 thisRun = [thisRun.name,thisRun.MAP,thisRun.p10,thisRun.p20]
                 dataToPass += [thisRun]
-            return lineGraph(request,task, dataToPass)
+            return lineGraph(request,dataToPass,task)
         
         
     except Task.DoesNotExist:
