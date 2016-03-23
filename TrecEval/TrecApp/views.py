@@ -71,10 +71,10 @@ def uploadRun(request, task_name_slug):
         if form.is_valid():
             if researcher:
                 page = form.save(commit=False)
+                page.task = task
                 print "Hello! Just about to call trec_eval"
                 result = handle_uploaded_file(page.task.judgement_file.path, request.FILES['runfile'])
                 slugFinder = page.name
-                page.task = task
                 page.MAP = result['MAP']
                 page.p10 = result['p10']
                 page.p20 = result['p20']
@@ -392,6 +392,7 @@ def run(request, run_name_slug):
         context_dict["feedback_type"] = feedback_type.labels[run.feedback_type]
         context_dict["query_type"] = query_type.labels[run.feedback_type]
         context_dict["task"] = run.task
+        context_dict["date"] = run.date
 
     except Run.DoesNotExist:
         pass

@@ -10,6 +10,10 @@ django.setup()
 
 from TrecApp.models import Task, Track, Run, Researcher
 
+from datetime import datetime
+
+
+
 
 def populate():
     joe = add_researcher("joe", "joe", "www.http://www.google.com", "google", "joe")
@@ -40,11 +44,11 @@ def populate():
 
     # might have to replace some of these values with actual data
     # havent put anything in for files yet
-    run1 = add_run("run1", AlphaTeam, task1, "example description", 1, 2, 3, 0.5, 0.6, 0.4)
-    run2 = add_run("run2", CK, task2, "example description", 1, 3, 2, 0.6, 0.9, 0.8)
-    run3 = add_run("run3", ICT, task3, "example description", 0, 2, 1, 0.2, 0.3, 0.7)
-    run4 = add_run("run4", RIM, task3, "example description", 0, 1, 1, 0.4, 0.2, 0.6)
-    run4 = add_run("run5", HK, task3, "example description", 1, 3, 1, 0.2, 0.1, 0.3)
+    run1 = add_run("run1", AlphaTeam, task1, "example description", 1, 2, 3, 0.5, 0.6, 0.4,datetime(2000,1,01))
+    run2 = add_run("run2", CK, task2, "example description", 1, 3, 2, 0.6, 0.9, 0.8,datetime(2005,5,05))
+    run3 = add_run("run3", ICT, task3, "example description", 0, 2, 1, 0.2, 0.3, 0.7,datetime(2010,10,10))
+    run4 = add_run("run4", RIM, task3, "example description", 0, 1, 1, 0.4, 0.2, 0.6,datetime(2015,3,15))
+    run5 = add_run("run5", HK, task3, "example description", 1, 3, 1, 0.2, 0.1, 0.3,datetime.now())
 
 
 def add_researcher(username, password, url, organization, name, picture=None):
@@ -62,9 +66,9 @@ def add_researcher(username, password, url, organization, name, picture=None):
     return r
 
 
-def add_run(name, researcher, task, description, run_type, query_type, feedback_type, MAP, p10, p20):
+def add_run(name, researcher, task, description, run_type, query_type, feedback_type, MAP, p10, p20,date):
     r = Run.objects.get_or_create(name=name, researcher=researcher, task=task, MAP=MAP, p10=p10, p20=p20)[0]
-
+	
     r.feedback_type = feedback_type
     r.run_type = run_type
     r.query_type = query_type
@@ -74,6 +78,7 @@ def add_run(name, researcher, task, description, run_type, query_type, feedback_
     r.description = description
     r.researcher = researcher
     r.task = task
+	r.date = date
 
     r.save()
 
