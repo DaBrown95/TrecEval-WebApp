@@ -13,8 +13,6 @@ from TrecApp.models import Task, Track, Run, Researcher
 from datetime import datetime
 
 
-
-
 def populate():
     joe = add_researcher("joe", "joe", "www.http://www.google.com", "google", "joe")
     jill = add_researcher("jill", "jill", "www.http://www.yahoo.com", "yahoo", "jill")
@@ -29,7 +27,7 @@ def populate():
     track1 = add_track("Robust", "http://trec.nist.gov/data/t14_robust.html", "News Retrieval", "News")
     track2 = add_track("APNews", "http://trec.nist.gov/tracks.html3", "news retrieval track", "News")
     track3 = add_track("Terabyte", "http://www-nlpir.nist.gov/projects/terabyte/", "Terabyte Web Track", "Web")
-    #track4 = add_track("Robust2004", "http://trec.nist.gov/data/t13_robust.html", "News Retrieval", "News")
+    # track4 = add_track("Robust2004", "http://trec.nist.gov/data/t13_robust.html", "News Retrieval", "News")
     track5 = add_track("MillionQuery", "http://ciir.cs.umass.edu/research/million/", "Million Query Track", "Web")
 
     # not sure if this is how to use qrels
@@ -44,11 +42,11 @@ def populate():
 
     # might have to replace some of these values with actual data
     # havent put anything in for files yet
-    run1 = add_run("run1", AlphaTeam, task1, "example description", 1, 2, 3, 0.5, 0.6, 0.4,datetime(2000,1,01))
-    run2 = add_run("run2", CK, task2, "example description", 1, 3, 2, 0.6, 0.9, 0.8,datetime(2005,5,05))
-    run3 = add_run("run3", ICT, task3, "example description", 0, 2, 1, 0.2, 0.3, 0.7,datetime(2010,10,10))
-    run4 = add_run("run4", RIM, task3, "example description", 0, 1, 1, 0.4, 0.2, 0.6,datetime(2015,3,15))
-    run5 = add_run("run5", HK, task3, "example description", 1, 3, 1, 0.2, 0.1, 0.3,datetime.now())
+    run1 = add_run("run1", AlphaTeam, task1, "example description", 1, 2, 3, 0.5, 0.6, 0.4, datetime(2000, 1, 01))
+    run2 = add_run("run2", CK, task2, "example description", 1, 3, 2, 0.6, 0.9, 0.8, datetime(2005, 5, 05))
+    run3 = add_run("run3", ICT, task3, "example description", 0, 2, 1, 0.2, 0.3, 0.7, datetime(2010, 10, 10))
+    run4 = add_run("run4", RIM, task3, "example description", 0, 1, 1, 0.4, 0.2, 0.6, datetime(2015, 3, 15))
+    run5 = add_run("run5", HK, task3, "example description", 1, 3, 1, 0.2, 0.1, 0.3, datetime.now())
 
 
 def add_researcher(username, password, url, organization, name, picture=None):
@@ -66,9 +64,9 @@ def add_researcher(username, password, url, organization, name, picture=None):
     return r
 
 
-def add_run(name, researcher, task, description, run_type, query_type, feedback_type, MAP, p10, p20,date):
+def add_run(name, researcher, task, description, run_type, query_type, feedback_type, MAP, p10, p20, date):
     r = Run.objects.get_or_create(name=name, researcher=researcher, task=task, MAP=MAP, p10=p10, p20=p20)[0]
-	
+
     r.feedback_type = feedback_type
     r.run_type = run_type
     r.query_type = query_type
@@ -78,8 +76,7 @@ def add_run(name, researcher, task, description, run_type, query_type, feedback_
     r.description = description
     r.researcher = researcher
     r.task = task
-	r.date = date
-
+    r.date = date
     r.save()
 
     return r
@@ -105,6 +102,7 @@ def add_task(track, title, description, year, judgement):
     t.save()
 
     return t
+
 
 ##<<<<<<< HEAD
 ##	#qrels is task
