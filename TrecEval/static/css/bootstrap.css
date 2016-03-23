@@ -6816,7 +6816,7 @@ button.close {
 	font-size:120%;
 	font-weight:bold;
 }
-div.custom_column {
+.custom_column {
   white-space: normal;
   width: auto;
   height: 50px;
