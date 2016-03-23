@@ -426,3 +426,29 @@ def compareRuns(request):
 
 def terms(request):
     return render(request, 'TrecApp/termsandconditions.html')
+
+def timeGraph(request, task_name_slug):
+    context_dict = {}
+    
+    try:
+
+        task = Task.objects.filter(slug=task_name_slug)
+        
+        runs = Run.objects.filter(task=task).order_by('date')
+
+        data = []
+        for run in runs:
+            data += [ [str(run.date),run.MAP,run.p10,run.p20] ]
+        
+        json_list = simplejson.dumps(data)
+        
+        context_dict["runs"] = json_list
+
+        context_dict["task"] = task
+ 
+    except:
+        print "error"
+
+    print context_dict
+
+    return render(request, "TrecApp/timeGraph.html", context_dict)
