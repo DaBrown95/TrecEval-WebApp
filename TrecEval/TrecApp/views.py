@@ -40,7 +40,7 @@ def researchers(request):
         researcherList += [researcherDict]
 
     table = ResearcherTable(researcherList)
-    RequestConfig(request).configure(table)
+    RequestConfig(request,paginate={"per_page": 10}).configure(table)
     context_dict["table"] = table
 
     return render(request, "TrecApp/researchers.html", context_dict)
@@ -281,10 +281,10 @@ def task(request, task_name_slug):
         task = Task.objects.get(slug=task_name_slug)
 
 
-        runs = Run.objects.filter(task=task).order_by('-MAP')
+        runs = Run.objects.filter(task=task).order_by('-MAP')[:3]
 
         runList = []
-        for run in runs:  # creates dictionary for the table. This is needed to include the organization
+        for run in runs:  # creates dictionary for the table. This is needed to include the organization.
             runDict = {}
             runDict['name'] = run.name
             runDict['researcher'] = run.researcher
