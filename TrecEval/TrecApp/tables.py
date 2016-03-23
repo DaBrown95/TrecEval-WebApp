@@ -1,4 +1,5 @@
 import django_tables2 as tables
+from django.utils.safestring import mark_safe
 from django_tables2.utils import A
 from TrecApp.models import Run, Researcher, Task
 
@@ -6,6 +7,15 @@ class CheckBoxColumnWithName(tables.CheckBoxColumn):
     @property
     def header(self):
         return self.verbose_name
+
+class DivWrappedColumn(tables.Column):
+    def __init__(self, classname=None, *args, **kwargs):
+        self.classname=classname
+        super(DivWrappedColumn, self).__init__(*args, **kwargs)
+
+    def render(self, value):
+        return mark_safe("<div class='" + self.classname + "' >" +value+"</div>")
+
     
 class RunTable(tables.Table):
     name = tables.LinkColumn('run', verbose_name='Name', args=[A('slug')])
