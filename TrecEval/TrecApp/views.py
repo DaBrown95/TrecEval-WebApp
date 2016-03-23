@@ -58,6 +58,7 @@ def uploadRun(request, task_name_slug):
         task = Task.objects.get(slug=task_name_slug)
     except Researcher.DoesNotExist:
         researcher = None
+        task = None
     
     def handle_uploaded_file(qRel, f):
         # qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"

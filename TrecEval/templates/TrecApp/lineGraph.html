@@ -24,12 +24,9 @@
 		
 		json_list = json_list.substring(1,(json_list.length)-1); //remove outer brackets
 		
-<<<<<<< HEAD
-		var run1 = ["{{run1.name}}",parseFloat("{{run1.MAP}}"),parseFloat("{{run1.p10}}"),parseFloat("{{run1.p20}}")];
-		var run2 = ["{{run2.name}}",parseFloat("{{run2.MAP}}"),parseFloat("{{run2.p10}}"),parseFloat("{{run2.p20}}")];
-=======
+
 		var runs = json_list.split(']'); //split string into seperate runs
->>>>>>> 9690fcd883100734f2c3861fd14177376525038a
+
 		
 		runs.splice(runs.length-1); //remove last empty bit
 		
