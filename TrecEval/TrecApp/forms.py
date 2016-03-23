@@ -80,7 +80,6 @@ class RunForm(forms.ModelForm):
         exclude = ('researcher','task',)
 
 
-
 class CompareForm(forms.Form):
     name = forms.CharField(max_length=128, help_text="Please enter name of your comparison")
     run1 = forms.ModelChoiceField(queryset=Run.objects.all().order_by('name'))

@@ -12,7 +12,7 @@
 	<a href = /trecapp/uploadrun/{{task.slug}} > Upload a Run to this Task {{task.slug}} </a>
 	{% if task %}
 		<h2> {{ task.title }} </h2>
-		<div class="container-fluid" style="min-width:100%;width:100%">
+	<div class="container-fluid" style="min-width:100%;width:100%">
 		{% if runs %}
         <h3> Best runs: by MAP </h3>
 			{%for run in bestRuns%}
@@ -27,8 +27,7 @@
 		Decription - {{description}}</br>
 		Year - {{year}}</br>
 		</p>
-
-
+		<a href=trecapp/time/{{task.slug}}>graph by time</a>
 	{% else %}
 		Task does not exist
 	{% endif %}
@@ -38,8 +37,12 @@
 	{% render_table table %}
 
 	<button type="submit" class="btn btn-primary navbar-btn" value="creategraph" align="right"> Create Graph </button>
+	
 	</form>
 	{% endif %}
+	<a href = /trecapp/tracks/{{track.slug}}> <button type="submit" class="btn btn-primary navbar-btn">{{ track.title }} </button></a>
+    <a href = {{request.META.HTTP_REFERER}}> <button type="submit" class="btn btn-primary navbar-btn">Go Back </button></a>
+	<a href = /trecapp/uploadrun/{{task.slug}}> <button type="submit" class="btn btn-primary navbar-btn"> Upload a Run to this Task {{task.slug}} </button></a>
 	</div>
 {% endblock %}
 

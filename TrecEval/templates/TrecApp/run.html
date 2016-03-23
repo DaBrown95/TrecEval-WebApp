@@ -6,10 +6,6 @@
 
 {% block body_block %}
 
-<a href = '/trecapp/tasks/{{ task.slug }}'> < {{ task.title }} </a>
-<a href = {{request.META.HTTP_REFERER}}> Go Back </a>
-
-<<<<<<< HEAD
 {% if run %}
 	<h1 class="text-capitalize"> Run name: {{ name }} </h1>
 	<div class="container-fluid">
@@ -60,7 +56,6 @@
 			</div>
 			<div class="col-md-8">
 			<a href="{{request.META.HTTP_REFERER}}"><button type="submit" class="btn btn-primary navbar-btn">Go back </button></a></br>
-
 			</div>
 		</div><!--buttons-->
 	</div><!--containerfluid-->
