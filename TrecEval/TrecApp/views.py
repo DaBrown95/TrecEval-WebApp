@@ -227,6 +227,7 @@ def track(request, track_name_slug):
         # context_dict["tasks"] = tasksFromTrack
 
         tasksFromTrack = Task.objects.filter(track=track)
+        context_dict["tasks"] = tasksFromTrack
         taskList = []
         for taskCursor in tasksFromTrack:
             taskDict = {}
