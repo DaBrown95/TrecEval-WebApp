@@ -1,33 +1,47 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
+from django.db import IntegrityError
+from django.test import Client
+import os
 
 from TrecApp.models import Researcher, Track, Run, Task
+from TrecEval.settings import STATIC_PATH, BASE_DIR
+from TrecApp.valueExtractor import trec_eval
 from TrecApp.forms import ResearcherForm
 
 
 class ResearcherTests(TestCase):
     def setUp(self):
         self.bobUser = User.objects.create(username="Bob Bobby Brown")
+        self.jillUser = User.objects.create(username="Jill Jack")
         Researcher.objects.create(user=self.bobUser, url="www.gla.ac.uk", organization="Glasgow University")
 
     def test_slug_line_creation(self):
         bob = Researcher.objects.get(user=self.bobUser)
         self.assertEquals(bob.slug, "bob-bobby-brown")
 
-        # def test_url_cleaner(self):
-        #     bob = Researcher.objects.get(user=self.bobUser)
-        #     data = {
-        #         'user': bob,
-        #         'url': bob.url,
-        #         'display_name': bob.display_name,
-        #         'organization': bob.organization
-        #
-        #     }
-        #     form = ResearcherForm(data)
-        #     self.assertFalse(form.is_valid())
-        #     print form['url']
-        #     #print form.clean()
-        #     self.assertEquals(form['url'], "http://www.gla.ac.uk"
+    def test_unique_user(self):
+        with self.assertRaises(IntegrityError):
+            User.objects.create(username="Bob Bobby Brown")
+
+    def test_unique_researcher(self):
+        with self.assertRaises(IntegrityError):
+            Researcher.objects.create(user=self.bobUser, url='www.apple.com')
+
+            # def test_url_cleaner(self):
+            #     bob = Researcher.objects.get(user=self.bobUser)
+            #     data = {
+            #         'user': bob,
+            #         'url': bob.url,
+            #         'display_name': bob.display_name,
+            #         'organization': bob.organization
+            #
+            #     }
+            #     form = ResearcherForm(data)
+            #     self.assertFalse(form.is_valid())
+            #     print form['url']
+            #     #print form.clean()
+            #     self.assertEquals(form['url'], "http://www.gla.ac.uk"
 
 
 class TrackTests(TestCase):
@@ -60,3 +74,17 @@ class RunTests(TestCase):
     def test_slug_creation(self):
         robust2004 = Run.objects.get(name='My Super Cool Run')
         self.assertEquals(robust2004.slug, 'my-super-cool-run')
+
+
+class ValueExtractorTests(TestCase):
+    def setUp(self):
+        self.filePathQREL = os.path.join(STATIC_PATH, 'TEST_FILES/ap.trec.qrels')
+        self.filePathRES = os.path.join(STATIC_PATH, 'TEST_FILES/ap.trec.pl2.2.00.res')
+
+    #def test_something_returned(self):
+    #    with self.assertRaises(IndexError):
+    #        self.assertIsNotNone(trec_eval(self.filePathQREL, self.filePathRES, True))
+
+    def test_trec_eval_works(self):
+        self.assertIsNotNone(trec_eval(self.filePathQREL, self.filePathRES, True))
+
