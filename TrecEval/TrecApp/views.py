@@ -320,6 +320,7 @@ def task(request, task_name_slug):
         if request.method == 'POST':
             dataToPass = []
             checkedRuns = request.POST.getlist('checkBox')
+            
             for run in checkedRuns:
                 thisRun = Run.objects.get(name=run)
                 thisRun = [thisRun.name,thisRun.MAP,thisRun.p10,thisRun.p20]
