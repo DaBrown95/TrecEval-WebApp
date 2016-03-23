@@ -132,8 +132,7 @@ def researcher(request, researcher_name_slug):
         context_dict["url"] = researcher.url
         context_dict["organization"] = researcher.organization
         context_dict["runs"] = Run.objects.filter(researcher=researcher).order_by("MAP")
-        # context_dict["user"] = researcher.username
-
+        context_dict["picture"] = researcher.picture
     except Researcher.DoesNotExist:
         pass
 
