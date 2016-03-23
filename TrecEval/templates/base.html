@@ -2,11 +2,10 @@
 
 {% load staticfiles %}
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
 <html lang="en">
 	<head>
 	
+<<<<<<< Updated upstream
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -242,3 +241,85 @@
 </body>
 </html>
 
+=======
+		<meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title> TREC {% block title %} {% endblock %} </title>
+		
+		<!-- CSS references -->
+		<link rel="shortcut icon" type="image/png" href="/static/img/logo.png"/>
+    	<link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    	<link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet">
+    	<link href="/static/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css">
+   	 	<link href="/static/css/style-responsive.css" rel="stylesheet" type="text/css">
+   	 	
+    	<!-- javascript -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.3.5/parsley.js"></script>
+		
+		<!--[if lt IE 9]>
+      	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    	<![endif]-->
+    	
+    	{% block head_block %}{% endblock %}
+	</head>
+	<body>
+		<!-- navbar !-->
+		<nav class="navbar navbar-default navbar-static-top ">
+		  <div class="container">
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <div  class="navbar-brand">
+				  <a href="/trecapp/">
+					<img style="brand-logo" type="image/png" href="/static/img/logo.png"/>
+					<span class="brand-name">TREC</span>
+				  </a>
+			  </div>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+			  <ul class="nav navbar-nav navbar-right">
+					<li><a href="/trecapp/">Home</a></li>
+					<li><a href="/trecapp/about/">About</a></li>
+				  	<li><a href="/trecapp/track/">Track</a></li>
+					<li><a href="/trecapp/task/">Task</a></li>
+				  	<li><a href=/trecapp/researchers/> Researchers </a></li>
+				{% if not user.is_authenticated %}	
+        			<li><a href=/trecapp/login/> Login </a></li>
+					<li><a href=/trecapp/addresearcher/> Register </a></li>
+				{% endif %}
+				{% if user.is_authenticated %}
+					<li><a href =/trecapp/uploadrun/> Upload a Run </a></li>
+					<li><a href="/trecapp/researcher/{{ user.username }}"> {{ user.username}} </a></li>
+					<li><a href=/trecapp/logout/> Logout </a></li>
+				{% endif %}    
+					<!-- Add a search bar that passes a query django-filter implementation -->
+			  </ul>
+			</div><!--/.nav-collapse -->
+	  	</div>
+	</nav>
+	<!-- /navbar !-->
+	<div class="container-fluid page_title">
+		<div class="container">
+			<h1>Home</h1>
+		</div>
+	</div>
+    <div class="container content">
+		{% block body_block %}
+		{% endblock %}
+	</div>
+	<div class="container-fluid footer">
+			<div class="container footer-text">
+				<a href="/trecapp/about/">About us</a>
+			</div>
+	</div>
+    </body>
+</html>
+>>>>>>> Stashed changes
