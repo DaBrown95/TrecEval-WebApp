@@ -9,6 +9,7 @@
 
     <a href = /trecapp/tracks/{{track.slug}}> < {{ track.title }} </a>
     <a href = {{request.META.HTTP_REFERER}}> Go Back </a>
+	<a href = /trecapp/uploadrun/{{task.slug}} > Upload a Run to this Task {{task.slug}} </a>
 	{% if task %}
 		<h2> {{ task.title }} </h2>
 		{% if runs %}

@@ -50,13 +50,15 @@ def about(request):
     return render(request, 'TrecApp/about.html')
 
 
-def uploadRun(request):
+@login_required
+def uploadRun(request, task_name_slug):
     currentUser = User.objects.get(username=request.user.username)  # get current user from request
     try:  # retrieve researcher for the current user from database
         researcher = Researcher.objects.get(user=currentUser)
+        task = Task.objects.get(slug=task_name_slug)
     except Researcher.DoesNotExist:
         researcher = None
-
+    
     def handle_uploaded_file(qRel, f):
         # qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
         # qRel = "H:\Workspace\WAD\TrecWebApp\TrecEval-WebApp\Extra\TrecEvalProgram\data\news\ap.trec.qrels"
@@ -71,6 +73,7 @@ def uploadRun(request):
                 print "Hello! Just about to call trec_eval"
                 result = handle_uploaded_file(page.task.judgement_file.path, request.FILES['runfile'])
                 slugFinder = page.name
+                page.task = task
                 page.MAP = result['MAP']
                 page.p10 = result['p10']
                 page.p20 = result['p20']
@@ -83,8 +86,9 @@ def uploadRun(request):
                 return run(request, slugFinder)  # go to home page
     else:
         form = RunForm()
+        
 
-    return render(request, 'TrecApp/uploadRun.html', {'form': form})
+    return render(request, 'TrecApp/uploadRun.html', {'form': form, 'task':task})
 
 
 def user_login(request):
@@ -311,6 +315,7 @@ def task(request, task_name_slug):
         context_dict["url"] = task.task_url
         context_dict["year"] = task.year
 
+    
         if request.method == 'POST':
             dataToPass = []
             checkedRuns = request.POST.getlist('checkBox')
