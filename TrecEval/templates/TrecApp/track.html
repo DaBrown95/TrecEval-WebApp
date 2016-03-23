@@ -7,29 +7,59 @@
 
 {% block body_block %}
 
-    <a href = '/trecapp/tracks/'> < Tracks </a>
-    <a href = {{request.META.HTTP_REFERER}}> Go Back </a>
 
+<h1> {{title}} </h1>
+
+<div class="container-fluid">
 	{% if track %}
-        <h1> {{title}} </h1>
-		<p>
-{#		Title - {{ title }}</br>#}
-		Url - <a href = {{ url }}> {{ url }} </a> </br>
-		Decription - {{ description }}</br>
-		Genre - {{ genre }}</br>
-		</p>
-        <h2>Tasks ({{ number }}): </h2>
-        {% comment %}{% if tasks %}
-            {% for task in tasks %}
-                <a href = '/trecapp/tasks/{{ task.slug }}'> {{ task.title }}</a>
-            {% endfor %}
-        {% else %}
-            <strong> No tasks belong to this run. </strong>
-        {%  endif %}{% endcomment %}
-
-        {%  render_table table %}
-	{% else %}
-		Track does not exist
-	{% endif %}
+		<div class="row" style="padding:10px 20px 0px 20px">
+			<div class="col-sm-6"><!--bigsplit part1-->
+				<!--minisplit-->
+				<div class="row ">
+					<div class="col-sm-4 col-title"><p>URL</div> 
+					<div class="col-sm-8"><a href = {{url}}> {{url}} </a></p></div>
+				</div>
+		
+				<div class="row ">
+					<div class="col-sm-4 col-title"><strong>Description</div> 
+					<div class="col-sm-8">{{ description }}</div>
+				</div>
+		
+				<div class="row ">
+					<div class="col-sm-4 col-title"> Genre</div> 
+					<div class="col-sm-6"> {{ genre }}</div>
+				</div>
+				<!--/minisplit-->
+		
+			</div> <!--/big split part1-->
+			<div class="col-sm-6 "><!--bigsplit part2-->
+						<h2 style="margin-top:0px">Tasks ({{ number }}): </h2>	
+						{% comment %}{% if tasks %}
+						{% for task in tasks %}
+							<div class="col-sm-12 "><a href = '/trecapp/tasks/{{ task.slug }}'> {{ task.title }}</a></div>
+						{% endfor %}
+						
+						{% else %}
+							<div class="row"><strong> No tasks belong to this run. </strong></div>
+						{%  endif %}{% endcomment %}
+						
+						{%  render_table table %}
+			</div> <!--/big split part2-->
+		{% else %}
+		<div class="row">
+			<div class="col-sm-12 "><!--nosplit part2-->
+			Track does not exist
+			</div> <!--/no split part2-->
+		{% endif %}
+		
+		<div class="row">
+			<div class="col-sm-12"><center>
+				<a href="{{request.META.HTTP_REFERER}}"><button type="submit" class="btn btn-primary navbar-btn">Go back </button></a>
+				<a href='/trecapp/tracks'><button type="submit" class="btn btn-primary navbar-btn">Tracks</button></a></center>
+			</div>
+		</div>
+		
+	</div><!--row-->
+</div><!--container-->
 {% endblock %}
 
