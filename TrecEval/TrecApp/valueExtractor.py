@@ -5,8 +5,10 @@ from TrecEval.settings import BASE_DIR, RUN_FILES
 #if os.name == 'nt':
 #    TREC_PATH = os.path.join(BASE_DIR, 'TrecApp/trec_eval_dos')
 #elif os.name == 'posix':
+
 TREC_PATH = os.path.join(BASE_DIR, 'TrecApp/trec_eval_macosx')
 #TREC_PATH = os.path.join(BASE_DIR, 'TrecApp/trec_eval_linux')
+
 
 
 def trec_eval(qRel, res):
@@ -20,6 +22,7 @@ def trec_eval(qRel, res):
                          shell=True)  # calls trec_eval with arguments specified above
     (output, err) = p.communicate()
     output = output.split("\n")
+    print output
     values = {"MAP": output[5][-6:], "p10": output[22][-6:], "p20": output[24][-6:]}
     print values
     return values

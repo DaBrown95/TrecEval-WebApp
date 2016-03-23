@@ -6837,4 +6837,15 @@ button.close {
 	font-size:120%;
 	font-weight:bold;
 }
+.standard_col{
+	width: auto;
+	margin-right: 10px;
+	padding: 5px 70px 0px 0px
+}
+.name_col{
+	width:auto;
+	padding: 5px 10px 0px 0px;
+	margin-right: 10px;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */

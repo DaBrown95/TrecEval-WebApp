@@ -1,30 +1,61 @@
 import django_tables2 as tables
+import unicodedata
+from django.utils.safestring import mark_safe
 from django_tables2.utils import A
 from TrecApp.models import Run, Researcher, Task
 
+class CheckBoxColumnWithName(tables.CheckBoxColumn):
+    @property
+    def header(self):
+        return self.verbose_name
 
+
+class NameLinkColumn(tables.LinkColumn):
+    def __init__(self, classname=None, *args, **kwargs):
+        self.classname=classname
+        super(NameLinkColumn, self).__init__(*args, **kwargs)
+
+    #creates html for table cell with a url in it
+    def render(self, value):
+        print value
+        return mark_safe("<a href='/trecapp/run/" + str(value) + "' class='name_col'>" + str(value) + "</a>")
+
+
+
+class DivWrappedColumn(tables.Column):
+    def __init__(self, classname=None, *args, **kwargs):
+        self.classname=classname
+        super(DivWrappedColumn, self).__init__(*args, **kwargs)
+
+    #creates html for table cell
+    def render(self, value):
+        return mark_safe("<div class='" + self.classname + "' >" + str(value)+"</div>")
+
+    
 class RunTable(tables.Table):
-    name = tables.LinkColumn('run', verbose_name='Name', args=[A('slug')])
-    researcher = tables.Column(verbose_name='Researcher')
-    task = tables.Column(verbose_name='Task')
-    runfile = tables.Column()
-    description = tables.Column(verbose_name='Description')
-    run_type = tables.Column(verbose_name='Run Type')
-    query_type = tables.Column(verbose_name='Query Type')
-    feedback_type = tables.Column(verbose_name='Feedback Type')
-    MAP = tables.Column()
-    p10 = tables.Column(verbose_name='P10')
-    p20 = tables.Column(verbose_name='P20')
-    organization = tables.Column(verbose_name='Organization')
-
+    name = NameLinkColumn('run', verbose_name='Name', args=[A('slug')])
+    researcher = DivWrappedColumn(classname = 'standard_col',verbose_name='Researcher')
+    task = DivWrappedColumn(classname = 'standard_col',verbose_name='Task')
+    runfile = DivWrappedColumn(classname = 'standard_col')
+    description = DivWrappedColumn(classname = 'standard_col',verbose_name='Description')
+    run_type = DivWrappedColumn(classname = 'standard_col',verbose_name='Run Type')
+    query_type = DivWrappedColumn(classname = 'standard_col',verbose_name='Query Type')
+    feedback_type = DivWrappedColumn(classname = 'standard_col',verbose_name='Feedback')
+    MAP = DivWrappedColumn(classname = 'standard_col')
+    p10 = DivWrappedColumn(classname = 'standard_col',verbose_name='P10')
+    p20 = DivWrappedColumn(classname = 'standard_col',verbose_name='P20')
+    organization = DivWrappedColumn(classname = 'standard_col',verbose_name='Organization')
+    checkBox = CheckBoxColumnWithName(verbose_name="Create Graph?")
+        
     class Meta:
         model = Run
+        attrs = {'class':'RobbTable'}
 
 
 class TaskTable(tables.Table):
-    title = tables.LinkColumn('task', verbose_name='Title', args=[A('slug')])
-    year = tables.Column(verbose_name='Year')
-    number = tables.Column(verbose_name='Number of Runs')
+    title = NameLinkColumn('task', verbose_name='Title', args=[A('slug')])
+    year = DivWrappedColumn(verbose_name='Year',classname = 'standard_col')
+    number = DivWrappedColumn(verbose_name='Number of Runs',classname = 'standard_col')
 
     class Meta:
         model = Task
@@ -32,10 +63,11 @@ class TaskTable(tables.Table):
 
 
 class ResearcherTable(tables.Table):
-    display_name = tables.LinkColumn('researcher', verbose_name='Name', args=[A('slug')])
-    organization = tables.Column(verbose_name='Organizations')
-    numberOfRuns = tables.Column(verbose_name='No. Runs')
+    display_name = NameLinkColumn('researcher', verbose_name='Name', args=[A('slug')])
+    organization = DivWrappedColumn(verbose_name='Organizations',classname = 'standard_col')
+    numberOfRuns = DivWrappedColumn(verbose_name='No. Runs',classname = 'standard_col')
 
     class Meta:
         model = Researcher
         exclude = ('slug', 'picture', 'user', 'url')
+
