@@ -13,17 +13,28 @@ class CheckBoxColumnWithName(tables.CheckBoxColumn):
         self.classname=classname
         super(CheckBoxColumnWithName, self).__init__(*args, **kwargs)
 
+    #creates html for checkbox
     def render(self, value):
         value = unicodedata.normalize('NFKD', value).encode('ascii','ignore')
         return mark_safe("<input type='checkbox' name ='" + self.classname +  "' value='" + value + "'/>"  )
+
+class DivWrappedLinkColumn(tables.LinkColumn):
+    def __init__(self, classname=None, *args, **kwargs):
+        self.classname=classname
+        super(DivWrappedLinkColumn, self).__init__(*args, **kwargs)
+
+    #creates html for table cell
+    def render(self, value):
+        return mark_safe("<div class='" + self.classname + "' >" + str(value)+"</div>")
+
 
 class DivWrappedColumn(tables.Column):
     def __init__(self, classname=None, *args, **kwargs):
         self.classname=classname
         super(DivWrappedColumn, self).__init__(*args, **kwargs)
 
+    #creates html for table cell
     def render(self, value):
-
         return mark_safe("<div class='" + self.classname + "' >" + str(value)+"</div>")
 
 
@@ -31,7 +42,7 @@ class DivWrappedColumn(tables.Column):
 
     
 class RunTable(tables.Table):
-    name = DivWrappedColumn(classname = 'name_column', verbose_name='Name')
+    name = DivWrappedLinkColumn('run',classname = 'name_column', verbose_name='Name', args=[A('slug')])
     researcher = DivWrappedColumn(classname = 'researcher_column',verbose_name='Researcher')
     task = DivWrappedColumn(classname = 'task_column',verbose_name='Task')
     runfile = DivWrappedColumn(classname = 'run_column')
