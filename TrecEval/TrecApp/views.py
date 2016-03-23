@@ -9,7 +9,7 @@ from TrecApp.models import Run, Researcher
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from TrecApp.tables import RunTable
+from TrecApp.tables import RunTable, TaskTable, ResearcherTable
 from django_tables2 import RequestConfig
 import simplejson
 
@@ -26,11 +26,22 @@ def home(request):
 
 
 def researchers(request):
-    researchers_list = Researcher.objects.order_by("display_name")
-
     context_dict = {}
 
-    context_dict["researchers"] = researchers_list
+    allResearchers = Researcher.objects.order_by("display_name")
+    #context_dict["researchers"] = researchers_list
+    researcherList = []
+    for researcherCursor in allResearchers:
+        researcherDict = {}
+        researcherDict['display_name'] = researcherCursor.display_name
+        researcherDict['organization'] = researcherCursor.organization
+        researcherDict['slug'] = researcherCursor.slug
+        researcherDict['numberOfRuns'] = Run.objects.filter(researcher=researcherCursor).count()
+        researcherList += [researcherDict]
+
+    table = ResearcherTable(researcherList)
+    RequestConfig(request).configure(table)
+    context_dict["table"] = table
 
     return render(request, "TrecApp/researchers.html", context_dict)
 
@@ -49,7 +60,6 @@ def uploadRun(request):
     def handle_uploaded_file(qRel, f):
         # qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
         # qRel = "H:\Workspace\WAD\TrecWebApp\TrecEval-WebApp\Extra\TrecEvalProgram\data\news\ap.trec.qrels"
-        print qRel
         results = trec_eval(qRel, f)
         return results
 
@@ -204,12 +214,27 @@ def track(request, track_name_slug):
 
     try:
         track = Track.objects.get(slug=track_name_slug)
-
         context_dict["track"] = track
         context_dict["title"] = track.title
         context_dict["url"] = track.track_url
         context_dict["description"] = track.description
         context_dict["genre"] = track.genre
+        # context_dict["tasks"] = tasksFromTrack
+
+        tasksFromTrack = Task.objects.filter(track=track)
+        taskList = []
+        for taskCursor in tasksFromTrack:
+            taskDict = {}
+            taskDict['title'] = taskCursor.title
+            taskDict['year'] = taskCursor.year
+            taskDict['number'] = Run.objects.filter(task=taskCursor).count()
+            taskDict['slug'] = taskCursor.slug
+            taskList += [taskDict]
+
+        table = TaskTable(taskList)
+        RequestConfig(request).configure(table)
+        context_dict["table"] = table
+        context_dict["number"] = tasksFromTrack.count()
 
     except Track.DoesNotExist:
         pass
@@ -251,11 +276,9 @@ def task(request, task_name_slug):
     try:
         task = Task.objects.get(slug=task_name_slug)
 
-        runs = Run.objects.filter(task=task)
-        print runs
+        runs = Run.objects.filter(task=task).order_by('-MAP')
         runList = []
         for run in runs:  # creates dictionary for the table. This is needed to include the organization
-            print run
             runDict = {}
             runDict['name'] = run.name
             runDict['researcher'] = run.researcher
@@ -269,6 +292,7 @@ def task(request, task_name_slug):
             runDict['p10'] = run.p10
             runDict['p20'] = run.p20
             runDict['organization'] = run.researcher.organization
+            runDict['slug'] = run.slug
             runList += [runDict]
 
         table = RunTable(runList)
