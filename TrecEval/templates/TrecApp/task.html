@@ -35,9 +35,7 @@
 	{% endif %}
 	<form id="user_form" method="post" action="/trecapp/tasks/{{ task.slug }}/">
 	{% csrf_token %}
-	<div id="custom_column">
 	{% render_table table %}
-	
 	<button type="submit" class="btn btn-primary navbar-btn" value="creategraph" align="right"> Create Graph </button>
 	</form>
 	</div>

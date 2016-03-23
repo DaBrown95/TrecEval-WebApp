@@ -53,11 +53,11 @@ class RunTable(tables.Table):
     p20 = DivWrappedColumn(classname = 'p20_column',verbose_name='P20')
     organization = DivWrappedColumn(classname = 'organization_column',verbose_name='Organization')
     checkBox = CheckBoxColumnWithName(classname = 'checkbox_column',verbose_name="Create Graph?")
-
+        
     class Meta:
         model = Run
         attrs = {'class':'RobbTable'}
-        
+
 
 
 
