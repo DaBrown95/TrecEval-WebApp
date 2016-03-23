@@ -2,14 +2,43 @@
 
 {% extends 'base.html' %}
 
-{% block title %} - {{display_name}} {% endblock %}
+
+{% block title %} {{display_name}} {% endblock %}
 
 {% block body_block %}
-
-	<p>
-		Welcome - {{display_name}} </br>
-		Organization - {{organization}}
-		<!--<a href={{url}}></a>-->
-	</p>
-
+<h1 class="text-capitalize">Welcome: {{display_name}} </br></h1>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-6"><!--bigsplit part1-->
+			<!--minisplit-->
+			<div class="row">
+				<div class="col-md-4"><strong>Organization</strong></div> 
+				<div class="col-md-8 text-capitalize"> {{organization}} </div>
+			</div>
+			<div class="row">
+				<div class="col-md-4"><p><strong>URL</strong></div> 
+				<div class="col-md-8"><a href = {{url}}> {{url}} </a></p></div>
+			</div>
+			<div class="row">
+				<div class="col-md-4"><strong><strong>Profile Picture</strong></strong></div> 
+				<div class="col-md-8"><img src="https://upload.wikimedia.org/wikipedia/en/c/c0/Seasick_user.png"></div>
+			</div>
+			<div class="row">
+				<div class="col-md-6"></div> 
+				<div class="col-md-6"></br><a href = '/trecapp/updateprofile' align="right"> <button type="button" class="btn btn-primary navbar-btn"> Update Your Profile </button></a>
+				</div>
+			</div><!--/minisplit-->
+		</div> <!--/big split part-->
+		<div class="col-md-6"><!--bigsplit part2-->
+		<h3 style="margin:0"> Submitted Runs </h3>
+		{% if runs %}
+				{% for myRuns in runs %}
+						<p><a href=/trecapp/run/{{myRuns.slug}}> {{myRuns.name}} ({{myRuns.MAP}})</a></p>
+				{% endfor %}
+		{% else %}
+				<strong> There are no runs </strong>
+		{% endif %}
+		</div><!--/bigsplit part2-->
+	</div><!--row div-->
+</div>
 {% endblock %}

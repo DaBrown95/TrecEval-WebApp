@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %} Tracks {% endblock %}
+
+{% block body_block %}
+	<h1> Tracks </h1>
+	
+	{% if tracks %}
+		{%for track in tracks %}
+			<p><a href=/trecapp/tracks/{{track.slug}}> {{track.title}} </a></p>
+		{% endfor %}
+	{% else %}
+	 there are no tracks.
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %}Tasks {% endblock %}
+
+{% block body_block %}
+	<h1> Tasks </h1>
+	
+	{% if tasks %}
+		{%for task in tasks%}
+			<p><a href=/trecapp/tasks/{{task.slug}}> {{task.title}} </a></p>
+		{% endfor %}
+	{% else %}
+	 there are no tasks.
+	{% endif %}
+{% endblock %}

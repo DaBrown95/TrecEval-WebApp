@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+{% load render_table from django_tables2 %}
+{% block title %} - {{title}} {% endblock %}
+
+{% block body_block %}
+
+    <a href = /trecapp/tracks/{{track.slug}}> < {{ track.title }} </a>
+    <a href = {{request.META.HTTP_REFERER}}> Go Back </a>
+	{% if task %}
+		<h2> {{ task.title }} </h2>
+		{% if runs %}
+{#		<h3> Best runs ordered by{{rankBy}}</h3>#}
+        <h3> Best runs ordered by MAP </h3>
+			{%for run in runs%}
+			<p><a href=/trecapp/run/{{run.slug}}> {{run.name}} </a></p>
+			{% endfor %}
+		{% else %}
+			There are no runs for this task
+		{% endif %}
+		<p>
+		Track - <a href = /trecapp/tracks/{{track.slug}}> {{ track.title }} </a></br>
+		Url - <a href={{url}}> {{ url }} </a> </br>
+		Decription - {{description}}</br>
+		Year - {{year}}</br>
+		</p>
+		
+		Order by something else?
+
+	{% else %}
+		Task does not exist
+	{% endif %}
+	{% render_table table %}
+{% endblock %}
+

@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% block title %} Compare Runs: {{name}}{% endblock %}
+
+
+{% block head_block %}
+
+
 <head>
 	<!--Load the AJAX API-->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -7,38 +17,97 @@
 
     function drawChart() {
       // Define the chart to be drawn.
-	
-		// could loop here for extra runs	
-		var run = [ String("{{runs.0.name}}"), parseFloat("{{runs.0.MAP}}"),
-			parseFloat("{{runs.0.p10}}"), parseFloat("{{runs.0.p20}}")
-		]
+
+		//currently works for one list, need to change to work for list of lists
 		
-		document.write(parseFloat("{{runs.0.p10}}")
+		var json_list = "{{runs}}"; //this is a string
 		
-		var data = google.visualization.arrayToDataTable([
-		  ['run', 'map', 'p20','p10'],
-          [String("{{runs.0.name}}"),  0.5), 
-		  0.6, 0.5],
+		json_list = json_list.substring(1,(json_list.length)-1); //remove outer brackets
+		
+		var runs = json_list.split(']'); //split string into seperate runs
+		
+		runs.splice(runs.length-1); //remove last empty bit
+		
+		var data = [];
+		var test = [];
+		
+		// convert to format need for graph		
+		for (var i = 0; i< runs.length; i++){
+		
+			test = runs[i].split(',');
+			
+			for (var k = 0; k< test.length; k++){
+				test[k] = test[k].replace("[","");
+				test[k] = test[k].replace(" ","");
+			};
+			
+			
+			if (test.length==5){
+				test.splice(0,1); //remove empty thing
+			};
+			
+			test[0] = test[0].substring(6,(test[0].length)-6); //remove "s
+			
+			//change last 3 values to float
+			for (var j = 1; j<4; j++){
+				test[j] = parseFloat(test[j]);
+			};
+			
+		
+		data.push(test);
+		};
+		
+		//works up to this point
+		
+		var graph = new google.visualization.DataTable();
+		
+		graph.addColumn('string','measurement');
+		
+		for (var i =0; i < data.length; i++){
+			graph.addColumn('number',data[i][0]);
+		};
+		
+		var map = ["map"];
+		var p10 = ["p10"];
+		var p20 = ["p20"];
+		
+		for (var i = 0; i <data.length; i++){
+			map[map.length] = data[i][1];
+			p10[p10.length] = data[i][2];
+			p20[p20.length] = data[i][3];
+		};
+		
+		//document.write(p10);
+
+		graph.addRows([
+			map,p10,p20
 		]);
+		
 	
-	  var options = {'title':'runs by ' + String('{{researcher.name}}'),
-			   'width':500,
+	  var options = {'title': '{{name}}',
+			   'width':600,
 			   'height':500 };
 			   
       // Instantiate and draw the chart.
       var chart = new google.visualization.LineChart(document.getElementById('LineChart'));
 	  
-	  chart.draw(data, options);
+	  chart.draw(graph, options);
     }
   </script>
 </head>
-<body>
 
+{% endblock %}
+
+{% block body_block %}
+<h1> Compare Runs: {{name}} </h1>
 <!-- Identify where the chart should be drawn. -->
-{% if researcher %}
+
+<center>
+{% if name %}
 	<div id="LineChart"/>
 {% else %}
-	researcher does not exist
+	Graph does not exist
 {% endif %}
+</center>
 
-</body>
+{% endblock %}
