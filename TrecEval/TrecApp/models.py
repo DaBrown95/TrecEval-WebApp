@@ -24,8 +24,8 @@ class query_type(enum.Enum):
     OTHER = 4
 
     labels = {
-        TITLE: 'Tile',
-        TILEDESCRIPTION: 'Tile+Description',
+        TITLE: 'Title',
+        TILEDESCRIPTION: 'Title + Description',
         DESCRIPTION: 'Description',
         ALL: 'All',
         OTHER: 'Other'

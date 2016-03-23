@@ -23,7 +23,6 @@
 		var json_list = "{{runs}}"; //this is a string
 		
 		json_list = json_list.substring(1,(json_list.length)-1); //remove outer brackets
-		
 		var runs = json_list.split(']'); //split string into seperate runs
 
 		
@@ -31,6 +30,7 @@
 		
 		var data = [];
 		var test = [];
+
 		var temp = 1;
 		// convert to format need for graph	
 		for (var i = 0; i<runs.length ; i++){

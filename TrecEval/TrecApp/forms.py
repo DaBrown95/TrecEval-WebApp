@@ -62,8 +62,6 @@ class RunForm(forms.ModelForm):
     query_type = forms.TypedChoiceField(choices=query_type.choices(), coerce=int)
     feedback_type = forms.TypedChoiceField(choices=feedback_type.choices(), coerce=int)
     description = forms.CharField(widget=forms.Textarea)
-    #task = forms.ModelChoiceField(queryset=Task.objects.all().order_by('title'))
-    #task = forms.ModelChoiceField(widget=forms.HiddenInput(),queryset=Task.objects.all().order_by('title'))
     runfile = forms.FileField(label='runUpload', help_text='Upload your run file')
 	
     #date = forms.DateField(widget=forms.TextInput(attrs={'class':'datepicker'} ),help_text="please enter date of run")
@@ -78,8 +76,7 @@ class RunForm(forms.ModelForm):
         # Provide an association between the ModelForm and a model
         model = Run
         #widgets = {'date':forms.DateInput(forms.DateInput(attrs={'type':'date'})),}
-        fields = (
-        'runfile','date', 'name', 'description', 'run_type', 'query_type', 'feedback_type', 'MAP', 'p10', 'p20', )
+        fields = ('runfile','date', 'name', 'description', 'run_type', 'query_type', 'feedback_type', 'MAP', 'p10', 'p20', )
         exclude = ('researcher','task',)
 
 

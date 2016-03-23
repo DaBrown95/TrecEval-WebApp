@@ -15,7 +15,7 @@ import simplejson
 
 
 def home(request):
-    runs_list = Run.objects.order_by('name')[:5]
+    runs_list = Run.objects.order_by('-date')[:5]
 
     context_dict = {}
 
@@ -40,7 +40,7 @@ def researchers(request):
         researcherList += [researcherDict]
 
     table = ResearcherTable(researcherList)
-    RequestConfig(request).configure(table)
+    RequestConfig(request,paginate={"per_page": 10}).configure(table)
     context_dict["table"] = table
 
     return render(request, "TrecApp/researchers.html", context_dict)
@@ -68,6 +68,7 @@ def uploadRun(request, task_name_slug):
 
     if request.method == 'POST':
         form = RunForm(request.POST, request.FILES)
+        
         if form.is_valid():
             if researcher:
                 page = form.save(commit=False)
@@ -126,13 +127,16 @@ def researcher(request, researcher_name_slug):
     context_dict = {}
 
     try:
-
         researcher = Researcher.objects.get(slug=researcher_name_slug)
         context_dict["display_name"] = researcher.display_name
         context_dict["url"] = researcher.url
         context_dict["organization"] = researcher.organization
         context_dict["runs"] = Run.objects.filter(researcher=researcher).order_by("MAP")
         context_dict["picture"] = researcher.picture
+        if researcher.picture == "":
+            context_dict["hasPicture"] = False
+        else:
+            context_dict["hasPicture"] = True
     except Researcher.DoesNotExist:
         pass
 
@@ -225,6 +229,7 @@ def track(request, track_name_slug):
         # context_dict["tasks"] = tasksFromTrack
 
         tasksFromTrack = Task.objects.filter(track=track)
+        context_dict["tasks"] = tasksFromTrack
         taskList = []
         for taskCursor in tasksFromTrack:
             taskDict = {}
@@ -235,7 +240,7 @@ def track(request, track_name_slug):
             taskList += [taskDict]
 
         table = TaskTable(taskList)
-        RequestConfig(request).configure(table)
+        RequestConfig(request, paginate={"per_page": 5}).configure(table)
         context_dict["table"] = table
         context_dict["number"] = tasksFromTrack.count()
 
@@ -280,10 +285,11 @@ def task(request, task_name_slug):
         task = Task.objects.get(slug=task_name_slug)
 
 
-        runs = Run.objects.filter(task=task).order_by('-MAP')
+        runs = Run.objects.filter(task=task)
+        bestRuns = Run.objects.filter(task=task).order_by('-MAP')[:3]
 
         runList = []
-        for run in runs:  # creates dictionary for the table. This is needed to include the organization
+        for run in runs:  # creates dictionary for the table. This is needed to include the organization.
             runDict = {}
             runDict['name'] = run.name
             runDict['researcher'] = run.researcher
@@ -297,6 +303,7 @@ def task(request, task_name_slug):
             runDict['p10'] = run.p10
             runDict['p20'] = run.p20
             runDict['organization'] = run.researcher.organization
+            runDict['date'] = run.date
             runDict['checkBox'] = run.name
             runDict['slug'] = run.slug
             runList += [runDict]
@@ -319,6 +326,7 @@ def task(request, task_name_slug):
         if request.method == 'POST':
             dataToPass = []
             checkedRuns = request.POST.getlist('checkBox')
+            
             for run in checkedRuns:
                 thisRun = Run.objects.get(name=run)
                 thisRun = [thisRun.name,thisRun.MAP,thisRun.p10,thisRun.p20]

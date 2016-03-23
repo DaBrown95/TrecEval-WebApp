@@ -42,12 +42,11 @@ def populate():
     task3 = add_task(track3, "Web2005,Ad Hoc Topic Retrieval", "Find all the relevant web pages", 2005,
                      "Tracks/web/dg.trec.qrels")
     task4 = add_task(track1, "Robust2004,Ad Hoc Topic Retrieval", "For each topic find all the relevant documents",
-                     2004, "static/Tracks/Robust2004/qrels.robust2004.txt")
-    
+                     2004, "Tracks/Robust2004/qrels.robust2004.txt")
 
     # might have to replace some of these values with actual data
     # havent put anything in for files yet
-    run1 = add_run("run1", AlphaTeam, task2, "example description", 1, 2, 3, 0.5, 0.6, 0.4, datetime(2000, 1, 01))
+    run1 = add_run("run1", AlphaTeam, task1, "example description", 1, 2, 3, 0.5, 0.6, 0.4, datetime(2000, 1, 01))
     run2 = add_run("run2", CK, task2, "example description", 1, 3, 2, 0.6, 0.9, 0.8, datetime(2005, 5, 05))
     run3 = add_run("run3", ICT, task3, "example description", 0, 2, 1, 0.2, 0.3, 0.7, datetime(2010, 10, 10))
     run4 = add_run("run4", RIM, task3, "example description", 0, 1, 1, 0.4, 0.2, 0.6, datetime(2015, 3, 15))
@@ -126,7 +125,6 @@ def add_task(track, title, description, year, judgement):
     return t
 
 
-##
 ##	#qrels is task
 ##	
 ##	#res is run

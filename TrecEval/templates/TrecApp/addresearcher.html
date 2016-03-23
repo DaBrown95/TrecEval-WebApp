@@ -6,7 +6,6 @@
 
 {% block body_block %}
 	<h1> Registration </h1>
-	<div id="reg">
 		{% if registered %}
         TrecEval says: <strong>thank you for registering!</strong>
 		<a href="/trecapp/"><button type="button" class="btn btn-primary navbar-btn"> Return to the homepage.</button></a><br />
@@ -19,5 +18,4 @@
             <button type="submit" class="btn btn-primary navbar-btn" value="Register" align="right"> Submit </button>
         </form>
 		{% endif %}
-	</div>
 {% endblock %}
