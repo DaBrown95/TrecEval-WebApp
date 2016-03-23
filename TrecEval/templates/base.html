@@ -51,15 +51,13 @@
 				  <ul class="nav navbar-nav navbar-right">
 						<li><a href="/trecapp/">Home</a></li>
 						<li><a href="/trecapp/about/">About</a></li>
-						<li><a href="/trecapp/tracks/">Track</a></li>
-						<li><a href="/trecapp/tasks/">Task</a></li>
+						<li><a href="/trecapp/tracks/">Tracks</a></li>
 						<li><a href="/trecapp/researchers/"> Researchers </a></li>
 					{% if not user.is_authenticated %}	
 						<li><a href="/trecapp/login/"> Login </a></li>
 						<li><a href="/trecapp/addresearcher/"> Register </a></li>
 					{% endif %}
 					{% if user.is_authenticated %}
-						<li><a href ="/trecapp/uploadrun/"> Upload a Run </a></li>
 						<li class="text-capitalize"><a href="/trecapp/researcher/{{ user.username }}"> {{ user.username}} </a></li>
 						<li><a href="/trecapp/logout/"> Logout </a></li>
 					{% endif %}    
