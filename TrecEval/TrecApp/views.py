@@ -303,7 +303,7 @@ def task(request, task_name_slug):
             runList += [runDict]
 
         table = RunTable(runList)
-        RequestConfig(request, paginate={"per_page": 3}).configure(table)
+        RequestConfig(request, paginate={"per_page": 10}).configure(table)
         table.exclude = ('runfile', 'slug',)
         table.paginate
         context_dict["runs"] = runs
