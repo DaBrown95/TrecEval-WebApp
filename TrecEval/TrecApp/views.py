@@ -127,13 +127,16 @@ def researcher(request, researcher_name_slug):
     context_dict = {}
 
     try:
-
         researcher = Researcher.objects.get(slug=researcher_name_slug)
         context_dict["display_name"] = researcher.display_name
         context_dict["url"] = researcher.url
         context_dict["organization"] = researcher.organization
         context_dict["runs"] = Run.objects.filter(researcher=researcher).order_by("MAP")
         context_dict["picture"] = researcher.picture
+        if researcher.picture == "":
+            context_dict["hasPicture"] = False
+        else:
+            context_dict["hasPicture"] = True
     except Researcher.DoesNotExist:
         pass
 

@@ -21,7 +21,9 @@
 			</div>
 			<div class="row">
 				<div class="col-md-4"><strong><strong>Profile Picture</strong></strong></div> 
-				<div class="col-md-8"><img src="https://upload.wikimedia.org/wikipedia/en/c/c0/Seasick_user.png"></div>
+				{% if hasPicture %}
+				<div class="col-md-8"><img src="{{ picture.url }}" class="img-circle img-thumbnail" style="width:300px;height:300px"></div>
+				{% endif %}
 			</div>
 			<div class="row">
 				<div class="col-md-6"></div> 
