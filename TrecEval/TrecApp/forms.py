@@ -2,6 +2,9 @@ from django import forms
 from django.contrib.auth.models import User
 from django_enumfield import enum
 from TrecApp.models import Run, Researcher, Task, run_type, query_type, feedback_type
+from functools import partial
+DateInput = partial(forms.DateInput, {'class':'datepicker'})
+from datetime import datetime
 
 
 class UserForm(forms.ModelForm):
@@ -60,9 +63,11 @@ class RunForm(forms.ModelForm):
     feedback_type = forms.TypedChoiceField(choices=feedback_type.choices(), coerce=int)
     description = forms.CharField(widget=forms.Textarea)
     #task = forms.ModelChoiceField(queryset=Task.objects.all().order_by('title'))
-    task = forms.ModelChoiceField(widget=forms.HiddenInput(),queryset=Task.objects.all().order_by('title'))
+    #task = forms.ModelChoiceField(widget=forms.HiddenInput(),queryset=Task.objects.all().order_by('title'))
     runfile = forms.FileField(label='runUpload', help_text='Upload your run file')
-
+	
+    #date = forms.DateField(widget=forms.TextInput(attrs={'class':'datepicker'} ),help_text="please enter date of run")
+	
     MAP = forms.DecimalField(widget=forms.HiddenInput(), required=False)
     p10 = forms.DecimalField(widget=forms.HiddenInput(), required=False)
     p20 = forms.DecimalField(widget=forms.HiddenInput(), required=False)
@@ -72,9 +77,10 @@ class RunForm(forms.ModelForm):
     class Meta:
         # Provide an association between the ModelForm and a model
         model = Run
+        #widgets = {'date':forms.DateInput(forms.DateInput(attrs={'type':'date'})),}
         fields = (
-        'runfile', 'name', 'description', 'run_type', 'query_type', 'feedback_type', 'MAP', 'p10', 'p20', 'task',)
-        exclude = ('researcher',)
+        'runfile','date', 'name', 'description', 'run_type', 'query_type', 'feedback_type', 'MAP', 'p10', 'p20', )
+        exclude = ('researcher','task',)
 
 
 class CompareForm(forms.Form):
