@@ -32,13 +32,13 @@ def populate():
 
     # not sure if this is how to use qrels
     task1 = add_task(track1, "Robust2005,Ad Hoc Topic Retrieval", "For each topic find all the relevant documents",
-                     2005, "static/Tracks/Robust2005/aq.trec2005.qrels")
+                     2005, "Tracks/Robust2005/aq.trec2005.qrels")
     task2 = add_task(track2, "APNews,Ad Hoc Topic Retrieval", "Find all the relevant news articles", 2001,
-                     "static/Tracks/news/ap.trec.qrels")
+                     "Tracks/news/ap.trec.qrels")
     task3 = add_task(track3, "Web2005,Ad Hoc Topic Retrieval", "Find all the relevant web pages", 2005,
-                     "static/Tracks/web/dg.trec.qrels")
+                     "Tracks/web/dg.trec.qrels")
     task4 = add_task(track1, "Robust2004,Ad Hoc Topic Retrieval", "For each topic find all the relevant documents",
-                     2004, "static/Tracks/Robust2004/qrels.robust2004.txt")
+                     2004, "Tracks/Robust2004/qrels.robust2004.txt")
 
     # might have to replace some of these values with actual data
     # havent put anything in for files yet
@@ -119,9 +119,9 @@ def add_task(track, title, description, year, judgement):
 ##	track3 = add_track("news","http://trec.nist.gov/tracks.html3","third track added","news")
 ##	
 ##	#not sure if this is how to use qrels
-##	task1 = add_task(track1,"task1","description",2004,"static/Tracks/web/dg.trec.qrels")
-##	task2 = add_task(track2,"task2","description",2005,"static/Tracls/Robust/aq.trec2005.qrels")
-##	task3 = add_task(track3,"task3","description",2006,"static/Tracks/news/ap.trec.qrels")
+##	task1 = add_task(track1,"task1","description",2004,"Tracks/web/dg.trec.qrels")
+##	task2 = add_task(track2,"task2","description",2005,"Tracls/Robust/aq.trec2005.qrels")
+##	task3 = add_task(track3,"task3","description",2006,"Tracks/news/ap.trec.qrels")
 ##	
 ##	
 ##	#might have to replace some of these values with actual data
