@@ -7,7 +7,6 @@
 
 {% block body_block %}
 
-
 <h1> {{title}} </h1>
 
 <div class="container-fluid">
@@ -34,11 +33,9 @@
 			</div> <!--/big split part1-->
 			<div class="col-sm-6 "><!--bigsplit part2-->
 						<h2 style="margin-top:0px">Tasks ({{ number }}): </h2>	
-						{% comment %}{% if tasks %}
-						{% for task in tasks %}
-							<div class="col-sm-12 "><a href = '/trecapp/tasks/{{ task.slug }}'> {{ task.title }}</a></div>
-						{% endfor %}
-						
+						{% if tasks %}
+							{%  render_table table %}
+						{% endif %}
 						{% else %}
 							<div class="row"><strong> No tasks belong to this run. </strong></div>
 						{%  endif %}{% endcomment %}

@@ -7,14 +7,15 @@
 {% block body_block %}
 	<h1 style="font-weight:bold;font-size:60px;text-align:right;min-width:100%;width:100%">Welcome</h1>
 	<h3 style="text-align:right">TREC: allowing researchers to evaluate how well their search engine searches</h3>
-	<ol>
+
 	{% if runs %}
 	<div style="width:100%;padding:20px;padding-bottom:20px" class="container img-rounded-bmarg">
-	<h4> Best runs </h4>
+	<ol>
+		<h4> Latest runs </h4>
 		{%for run in runs%}
 		<li><a href=/trecapp/run/{{run.slug}}> {{run.name}} </a></li>
 		{% endfor %}
-		</ol>
+	</ol>
 	{% else %}
 		There are no runs to display
 	{% endif %}	
