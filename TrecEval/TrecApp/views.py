@@ -282,7 +282,8 @@ def task(request, task_name_slug):
         task = Task.objects.get(slug=task_name_slug)
 
 
-        runs = Run.objects.filter(task=task).order_by('-MAP')[:3]
+        runs = Run.objects.filter(task=task).order_by('-MAP')
+        bestRuns = Run.objects.filter(task=task).order_by('-MAP')[:3]
 
         runList = []
         for run in runs:  # creates dictionary for the table. This is needed to include the organization.
@@ -299,6 +300,7 @@ def task(request, task_name_slug):
             runDict['p10'] = run.p10
             runDict['p20'] = run.p20
             runDict['organization'] = run.researcher.organization
+            runDict['date'] = run.date
             runDict['checkBox'] = run.name
             runDict['slug'] = run.slug
             runList += [runDict]

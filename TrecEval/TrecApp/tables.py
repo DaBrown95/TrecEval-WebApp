@@ -3,6 +3,7 @@ import unicodedata
 from django.utils.safestring import mark_safe
 from django_tables2.utils import A
 from TrecApp.models import Run, Researcher, Task
+from django.template.defaultfilters import slugify
 
 class CheckBoxColumnWithName(tables.CheckBoxColumn):
     @property
@@ -17,8 +18,28 @@ class NameLinkColumn(tables.LinkColumn):
 
     #creates html for table cell with a url in it
     def render(self, value):
-        print value
+        value = slugify(value)
         return mark_safe("<a href='/trecapp/run/" + str(value) + "' class='name_col'>" + str(value) + "</a>")
+
+class ResearcherNameLinkColumn(tables.LinkColumn):
+    def __init__(self, classname=None, *args, **kwargs):
+        self.classname=classname
+        super(ResearcherNameLinkColumn, self).__init__(*args, **kwargs)
+
+    #creates html for table cell with a url in it
+    def render(self, value):
+        value = slugify(value)
+        return mark_safe("<a href='/trecapp/researcher/" + str(value) + "' class='name_col'>" + str(value) + "</a>")
+
+class TaskNameLinkColumn(tables.LinkColumn):
+    def __init__(self, classname=None, *args, **kwargs):
+        self.classname=classname
+        super(TaskNameLinkColumn, self).__init__(*args, **kwargs)
+
+    #creates html for table cell with a url in it
+    def render(self, value):
+        value = slugify(value)
+        return mark_safe("<a href='/trecapp/tasks/" + str(value) + "' class='name_col'>" + str(value) + "</a>")
 
 
 
@@ -44,6 +65,7 @@ class RunTable(tables.Table):
     MAP = DivWrappedColumn(classname = 'standard_col')
     p10 = DivWrappedColumn(classname = 'standard_col',verbose_name='P10')
     p20 = DivWrappedColumn(classname = 'standard_col',verbose_name='P20')
+    date = DivWrappedColumn(classname = 'standard_col',verbose_name='Date')
     organization = DivWrappedColumn(classname = 'standard_col',verbose_name='Organization')
     checkBox = CheckBoxColumnWithName(verbose_name="Create Graph?")
         
@@ -53,7 +75,7 @@ class RunTable(tables.Table):
 
 
 class TaskTable(tables.Table):
-    title = NameLinkColumn('task', verbose_name='Title', args=[A('slug')])
+    title = TaskNameLinkColumn('task', verbose_name='Title', args=[A('slug')])
     year = DivWrappedColumn(verbose_name='Year',classname = 'standard_col')
     number = DivWrappedColumn(verbose_name='Number of Runs',classname = 'standard_col')
 
@@ -63,7 +85,7 @@ class TaskTable(tables.Table):
 
 
 class ResearcherTable(tables.Table):
-    display_name = NameLinkColumn('researcher', verbose_name='Name', args=[A('slug')])
+    display_name = ResearcherNameLinkColumn('researcher', verbose_name='Name', args=[A('slug')])
     organization = DivWrappedColumn(verbose_name='Organizations',classname = 'standard_col')
     numberOfRuns = DivWrappedColumn(verbose_name='No. Runs',classname = 'standard_col')
 
