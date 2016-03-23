@@ -7,6 +7,7 @@
 {% block body_block %}
 	<h1>Welcome</h1>
 	{% if runs %}
+	<div style="width:100%;padding:20px;padding-bottom:20px" class="container img-rounded-bmarg">
 	<h4> Best runs </h4>
 		{%for run in runs%}
 		<p><a href=/trecapp/run/{{run.slug}}> {{run.name}} </a></p>
@@ -14,4 +15,5 @@
 	{% else %}
 		There are no runs to display
 	{% endif %}	
+	</div>
 {% endblock %}

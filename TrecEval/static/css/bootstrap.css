@@ -1135,7 +1135,15 @@ img {
   height: auto;
 }
 .img-rounded {
-  border-radius: 6px;
+  border-radius:20px;
+}
+.img-rounded-bmarg {
+  border-radius: 10px;
+  margin: 15px;
+  padding-top: 20px;
+  padding-right:10px;
+  padding-bottom: 20px;
+  padding-left: -5px;
 }
 .img-thumbnail {
   display: inline-block;
@@ -6795,8 +6803,17 @@ button.close {
 }
 
 .bevel {
-  -moz-box-shadow: inset 0 -1px 1px rgba(0,0,0,0.5);
-  -webkit-box-shadow: inset 0 -1px 1px rgba(0,0,0,0.5);
-  box-shadow: inset 0 -1px 1px rgba(0,0,0,0.5);
+  -moz-box-shadow: inset 0 -3px 3px rgba(0,0,0,0.5);
+  -webkit-box-shadow: inset 0 -3px 3px rgba(0,0,0,0.5);
+  box-shadow: inset 0 -3px 3px rgba(0,0,0,0.5);
+}
+
+.showborder {
+  border: 3px solid black;
+}
+
+.col-title{
+	font-size:120%;
+	font-weight:bold;
 }
 /*# sourceMappingURL=bootstrap.css.map */

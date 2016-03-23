@@ -8,12 +8,18 @@
   <h1>Login to TrecEval</h1>
 
   <form id="login_form" method="post" action="/trecapp/login/">
-		<center>{% csrf_token %}
-		<strong>Username:</strong> <input type="text" name="username" value="" size="30" />
-		<br />
-		<strong>Password:</strong> <input type="password" name="password" value="" size="30" />
-		<br />
-		<button type="submit" class="btn btn-primary navbar-btn"> Log in </button>
-  </center></form>
+	{% csrf_token %}
+	<div style="width:30%;padding:60px;padding-bottom:20px" class="container center-block">
+		<div class="fieldWrapper row" style="padding:5px">
+				<div class="col-sm-5 col-title">Username:</div>
+				<div class="col-sm-7 img-rounded"><input type="text" name="username" value="" size="30" placeholder="Username"/></div>
+		</div>
+		<div class="fieldWrapper row" style="padding:5px">
+				<div class="col-sm-5 col-title">Password:</div>
+				<div class="col-sm-7 img-rounded"><input type="password" name="password" value="" size="30" placeholder="Password"/></div>
+		</div>
+		<div><center><button type="submit" class="btn btn-primary navbar-btn"> Log in </button></center></div>
+  	</div>
+  </form>
 
 {% endblock %}

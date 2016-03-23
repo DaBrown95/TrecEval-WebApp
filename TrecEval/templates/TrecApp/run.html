@@ -6,44 +6,64 @@
 
 {% block body_block %}
 
-    <a href = '/trecapp/tasks/{{ task.slug }}'> < {{ task.title }} </a>
-    <a href = {{request.META.HTTP_REFERER}}> Go Back </a>
+<a href = '/trecapp/tasks/{{ task.slug }}'> < {{ task.title }} </a>
+<a href = {{request.META.HTTP_REFERER}}> Go Back </a>
 
-	{% if run %}
-		<h1> Run: {{ name }} </h1>
-		<div align:"center">
-			<div style="width: 30%;float:left">
-				<strong>Researcher </br> 
-				Description </br>
-				Track </br>
-				Task</br> 
-				Run Type </br>
-				Feedback Type </br>
-				Query Type</br>
-				MAP</br>
-				p10</br>
-				p20</br></strong>
+{% if run %}
+	<h1 class="text-capitalize"> Run name: {{ name }} </h1>
+	<div class="container-fluid">
+		<div class="row"><!--r1-->
+			<div class="col-md-4" style="font-weight:bold;font-size:120%">Researcher</div>
+			<div class="col-md-8">
+			<a href = /trecapp/researcher/{{ researcher.slug }}> {{researcher}} </a> </div>
+		</div><!--r1-->
+		<div class="row"><!--r2-->
+			<div class="col-md-4" style="font-weight:bold;font-size:120%">Description</div>
+			<div class="col-md-8"> {{ description }} </div>
+		</div><!--r2-->
+		<div class="row"><!--r3-->
+			<div class="col-md-4" style="font-weight:bold;font-size:120%">Track</div>
+			<div class="col-md-8"> <a href = /trecapp/tracks/{{task.track}}> {{task.track}} </a> </div>
+		</div><!--r3-->
+		<div class="row"><!--r4-->
+			<div class="col-md-4" style="font-weight:bold;font-size:120%">Task</div>
+			<div class="col-md-8"> <a href = /trecapp/tasks/{{ task }}> {{ task }} </a> </div>
+		</div><!--r4-->
+		<div class="row"><!--r5-->
+			<div class="col-md-4" style="font-weight:bold;font-size:120%">Run Type</div>
+			<div class="col-md-8"> {{ run_type }} </div>
+		</div><!--r5-->
+		<div class="row"><!--r6-->
+			<div class="col-md-4" style="font-weight:bold;font-size:120%">Feedback Type</div>
+			<div class="col-md-8"> {{ feedback_type }} </div>
+		</div><!--r6-->
+		<div class="row"><!--r7-->
+			<div class="col-md-4" style="font-weight:bold;font-size:120%">Query Type</div>
+			<div class="col-md-8"> {{ query_type }} </div>
+		</div><!--r7-->
+		<div class="row"><!--r8-->
+			<div class="col-md-4" style="font-weight:bold;font-size:120%">MAP</div>
+			<div class="col-md-8"> {{ map }} </div>
+		</div><!--r8-->
+		<div class="row"><!--r9-->
+			<div class="col-md-4" style="font-weight:bold;font-size:120%">p10</div>
+			<div class="col-md-8"> {{ p10 }} </div>
+		</div><!--r9-->
+		<div class="row"><!--r10-->
+			<div class="col-md-4" style="font-weight:bold;font-size:120%">p20</div>
+			<div class="col-md-8"> {{ p20 }} </div>
+		</div><!--r10-->
+		<div class="row"><!--buttons-->
+			<div class="col-md-4">
+			<a href="/trecapp/graph/{{run.slug}}"> <button type="submit" class="btn btn-primary navbar-btn"> Graph of this run </button></a>
 			</div>
-			<div style="width: 50%;float:right">
-				<a href = /trecapp/researcher/{{ researcher.slug }}> {{researcher}} </a> </br>
-				{{ description }} </br>
-				<a href = /trecapp/tracks/{{task.track}}> {{task.track}} </a></br>
-				<a href = /trecapp/tasks/{{ task }}> {{ task }} </a> </br>
-				{{ run_type }} </br>
-				{{ feedback_type }} </br>
-				{{ query_type }} </br>
-				{{ map }} </br>
-				{{ p10 }} </br>
-				{{ p20 }} </br>
+			<div class="col-md-8">
+			<a href="{{request.META.HTTP_REFERER}}"><button type="submit" class="btn btn-primary navbar-btn">Go back </button></a></br>
 			</div>
-		</div>
-		<center>
-		<a href="/trecapp/graph/{{run.slug}}"> <button type="submit" class="btn btn-primary navbar-btn"> Graph of this run </button></a>
-		<a href="{{request.META.HTTP_REFERER}}"><button type="submit" class="btn btn-primary navbar-btn">Go back</a> </button></br>
-		</center>
-
-	{% else %}
-		<h4>run does not exist</h4>
-	{% endif %}
+		</div><!--buttons-->
+	</div><!--containerfluid-->
+{% else %}
+	<h4>run does not exist</h4>
+{% endif %}
 
 {% endblock %}
