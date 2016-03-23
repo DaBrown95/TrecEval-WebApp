@@ -15,7 +15,7 @@ import simplejson
 
 
 def home(request):
-    runs_list = Run.objects.order_by('name')[:5]
+    runs_list = Run.objects.order_by('-date')[:5]
 
     context_dict = {}
 
