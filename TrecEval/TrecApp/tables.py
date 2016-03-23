@@ -1,4 +1,5 @@
 import django_tables2 as tables
+import unicodedata
 from django.utils.safestring import mark_safe
 from django_tables2.utils import A
 from TrecApp.models import Run, Researcher, Task
@@ -8,32 +9,46 @@ class CheckBoxColumnWithName(tables.CheckBoxColumn):
     def header(self):
         return self.verbose_name
 
+    def __init__(self, classname=None, *args, **kwargs):
+        self.classname=classname
+        super(CheckBoxColumnWithName, self).__init__(*args, **kwargs)
+
+    def render(self, value):
+        value = unicodedata.normalize('NFKD', value).encode('ascii','ignore')
+        return mark_safe("<input type='checkbox' name ='" + self.classname +  "' value='" + value + "'/>"  )
+
 class DivWrappedColumn(tables.Column):
     def __init__(self, classname=None, *args, **kwargs):
         self.classname=classname
         super(DivWrappedColumn, self).__init__(*args, **kwargs)
 
     def render(self, value):
-        return mark_safe("<div class='" + self.classname + "' >" +value+"</div>")
+
+        return mark_safe("<div class='" + self.classname + "' >" + str(value)+"</div>")
+
+
+
 
     
 class RunTable(tables.Table):
-    name = tables.LinkColumn('run', verbose_name='Name', args=[A('slug')])
-    researcher = tables.Column(verbose_name='Researcher')
-    task = tables.Column(verbose_name='Task')
-    runfile = tables.Column()
-    description = tables.Column(verbose_name='Description')
-    run_type = tables.Column(verbose_name='Run Type')
-    query_type = tables.Column(verbose_name='Query Type')
-    feedback_type = tables.Column(verbose_name='Feedback Type')
-    MAP = tables.Column()
-    p10 = tables.Column(verbose_name='P10')
-    p20 = tables.Column(verbose_name='P20')
-    organization = tables.Column(verbose_name='Organization')
-    checkBox = CheckBoxColumnWithName(verbose_name="Create Graph?")
+    name = DivWrappedColumn(classname = 'name_column', verbose_name='Name')
+    researcher = DivWrappedColumn(classname = 'researcher_column',verbose_name='Researcher')
+    task = DivWrappedColumn(classname = 'task_column',verbose_name='Task')
+    runfile = DivWrappedColumn(classname = 'run_column')
+    description = DivWrappedColumn(classname = 'description_column',verbose_name='Description')
+    run_type = DivWrappedColumn(classname = 'runtype_column',verbose_name='Run Type')
+    query_type = DivWrappedColumn(classname = 'querytype_column',verbose_name='Query Type')
+    feedback_type = DivWrappedColumn(classname = 'feedbacktype_column',verbose_name='Feedback Type')
+    MAP = DivWrappedColumn(classname = 'map_column')
+    p10 = DivWrappedColumn(classname = 'p10_column',verbose_name='P10')
+    p20 = DivWrappedColumn(classname = 'p20_column',verbose_name='P20')
+    organization = DivWrappedColumn(classname = 'organization_column',verbose_name='Organization')
+    checkBox = CheckBoxColumnWithName(classname = 'checkbox_column',verbose_name="Create Graph?")
 
     class Meta:
         model = Run
+        attrs = {'class':'RobbTable'}
+        
 
 
 

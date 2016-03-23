@@ -8,11 +8,17 @@
 {% block body_block %}
 	<h1> Researchers </h1>
 	{% if table %}
-		{% comment %}{%for researcher in researchers %}
-			<p><a href=/trecapp/researcher/{{ researcher.slug }}> {{researcher.display_name}} </a></p>
-		{% endfor %}{% endcomment %}
-        {%  render_table table %}
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered table-hover">
+			
+			{% comment %}<tbody>{%for researcher in researchers %}
+				<tr><a href=/trecapp/researcher/{{ researcher.slug }}> {{researcher.display_name}} </a></tr>
+			{% endfor %}</tbody>{% endcomment %}
+			
+			{%  render_table table %}
+			</table>
+        </div>
 	{% else %}
-	<h4>there are no reasearchers.</h4>
+	<h4>There are no researchers</h4>
 	{% endif %}
 {% endblock %}

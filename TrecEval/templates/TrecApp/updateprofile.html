@@ -8,15 +8,40 @@
 
 <h1> Update your Profile </h1>
 
-  {% if not user.is_authenticated %}
-      TrecEval says: <strong> You are not registered idiot </strong>
-      <a href="/trecapp/"><button type="button" class="btn btn-primary navbar-btn">Return to homepage</button></a><br/>
-  {% else %}
-      <br><strong>Change your detials here.... </strong><br/>
-      <form id="user_form" method="post" action="/trecapp/updateprofile/" enctype="multipart/form-data">
-              {% csrf_token %}
-              {{ researcher_update_form.as_p }}
-              <button type="submit" class="btn btn-primary navbar-btn" value="Change"> Submit </button>
-      </form>
-  {% endif %}
+{% if not user.is_authenticated %}
+  <strong> You are not registered </strong>
+  <a href="/trecapp/"><button type="button" class="btn btn-primary navbar-btn">Return to homepage</button></a><br/>
+{% else %}
+  <br><strong>Change your detials here.... </strong><br/>
+	<form id="user_form" method="post" action="/trecapp/updateprofile/" enctype="multipart/form-data">
+		{% csrf_token %}
+		
+		<div style="width:40%;padding:60px;padding-bottom:20px" class="container"> 
+			{{ researcher_update_form.non_field_errors }}
+			<div class="fieldWrapper row" style="padding:5px">
+			{{ researcher_update_form.display_name.errors }}
+				<div class="col-sm-6 col-title">
+					<label for="{{ researcher_update_form.display_name.id_for_label }}">Display Name:</label>
+				</div>
+				<div class="col-sm-6 img-rounded">{{ researcher_update_form.display_name }}</div>
+			</div>
+			<div class="fieldWrapper row" style="padding:5px">
+			{{ researcher_update_form.organization.errors }}
+				<div class="col-sm-6 col-title">
+					<label for="{{ researcher_update_form.organization.id_for_label }}">Organisation:</label>
+				</div>
+				<div class="col-sm-6">{{ researcher_update_form.organization }}</div>
+			</div>
+			<div class="fieldWrapper row" style="padding:5px">
+			{{ researcher_update_form.url.errors }}
+				<div class="col-sm-6 col-title">
+					<label for="{{ researcher_update_form.url.id_for_label }}"> Url:</label>
+				</div>
+				<div class="col-sm-6">{{ researcher_update_form.url }}</div>
+			</div>
+			<button type="submit" class="btn btn-primary navbar-btn center-block" value="Change"> Submit </button>
+		</div><!--container-->
+		
+  </form>
+{% endif %}
 {% endblock %}
