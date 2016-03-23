@@ -11,13 +11,16 @@ TREC_PATH = os.path.join(BASE_DIR, 'TrecApp/trec_eval_macosx')
 
 
 
-def trec_eval(qRel, res):
-    filepath = os.path.join(BASE_DIR, 'media/processingFile.txt')
-    with open(filepath, 'w') as dest:
-        for chunk in res.chunks():
-            dest.write(chunk)
+def trec_eval(qRel, res, debug=False):
 
-    res = filepath
+    if not debug:
+        filepath = os.path.join(BASE_DIR, 'media/processingFile.txt')
+        with open(filepath, 'w') as dest:
+            for chunk in res.chunks():
+                dest.write(chunk)
+
+        res = filepath
+
     p = subprocess.Popen(TREC_PATH + " " + qRel + " " + res, stdout=subprocess.PIPE,
                          shell=True)  # calls trec_eval with arguments specified above
     (output, err) = p.communicate()

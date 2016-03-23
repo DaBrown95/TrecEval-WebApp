@@ -58,6 +58,7 @@ def uploadRun(request, task_name_slug):
         task = Task.objects.get(slug=task_name_slug)
     except Researcher.DoesNotExist:
         researcher = None
+        task = None
     
     def handle_uploaded_file(qRel, f):
         # qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
@@ -393,6 +394,7 @@ def run(request, run_name_slug):
         context_dict["feedback_type"] = feedback_type.labels[run.feedback_type]
         context_dict["query_type"] = query_type.labels[run.feedback_type]
         context_dict["task"] = run.task
+        context_dict["date"] = run.date
 
     except Run.DoesNotExist:
         pass
