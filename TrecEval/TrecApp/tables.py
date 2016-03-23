@@ -18,8 +18,8 @@ class NameLinkColumn(tables.LinkColumn):
 
     #creates html for table cell with a url in it
     def render(self, value):
-        value = slugify(value)
-        return mark_safe("<a href='/trecapp/run/" + str(value) + "' class='name_col'>" + str(value) + "</a>")
+        slugvalue = slugify(value)
+        return mark_safe("<a href='/trecapp/run/" + str(slugvalue) + "' class='name_col'>" + str(value) + "</a>")
 
 class ResearcherNameLinkColumn(tables.LinkColumn):
     def __init__(self, classname=None, *args, **kwargs):
@@ -28,8 +28,8 @@ class ResearcherNameLinkColumn(tables.LinkColumn):
 
     #creates html for table cell with a url in it
     def render(self, value):
-        value = slugify(value)
-        return mark_safe("<a href='/trecapp/researcher/" + str(value) + "' class='name_col'>" + str(value) + "</a>")
+        slugvalue = slugify(value)
+        return mark_safe("<a href='/trecapp/researcher/" + str(slugvalue) + "' class='name_col'>" + str(value) + "</a>")
 
 class TaskNameLinkColumn(tables.LinkColumn):
     def __init__(self, classname=None, *args, **kwargs):
@@ -38,8 +38,8 @@ class TaskNameLinkColumn(tables.LinkColumn):
 
     #creates html for table cell with a url in it
     def render(self, value):
-        value = slugify(value)
-        return mark_safe("<a href='/trecapp/tasks/" + str(value) + "' class='name_col'>" + str(value) + "</a>")
+        slugvalue = slugify(value)
+        return mark_safe("<a href='/trecapp/tasks/" + str(slugvalue) + "' class='name_col'>" + str(value) + "</a>")
 
 
 

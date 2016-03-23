@@ -237,7 +237,7 @@ def track(request, track_name_slug):
             taskList += [taskDict]
 
         table = TaskTable(taskList)
-        RequestConfig(request).configure(table)
+        RequestConfig(request, paginate={"per_page": 5}).configure(table)
         context_dict["table"] = table
         context_dict["number"] = tasksFromTrack.count()
 
@@ -282,7 +282,7 @@ def task(request, task_name_slug):
         task = Task.objects.get(slug=task_name_slug)
 
 
-        runs = Run.objects.filter(task=task).order_by('-MAP')
+        runs = Run.objects.filter(task=task)
         bestRuns = Run.objects.filter(task=task).order_by('-MAP')[:3]
 
         runList = []
@@ -306,7 +306,7 @@ def task(request, task_name_slug):
             runList += [runDict]
 
         table = RunTable(runList)
-        RequestConfig(request, paginate={"per_page": 3}).configure(table)
+        RequestConfig(request, paginate={"per_page": 10}).configure(table)
         table.exclude = ('runfile', 'slug',)
         table.paginate
         context_dict["runs"] = runs
