@@ -24,7 +24,9 @@
 		
 		json_list = json_list.substring(1,(json_list.length)-1); //remove outer brackets
 		
+
 		var runs = json_list.split(']'); //split string into seperate runs
+
 		
 		runs.splice(runs.length-1); //remove last empty bit
 		
@@ -77,7 +79,6 @@
 			p20[p20.length] = data[i][3];
 		};
 		
-		//document.write(p10);
 
 		graph.addRows([
 			map,p10,p20

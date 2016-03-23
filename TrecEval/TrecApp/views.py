@@ -50,13 +50,16 @@ def about(request):
     return render(request, 'TrecApp/about.html')
 
 
-def uploadRun(request):
+@login_required
+def uploadRun(request, task_name_slug):
     currentUser = User.objects.get(username=request.user.username)  # get current user from request
     try:  # retrieve researcher for the current user from database
         researcher = Researcher.objects.get(user=currentUser)
+        task = Task.objects.get(slug=task_name_slug)
     except Researcher.DoesNotExist:
         researcher = None
-
+        task = None
+    
     def handle_uploaded_file(qRel, f):
         # qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
         # qRel = "H:\Workspace\WAD\TrecWebApp\TrecEval-WebApp\Extra\TrecEvalProgram\data\news\ap.trec.qrels"
@@ -71,6 +74,7 @@ def uploadRun(request):
                 print "Hello! Just about to call trec_eval"
                 result = handle_uploaded_file(page.task.judgement_file.path, request.FILES['runfile'])
                 slugFinder = page.name
+                page.task = task
                 page.MAP = result['MAP']
                 page.p10 = result['p10']
                 page.p20 = result['p20']
@@ -83,8 +87,9 @@ def uploadRun(request):
                 return run(request, slugFinder)  # go to home page
     else:
         form = RunForm()
+        
 
-    return render(request, 'TrecApp/uploadRun.html', {'form': form})
+    return render(request, 'TrecApp/uploadRun.html', {'form': form, 'task':task})
 
 
 def user_login(request):
@@ -140,7 +145,6 @@ def addResearcher(request):
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
         researcher_form = ResearcherForm(data=request.POST)
-
         if user_form.is_valid() and researcher_form.is_valid():
             # deals with django User model
             user = user_form.save()
@@ -276,7 +280,9 @@ def task(request, task_name_slug):
     try:
         task = Task.objects.get(slug=task_name_slug)
 
+
         runs = Run.objects.filter(task=task).order_by('-MAP')
+
         runList = []
         for run in runs:  # creates dictionary for the table. This is needed to include the organization
             runDict = {}
@@ -292,17 +298,17 @@ def task(request, task_name_slug):
             runDict['p10'] = run.p10
             runDict['p20'] = run.p20
             runDict['organization'] = run.researcher.organization
+            runDict['checkBox'] = run.name
             runDict['slug'] = run.slug
             runList += [runDict]
 
         table = RunTable(runList)
-        RequestConfig(request).configure(table)
+        RequestConfig(request, paginate={"per_page": 3}).configure(table)
         table.exclude = ('runfile', 'slug',)
-
+        table.paginate
         context_dict["runs"] = runs
         context_dict["task"] = task
         context_dict["table"] = table
-
         context_dict["title"] = task.title
         context_dict["track"] = task.track
         context_dict["track"] = task.track
@@ -310,10 +316,22 @@ def task(request, task_name_slug):
         context_dict["url"] = task.task_url
         context_dict["year"] = task.year
 
+    
+        if request.method == 'POST':
+            dataToPass = []
+            checkedRuns = request.POST.getlist('checkBox')
+            for run in checkedRuns:
+                thisRun = Run.objects.get(name=run)
+                thisRun = [thisRun.name,thisRun.MAP,thisRun.p10,thisRun.p20]
+                dataToPass += [thisRun]
+            return lineGraph(request,dataToPass,task)
+        
+        
     except Task.DoesNotExist:
         pass
 
     return render(request, "TrecApp/task.html", context_dict)  # task.html not created yet
+
 
 
 def graph(request, run_name_slug):

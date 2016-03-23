@@ -59,7 +59,8 @@ class RunForm(forms.ModelForm):
     query_type = forms.TypedChoiceField(choices=query_type.choices(), coerce=int)
     feedback_type = forms.TypedChoiceField(choices=feedback_type.choices(), coerce=int)
     description = forms.CharField(widget=forms.Textarea)
-    task = forms.ModelChoiceField(queryset=Task.objects.all().order_by('title'))
+    #task = forms.ModelChoiceField(queryset=Task.objects.all().order_by('title'))
+    task = forms.ModelChoiceField(widget=forms.HiddenInput(),queryset=Task.objects.all().order_by('title'))
     runfile = forms.FileField(label='runUpload', help_text='Upload your run file')
 
     MAP = forms.DecimalField(widget=forms.HiddenInput(), required=False)
