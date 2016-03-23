@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
 
-{% block title %} - {{display_name}} {% endblock %}
+{% block title %} Log In {% endblock %}
 
 {% block body_block %}
 
   <h1>Login to TrecEval</h1>
 
   <form id="login_form" method="post" action="/trecapp/login/">
-      {% csrf_token %}
-      Username: <input type="text" name="username" value="" size="50" />
-      <br />
-      Password: <input type="password" name="password" value="" size="50" />
-      <br />
-
-      <input type="submit" value="submit" />
-  </form>
+		<center>{% csrf_token %}
+		<strong>Username:</strong> <input type="text" name="username" value="" size="30" />
+		<br />
+		<strong>Password:</strong> <input type="password" name="password" value="" size="30" />
+		<br />
+		<button type="submit" class="btn btn-primary navbar-btn"> Log in </button>
+  </center></form>
 
 {% endblock %}

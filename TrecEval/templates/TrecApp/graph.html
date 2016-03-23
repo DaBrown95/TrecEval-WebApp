@@ -2,7 +2,7 @@
 
 {% extends 'base.html' %}
 
-{% block title %} Compare runs - {{name}}{% endblock %}
+{% block title %} Compare Runs: {{name}}{% endblock %}
 
 {% block head_block %}
 
@@ -12,9 +12,10 @@
   <script type="text/javascript">
     google.charts.load('current', {packages: ['corechart']}); //allows standard graphs (column bar line pie etc)
     google.charts.setOnLoadCallback(drawChart);
-
+	
     function drawChart() {
       // Define the chart to be drawn.
+	  
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Element');
       data.addColumn('number', '%');
@@ -39,11 +40,14 @@
 
 {% block body_block %}
 
+<h1> Compare Runs: {{name}} </h1>
 <!-- Identify where the chart should be drawn. -->
+	<center>
 	{% if run %}
 		<div id="ColumnChart"/>
 	{% else %}
 		run does not exist
 	{% endif %}
+	</center>
 
 {% endblock %}
