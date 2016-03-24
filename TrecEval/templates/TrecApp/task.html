@@ -8,7 +8,6 @@
 {% block body_block %}
 
     <a href = /trecapp/tracks/{{track.slug}}> <button type="submit" class="btn btn-primary navbar-btn">{{ track.title }} </button></a>
-    <a href = {{request.META.HTTP_REFERER}}> <button type="submit" class="btn btn-primary navbar-btn">Go Back </button></a>
 	<a href = /trecapp/uploadrun/{{task.slug}}> <button type="submit" class="btn btn-primary navbar-btn"> Upload a Run to this Task </button></a>
 	{% if task %}
 		<h2> {{ task.title }} </h2>
