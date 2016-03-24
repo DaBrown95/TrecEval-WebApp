@@ -23,8 +23,6 @@
 		var json_list = "{{runs}}"; //this is a string
 		
 		json_list = json_list.substring(1,(json_list.length)-1); //remove outer brackets
-		
-
 		var runs = json_list.split(']'); //split string into seperate runs
 
 		
@@ -32,60 +30,47 @@
 		
 		var data = [];
 		var test = [];
-		
-		// convert to format need for graph		
-		for (var i = 0; i< runs.length; i++){
-		
-			test = runs[i].split(',');
+
+		var temp = 1;
+		// convert to format need for graph	
+		for (var i = 0; i<runs.length ; i++){
 			
-			for (var k = 0; k< test.length; k++){
-				test[k] = test[k].replace("[","");
-				test[k] = test[k].replace(" ","");
+			run = runs[i].split(',');
+			
+			for (var k = 0; k < run.length; k++){
+				run[k] = run[k].replace("[","");
+				run[k] = run[k].replace(" ","");
 			};
 			
-			
-			if (test.length==5){
-				test.splice(0,1); //remove empty thing
+			if (run.length==5){
+				run.splice(0,1); //remove empty thing
 			};
 			
-			test[0] = test[0].substring(6,(test[0].length)-6); //remove "s
+			run[0] = run[0].substring(6,(run[0].length)-6); //remove ;quot;
 			
-			//change last 3 values to float
+			temp = run[0].split("-");
+			temp = new Date(parseInt(temp[0]),parseInt(temp[1]),parseInt(temp[2]));
+			run[0] = temp;
+			
+						//change last 3 values to float
 			for (var j = 1; j<4; j++){
-				test[j] = parseFloat(test[j]);
+				run[j] = parseFloat(run[j]);
 			};
 			
-		
-		data.push(test);
+			data[data.length] = run;
 		};
-		
-		//works up to this point
 		
 		var graph = new google.visualization.DataTable();
 		
-		graph.addColumn('string','measurement');
+		graph.addColumn('date','measurement');
+		graph.addColumn('number','map');
+		graph.addColumn('number','p10');
+		graph.addColumn('number','p20');
 		
-		for (var i =0; i < data.length; i++){
-			graph.addColumn('number',data[i][0]);
-		};
-		
-		var map = ["map"];
-		var p10 = ["p10"];
-		var p20 = ["p20"];
-		
-		for (var i = 0; i <data.length; i++){
-			map[map.length] = data[i][1];
-			p10[p10.length] = data[i][2];
-			p20[p20.length] = data[i][3];
-		};
-		
-
-		graph.addRows([
-			map,p10,p20
-		]);
+		graph.addRows(data);
 		
 	
-	  var options = {'title': '{{name}}',
+	  var options = {'title': '{{task.name}}',
 			   'width':600,
 			   'height':500 };
 			   
@@ -100,11 +85,11 @@
 {% endblock %}
 
 {% block body_block %}
-<h1> Compare Runs: {{name}} </h1>
+<h1> Compare Runs: {{task.name}} </h1>
 <!-- Identify where the chart should be drawn. -->
 
 <center>
-{% if name %}
+{% if task %}
 	<div id="LineChart"/>
 {% else %}
 	Graph does not exist

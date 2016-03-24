@@ -15,7 +15,7 @@
   <br><strong>Change your detials here.... </strong><br/>
 	<form id="user_form" method="post" action="/trecapp/updateprofile/" enctype="multipart/form-data">
 		{% csrf_token %}
-		
+		<center>
 		<div style="width:40%;padding:60px;padding-bottom:20px" class="container"> 
 			{{ researcher_update_form.non_field_errors }}
 			<div class="fieldWrapper row" style="padding:5px">
@@ -41,7 +41,7 @@
 			</div>
 			<button type="submit" class="btn btn-primary navbar-btn center-block" value="Change"> Submit </button>
 		</div><!--container-->
-		
+		</center>
   </form>
 {% endif %}
 {% endblock %}

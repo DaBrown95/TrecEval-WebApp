@@ -4,7 +4,6 @@
 
 <html lang="en">
 	<head>
-	
 		<meta charset="utf-8">
     	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,6 +28,8 @@
     	{% block head_block %}{% endblock %}
 	</head>
 	<body>
+		<div class="container" style="height:20px">
+		</div>
 		<!-- navigation bar-->
 		<nav class="navbar navbar-default navbar-static-top navbar-inverse navbar-shadow">
 			<div class="container"> <!--container for header-->
@@ -42,7 +43,7 @@
 				  </button>
 				  <div  class="navbar-brand">
 					  <a href="/trecapp/">
-						<img alt="Brand" src="{% static "img/headerlogo.png" %}"/>
+						<img alt="Brand" class="imgresize" src="{% static "img/headerlogo.png" %}"/>
 						<span class="navheader">TREC</span>
 					  </a>
 				  </div><!--/navbrand-->
@@ -62,7 +63,7 @@
 						<li><a href="/trecapp/logout/"> Logout </a></li>
 					{% endif %}    
 				  </ul>
-				</div><!--/nav-collapse -->
+				</div><!--/navbar-collapse -->
 			</div><!--/headercontainer -->
 		</nav><!--/navigation bar -->
 		
@@ -74,8 +75,5 @@
 		<div class="panel footer">
 			<center><a href =/trecapp/termsandconditions/> Terms and Conditions </a> || <a href = "http://trec.nist.gov/">Text REtrieval Conference</a> || <strong>Created by TRECies </strong></center>
 		</div><!--/footer-->
-    
-
     </body>
 </html>
-
