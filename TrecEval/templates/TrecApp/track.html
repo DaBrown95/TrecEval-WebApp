@@ -35,12 +35,9 @@
 						<h2 style="margin-top:0px">Tasks ({{ number }}): </h2>	
 						{% if tasks %}
 							{%  render_table table %}
-						{% endif %}
 						{% else %}
 							<div class="row"><strong> No tasks belong to this run. </strong></div>
-						{%  endif %}{% endcomment %}
-						
-						{%  render_table table %}
+						{%  endif %}
 			</div> <!--/big split part2-->
 		{% else %}
 		<div class="row">
