@@ -55,11 +55,13 @@ def uploadRun(request, task_name_slug):
     currentUser = User.objects.get(username=request.user.username)  # get current user from request
     try:  # retrieve researcher for the current user from database
         researcher = Researcher.objects.get(user=currentUser)
-        task = Task.objects.get(slug=task_name_slug)
     except Researcher.DoesNotExist:
         researcher = None
+    try:
+        task = Task.objects.get(slug=task_name_slug)
+    except Task.DoesNotExist:
         task = None
-    
+
     def handle_uploaded_file(qRel, f):
         # qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
         # qRel = "H:\Workspace\WAD\TrecWebApp\TrecEval-WebApp\Extra\TrecEvalProgram\data\news\ap.trec.qrels"
@@ -71,6 +73,7 @@ def uploadRun(request, task_name_slug):
         
         if form.is_valid():
             if researcher:
+                print task.judgement_file.path
                 page = form.save(commit=False)
                 page.task = task
                 print "Hello! Just about to call trec_eval"
@@ -79,6 +82,7 @@ def uploadRun(request, task_name_slug):
                 page.MAP = result['MAP']
                 page.p10 = result['p10']
                 page.p20 = result['p20']
+                
                 page.researcher = researcher  # foreign key
                 page.save()
 
@@ -131,7 +135,7 @@ def researcher(request, researcher_name_slug):
         context_dict["display_name"] = researcher.display_name
         context_dict["url"] = researcher.url
         context_dict["organization"] = researcher.organization
-        context_dict["runs"] = Run.objects.filter(researcher=researcher).order_by("MAP")
+        context_dict["runs"] = Run.objects.filter(researcher=researcher).order_by("-MAP")
         context_dict["picture"] = researcher.picture
         if researcher.picture == "":
             context_dict["hasPicture"] = False
