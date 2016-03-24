@@ -133,6 +133,7 @@ def researcher(request, researcher_name_slug):
         context_dict["organization"] = researcher.organization
         context_dict["runs"] = Run.objects.filter(researcher=researcher).order_by("MAP")
         context_dict["picture"] = researcher.picture
+        context_dict["displayChangeProfile"] = (request.user == researcher.user)
         if researcher.picture == "":
             context_dict["hasPicture"] = False
         else:
