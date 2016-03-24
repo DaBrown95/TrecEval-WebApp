@@ -35,12 +35,11 @@
 						<h2 style="margin-top:0px">Tasks ({{ number }}): </h2>	
 						{% if tasks %}
 							{%  render_table table %}
-						{% endif %}
+						
 						{% else %}
 							<div class="row"><strong> No tasks belong to this run. </strong></div>
 						{%  endif %}
 						
-						{%  render_table table %}
 			</div> <!--/big split part2-->
 		{% else %}
 		<div class="row">
@@ -51,8 +50,9 @@
 		
 		<div class="row">
 			<div class="col-sm-12"><center>
+				<a href='/trecapp/tracks'><button type="submit" class="btn btn-primary navbar-btn">Tracks</button></a>
 				<a href="{{request.META.HTTP_REFERER}}"><button type="submit" class="btn btn-primary navbar-btn">Go back </button></a>
-				<a href='/trecapp/tracks'><button type="submit" class="btn btn-primary navbar-btn">Tracks</button></a></center>
+				</center>
 			</div>
 		</div>
 		

@@ -6,7 +6,7 @@
 
 {% block body_block %}
 		<h1> Upload Run </h1>
-		{{ task.slug }}
+		Uploading to task: {{ task.title }}
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 

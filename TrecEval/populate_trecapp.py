@@ -73,6 +73,7 @@ def name_generator(size=6, chars=string.ascii_lowercase + string.digits):
 def add_researcher(username, password, url, organization, name, picture=None):
     u = User.objects.get_or_create(username=username)[0]
     u.password = password
+    u.set_password(password)
     u.save()
     r = Researcher.objects.get_or_create(user=u)[0]
     r.user = u
@@ -87,7 +88,6 @@ def add_researcher(username, password, url, organization, name, picture=None):
 
 def add_run(name, researcher, task, description, run_type, query_type, feedback_type, MAP, p10, p20, date):
     r = Run.objects.get_or_create(name=name, researcher=researcher, task=task, MAP=MAP, p10=p10, p20=p20)[0]
-
     r.feedback_type = feedback_type
     r.run_type = run_type
     r.query_type = query_type
