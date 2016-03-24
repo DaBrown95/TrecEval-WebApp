@@ -194,33 +194,41 @@ def addResearcher(request):
     return render(request, 'TrecApp/addresearcher.html',
                   {'user_form': user_form, 'researcher_form': researcher_form, 'registered': registered})
 
-
+@login_required
 def update_profile(request):
     if request.method == 'POST':
 
         # form = UpdateResearcherForm(request.POST, instance=request.user)
         # form.actual_user = request.user
-        form = UpdateResearcherForm(request.POST)
+        researcher_update_form = UpdateResearcherForm(request.POST)
+        user_update_form = UpdateUserForm(request.POST)
 
-        if form.is_valid():
-            page = form.save(commit=False)
+        if researcher_update_form.is_valid() and user_update_form.is_valid():
+            page = researcher_update_form.save(commit=False)
+            userform = user_update_form.save(commit=False)
+            user = User.objects.get(username__exact=request.user.username)
             userProfile = Researcher.objects.get(user=request.user)
+            if userform.password != '':
+                print userform.password
+                user.set_password(userform.password)
             if page.display_name != '':
                 userProfile.display_name = page.display_name
             if page.url != '':
                 userProfile.url = page.url
             if page.organization != '':
                 userProfile.organization = page.organization
-            if 'picture' in request.FILES:
-                userProfile.picture = request.FILES['picture']
-
             userProfileSlug = userProfile.slug
+            user.save()
             userProfile.save()
             return researcher(request, userProfileSlug)
     else:
         researcher_update_form = UpdateResearcherForm()
+        user_update_form = UpdateUserForm()
 
-    return render(request, 'TrecApp/updateprofile.html', {'researcher_update_form': researcher_update_form})
+        
+
+    return render(request, 'TrecApp/updateprofile.html', {'researcher_update_form': researcher_update_form,
+                                                          'user_update_form': user_update_form})
 
 
 def track(request, track_name_slug):

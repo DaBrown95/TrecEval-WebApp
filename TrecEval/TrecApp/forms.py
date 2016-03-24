@@ -36,7 +36,16 @@ class ResearcherForm(forms.ModelForm):
         fields = ('url', 'display_name', 'organization', 'picture')
 
 
+        
+class UpdateUserForm(forms.ModelForm):
+    password = forms.CharField(max_length=128, widget=forms.PasswordInput(),help_text="Please enter your new password.", required=False)
+    class Meta:
+        model = User
+        fields = ('password',)
+
+        
 class UpdateResearcherForm(forms.ModelForm):
+    
     display_name = forms.CharField(max_length=128, help_text="Please enter your new display name.", required=False)
     organization = forms.CharField(max_length=128, help_text="Please enter your new organization.", required=False)
     url = forms.URLField(max_length=200, help_text="Please enter your new URL", required=False)
@@ -53,7 +62,7 @@ class UpdateResearcherForm(forms.ModelForm):
 
     class Meta:
         model = Researcher
-        fields = ('url', 'display_name', 'organization', 'picture')
+        fields = ('url', 'display_name', 'organization', )
 
 
 class RunForm(forms.ModelForm):

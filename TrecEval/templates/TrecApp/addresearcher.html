@@ -4,7 +4,7 @@
 
 {% block title %}Register{% endblock %}
 
-{% block body_block %}
+{% block body_block %}|
 	<h1> Registration </h1>
 		{% if registered %}
         TrecEval says: <strong>thank you for registering!</strong>
@@ -14,7 +14,7 @@
 			<form id="user_form" method="post" action="/trecapp/addresearcher/" enctype="multipart/form-data">
             {% csrf_token %}
             {{ user_form.as_p }}
-							{{ researcher_form.as_p }}
+			{{ researcher_form.as_p }}
             <button type="submit" class="btn btn-primary navbar-btn" value="Register" align="right"> Submit </button>
         </form>
 		{% endif %}
