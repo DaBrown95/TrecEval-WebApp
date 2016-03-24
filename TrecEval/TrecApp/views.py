@@ -73,23 +73,22 @@ def uploadRun(request, task_name_slug):
         
         if form.is_valid():
             if researcher:
-                print task.judgement_file.path
                 page = form.save(commit=False)
                 page.task = task
                 print "Hello! Just about to call trec_eval"
-                result = handle_uploaded_file(page.task.judgement_file.path, request.FILES['runfile'])
-                slugFinder = page.name
-                page.MAP = result['MAP']
-                page.p10 = result['p10']
-                page.p20 = result['p20']
+                try:
+                    result = handle_uploaded_file(page.task.judgement_file.path, request.FILES['runfile'])
+                    page.MAP = result['MAP']
+                    page.p10 = result['p10']
+                    page.p20 = result['p20']
+                    page.researcher = researcher  # foreign key
+                    page.save()
+                    slugFinder = page.name
+                    slugFinder = Run.objects.get(name=slugFinder).slug
+                    return run(request, slugFinder)  # go to home page
+                except:
+                    print "trec eval didn't work"
                 
-                page.researcher = researcher  # foreign key
-                page.save()
-
-                # runObject = Run.objects.get(name=slugFinder)
-                # slugFinder = runObject.slug
-                slugFinder = Run.objects.get(name=slugFinder).slug
-                return run(request, slugFinder)  # go to home page
     else:
         form = RunForm()
         
