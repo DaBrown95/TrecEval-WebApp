@@ -26,8 +26,10 @@
 				{% endif %}
 			</div>
 			<div class="row">
-				<div class="col-md-6"></div> 
-				<div class="col-md-6"></br><a href = '/trecapp/updateprofile' align="right"> <button type="button" class="btn btn-primary navbar-btn"> Update Your Profile </button></a>
+				<div class="col-md-6"></div>
+                {%  if displayChangeProfile %}
+				    <div class="col-md-6"></br><a href = '/trecapp/updateprofile' align="right"> <button type="button" class="btn btn-primary navbar-btn"> Update Your Profile </button></a>
+                {%  endif  %}
 				</div>
 			</div><!--/minisplit-->
 		</div> <!--/big split part-->
