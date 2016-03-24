@@ -5,15 +5,15 @@
 {% block title %}Home{% endblock %}
 
 {% block body_block %}
-	<h1 style="font-weight:bold;font-size:60px;text-align:right;min-width:100%;width:100%">Welcome</h1>
-	<h3 style="text-align:right">TREC: allowing researchers to evaluate how well their search engine searches</h3>
+	<h1 style="font-weight:bold;font-size:60px;text-align:center;min-width:100%;width:100%">Welcome</h1>
+	<h3 style="text-align:center">TREC: allowing researchers to evaluate their search algorithms</h3>
 
 	{% if runs %}
 	<div style="width:100%;padding:20px;padding-bottom:20px" class="container img-rounded-bmarg">
 	<ol>
 		<h4> Latest runs </h4>
 		{%for run in runs%}
-		<li><a href=/trecapp/run/{{run.slug}}> {{run.name}} </a></li>
+		<li><a href=/trecapp/run/{{run.slug}}> {{run.name}} </a> submitted: {{run.date}}</li>
 		{% endfor %}
 	</ol>
 	{% else %}
