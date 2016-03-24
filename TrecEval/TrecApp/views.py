@@ -88,12 +88,16 @@ def uploadRun(request, task_name_slug):
                     return run(request, slugFinder)  # go to home page
                 except:
                     print "trec eval didn't work"
+                    return error_page(request)
                 
     else:
         form = RunForm()
         
 
     return render(request, 'TrecApp/uploadRun.html', {'form': form, 'task':task})
+
+def error_page(request):
+    return render(request, 'TrecApp/error.html')
 
 
 def user_login(request):
