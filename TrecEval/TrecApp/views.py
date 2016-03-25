@@ -321,6 +321,7 @@ def task(request, task_name_slug):
         context_dict["track"] = task.track
         context_dict["description"] = task.description
         context_dict["url"] = task.task_url
+        print "Url is..." + task.task_url
         context_dict["year"] = task.year
 
     
