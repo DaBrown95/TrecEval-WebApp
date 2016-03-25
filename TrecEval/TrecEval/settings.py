@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'TrecApp',
     'django_tables2',
+    'django_cleanup',
 )
 
 MIDDLEWARE_CLASSES = (

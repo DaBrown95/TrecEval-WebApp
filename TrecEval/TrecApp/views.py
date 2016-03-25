@@ -209,16 +209,16 @@ def update_profile(request):
                 userProfile.url = page.url
             if page.organization != '':
                 userProfile.organization = page.organization
+            if 'picture' in request.FILES:
+                userProfile.picture = request.FILES['picture']
             userProfileSlug = userProfile.slug
             user.save()
             userProfile.save()
             #log user back in with new password
-            loggedinUser = authenticate(username=user.username, password=userform.password)  # logs user in
-            if loggedinUser.is_active:
-                login(request, loggedinUser)
-                return home(request)
-            else:
-                return HttpResponse("Your TrecEval account is disabled.")
+            if userform.password != '':
+                loggedinUser = authenticate(username=user.username, password=userform.password)  # logs user in
+                if loggedinUser.is_active:
+                    login(request, loggedinUser)
             return researcher(request, userProfileSlug)
     else:
         researcher_update_form = UpdateResearcherForm()
