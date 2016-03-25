@@ -40,7 +40,7 @@ def researchers(request):
         researcherList += [researcherDict]
 
     table = ResearcherTable(researcherList)
-    RequestConfig(request,paginate={"per_page": 10}).configure(table)
+    RequestConfig(request,paginate={"per_page": 20}).configure(table)
     context_dict["table"] = table
 
     return render(request, "TrecApp/researchers.html", context_dict)
