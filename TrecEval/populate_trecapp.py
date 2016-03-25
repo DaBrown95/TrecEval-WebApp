@@ -109,6 +109,7 @@ def populate():
 def add_researcher(username, password, url, organization, name, picture=None):
     u = User.objects.get_or_create(username=username)[0]
     u.password = password
+    u.set_password(password)
     u.save()
     r = Researcher.objects.get_or_create(user=u)[0]
     r.user = u

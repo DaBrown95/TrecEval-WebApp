@@ -6,7 +6,7 @@
 
 {% block body_block %}
 		<h1> Upload Run </h1>
-		{{ task.slug }}
+		 Uploading to task: <a href = /trecapp/tasks/{{task.slug}}>  {{ task.title }}</a>
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
@@ -15,9 +15,9 @@
             {% endfor %}
 
             {% for field in form.visible_fields %}
-                {{ field.errors }}
-                {{ field.help_text }}
+                <span style="font-weight:bold">{{ field.help_text }}</span>
                 {{ field }}
+                <span class="text-danger">{{ field.errors }}</span>
                 <br>
             {% endfor %}
               <!--<input type="submit" value="Upload" />-->

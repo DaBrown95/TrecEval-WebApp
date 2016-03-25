@@ -7,6 +7,8 @@
 
 {% block body_block %}
 
+<a href='/trecapp/tracks'><button type="submit" class="btn btn-info navbar-btn"><span class="glyphicon glyphicon-chevron-left"></span> Tracks </button></a>
+
 <h1> {{title}} </h1>
 
 <div class="container-fluid">
@@ -34,7 +36,9 @@
 			<div class="col-sm-6 "><!--bigsplit part2-->
 						<h2 style="margin-top:0px">Tasks ({{ number }}): </h2>	
 						{% if tasks %}
+							<div class="table-responsive">
 							{%  render_table table %}
+							</div>
 						{% else %}
 							<div class="row"><strong> No tasks belong to this run. </strong></div>
 						{%  endif %}
@@ -45,14 +49,6 @@
 			Track does not exist
 			</div> <!--/no split part2-->
 		{% endif %}
-		
-		<div class="row">
-			<div class="col-sm-12"><center>
-				<a href="{{request.META.HTTP_REFERER}}"><button type="submit" class="btn btn-primary navbar-btn">Go back </button></a>
-				<a href='/trecapp/tracks'><button type="submit" class="btn btn-primary navbar-btn">Tracks</button></a></center>
-			</div>
-		</div>
-		
 	</div><!--row-->
 </div><!--container-->
 {% endblock %}

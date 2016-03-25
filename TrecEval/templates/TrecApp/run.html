@@ -5,57 +5,54 @@
 {% block title %} {{name}}{% endblock %}
 
 {% block body_block %}
-
+<a href = '/trecapp/tasks/{{ task.slug }}'> <button type="submit" class="btn btn-info navbar-btn"><span class="glyphicon glyphicon-chevron-left"></span> {{ task.title }} </button> </a>
 {% if run %}
 	<h1 class="text-capitalize"> Run name: {{ name }} </h1>
-	<div class="container-fluid">
+	<div class="container" style="margin-top:20px;margin-left:10px">
 		<div class="row"><!--r1-->
-			<div class="col-md-4" style="font-weight:bold;font-size:120%">Researcher</div>
-			<div class="col-md-8">
+			<div class="col-md-2" style="font-weight:bold;font-size:120%">Researcher</div>
+			<div class="col-md-10">
 			<a href = /trecapp/researcher/{{ researcher.slug }}> {{researcher}} </a> </div>
 		</div><!--r1-->
 		<div class="row"><!--r2-->
-			<div class="col-md-4" style="font-weight:bold;font-size:120%">Description</div>
-			<div class="col-md-8"> {{ description }} </div>
+			<div class="col-md-2" style="font-weight:bold;font-size:120%">Description</div>
+			<div class="col-md-10"> {{ description }} </div>
 		</div><!--r2-->
 		<div class="row"><!--r3-->
-			<div class="col-md-4" style="font-weight:bold;font-size:120%">Track</div>
-			<div class="col-md-8"> <a href = /trecapp/tracks/{{task.track}}> {{task.track}} </a> </div>
+			<div class="col-md-2" style="font-weight:bold;font-size:120%">Track</div>
+			<div class="col-md-10"> <a href = /trecapp/tracks/{{task.track}}> {{task.track}} </a> </div>
 		</div><!--r3-->
 		<div class="row"><!--r4-->
-			<div class="col-md-4" style="font-weight:bold;font-size:120%">Task</div>
-			<div class="col-md-8"> <a href = /trecapp/tasks/{{ task }}> {{ task }} </a> </div>
+			<div class="col-md-2" style="font-weight:bold;font-size:120%">Task</div>
+			<div class="col-md-10"> <a href = /trecapp/tasks/{{ task.slug }}> {{ task }} </a> </div>
 		</div><!--r4-->
 		<div class="row"><!--r5-->
-			<div class="col-md-4" style="font-weight:bold;font-size:120%">Run Type</div>
-			<div class="col-md-8"> {{ run_type }} </div>
+			<div class="col-md-2" style="font-weight:bold;font-size:120%">Run Type</div>
+			<div class="col-md-10"> {{ run_type }} </div>
 		</div><!--r5-->
 		<div class="row"><!--r6-->
-			<div class="col-md-4" style="font-weight:bold;font-size:120%">Feedback Type</div>
-			<div class="col-md-8"> {{ feedback_type }} </div>
+			<div class="col-md-2" style="font-weight:bold;font-size:120%">Feedback Type</div>
+			<div class="col-md-10"> {{ feedback_type }} </div>
 		</div><!--r6-->
 		<div class="row"><!--r7-->
-			<div class="col-md-4" style="font-weight:bold;font-size:120%">Query Type</div>
-			<div class="col-md-8"> {{ query_type }} </div>
+			<div class="col-md-2" style="font-weight:bold;font-size:120%">Query Type</div>
+			<div class="col-md-10"> {{ query_type }} </div>
 		</div><!--r7-->
 		<div class="row"><!--r8-->
-			<div class="col-md-4" style="font-weight:bold;font-size:120%">MAP</div>
-			<div class="col-md-8"> {{ map }} </div>
+			<div class="col-md-2" style="font-weight:bold;font-size:120%">MAP</div>
+			<div class="col-md-10"> {{ map }} </div>
 		</div><!--r8-->
 		<div class="row"><!--r9-->
-			<div class="col-md-4" style="font-weight:bold;font-size:120%">p10</div>
-			<div class="col-md-8"> {{ p10 }} </div>
+			<div class="col-md-2" style="font-weight:bold;font-size:120%">p10</div>
+			<div class="col-md-10"> {{ p10 }} </div>
 		</div><!--r9-->
 		<div class="row"><!--r10-->
-			<div class="col-md-4" style="font-weight:bold;font-size:120%">p20</div>
-			<div class="col-md-8"> {{ p20 }} </div>
+			<div class="col-md-2" style="font-weight:bold;font-size:120%">p20</div>
+			<div class="col-md-10"> {{ p20 }} </div>
 		</div><!--r10-->
 		<div class="row"><!--buttons-->
-			<div class="col-md-4">
+			<div class="col-md-12"></br>
 			<a href="/trecapp/graph/{{run.slug}}"> <button type="submit" class="btn btn-primary navbar-btn"> Graph of this run </button></a>
-			</div>
-			<div class="col-md-8">
-			<a href="{{request.META.HTTP_REFERER}}"><button type="submit" class="btn btn-primary navbar-btn">Go back </button></a></br>
 			</div>
 		</div><!--buttons-->
 	</div><!--containerfluid-->

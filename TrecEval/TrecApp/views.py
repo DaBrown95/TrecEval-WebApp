@@ -55,11 +55,13 @@ def uploadRun(request, task_name_slug):
     currentUser = User.objects.get(username=request.user.username)  # get current user from request
     try:  # retrieve researcher for the current user from database
         researcher = Researcher.objects.get(user=currentUser)
-        task = Task.objects.get(slug=task_name_slug)
     except Researcher.DoesNotExist:
         researcher = None
+    try:
+        task = Task.objects.get(slug=task_name_slug)
+    except Task.DoesNotExist:
         task = None
-    
+
     def handle_uploaded_file(qRel, f):
         # qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
         # qRel = "H:\Workspace\WAD\TrecWebApp\TrecEval-WebApp\Extra\TrecEvalProgram\data\news\ap.trec.qrels"
@@ -74,23 +76,28 @@ def uploadRun(request, task_name_slug):
                 page = form.save(commit=False)
                 page.task = task
                 print "Hello! Just about to call trec_eval"
-                result = handle_uploaded_file(page.task.judgement_file.path, request.FILES['runfile'])
-                slugFinder = page.name
-                page.MAP = result['MAP']
-                page.p10 = result['p10']
-                page.p20 = result['p20']
-                page.researcher = researcher  # foreign key
-                page.save()
-
-                # runObject = Run.objects.get(name=slugFinder)
-                # slugFinder = runObject.slug
-                slugFinder = Run.objects.get(name=slugFinder).slug
-                return run(request, slugFinder)  # go to home page
+                try:
+                    result = handle_uploaded_file(page.task.judgement_file.path, request.FILES['runfile'])
+                    page.MAP = result['MAP']
+                    page.p10 = result['p10']
+                    page.p20 = result['p20']
+                    page.researcher = researcher  # foreign key
+                    page.save()
+                    slugFinder = page.name
+                    slugFinder = Run.objects.get(name=slugFinder).slug
+                    return run(request, slugFinder)  # go to home page
+                except:
+                    print "trec eval didn't work"
+                    return error_page(request)
+                
     else:
         form = RunForm()
         
 
     return render(request, 'TrecApp/uploadRun.html', {'form': form, 'task':task})
+
+def error_page(request):
+    return render(request, 'TrecApp/error.html')
 
 
 def user_login(request):
@@ -131,7 +138,7 @@ def researcher(request, researcher_name_slug):
         context_dict["display_name"] = researcher.display_name
         context_dict["url"] = researcher.url
         context_dict["organization"] = researcher.organization
-        context_dict["runs"] = Run.objects.filter(researcher=researcher).order_by("MAP")
+        context_dict["runs"] = Run.objects.filter(researcher=researcher).order_by("-MAP")
         context_dict["picture"] = researcher.picture
         context_dict["displayChangeProfile"] = (request.user == researcher.user)
         if researcher.picture == "":
@@ -173,48 +180,54 @@ def addResearcher(request):
                 login(request, loggedinUser)
                 return home(request)
             else:
-                # An inactive account was used - no logging in!
                 return HttpResponse("Your TrecEval account is disabled.")
         else:
-            # The supplied forms contained errors - just print them to the terminal.
             print user_form.errors, researcher_form.errors
     else:
-        # If the request was not a POST, display the form to enter details.
         user_form = UserForm()
         researcher_form = ResearcherForm()
-
-    # Bad form (or form details), no form supplied...
-    # Render the form with error messages (if any).
     return render(request, 'TrecApp/addresearcher.html',
                   {'user_form': user_form, 'researcher_form': researcher_form, 'registered': registered})
 
-
+@login_required
 def update_profile(request):
     if request.method == 'POST':
+        researcher_update_form = UpdateResearcherForm(request.POST)
+        user_update_form = UpdateUserForm(request.POST)
 
-        # form = UpdateResearcherForm(request.POST, instance=request.user)
-        # form.actual_user = request.user
-        form = UpdateResearcherForm(request.POST)
-
-        if form.is_valid():
-            page = form.save(commit=False)
+        if researcher_update_form.is_valid() and user_update_form.is_valid():
+            page = researcher_update_form.save(commit=False)
+            userform = user_update_form.save(commit=False)
+            user = User.objects.get(username__exact=request.user.username)
             userProfile = Researcher.objects.get(user=request.user)
+            if userform.password != '':
+                print userform.password
+                user.set_password(userform.password)
             if page.display_name != '':
                 userProfile.display_name = page.display_name
             if page.url != '':
                 userProfile.url = page.url
             if page.organization != '':
                 userProfile.organization = page.organization
-            if 'picture' in request.FILES:
-                userProfile.picture = request.FILES['picture']
-
             userProfileSlug = userProfile.slug
+            user.save()
             userProfile.save()
+            #log user back in with new password
+            loggedinUser = authenticate(username=user.username, password=userform.password)  # logs user in
+            if loggedinUser.is_active:
+                login(request, loggedinUser)
+                return home(request)
+            else:
+                return HttpResponse("Your TrecEval account is disabled.")
             return researcher(request, userProfileSlug)
     else:
         researcher_update_form = UpdateResearcherForm()
+        user_update_form = UpdateUserForm()
 
-    return render(request, 'TrecApp/updateprofile.html', {'researcher_update_form': researcher_update_form})
+        
+
+    return render(request, 'TrecApp/updateprofile.html', {'researcher_update_form': researcher_update_form,
+                                                          'user_update_form': user_update_form})
 
 
 def track(request, track_name_slug):

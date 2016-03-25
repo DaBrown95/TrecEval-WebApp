@@ -6,7 +6,7 @@
 
 {% block body_block %}
 	<h1> Tracks </h1>
-	
+	<div class="container" style="margin-top:30px">
 	{% if tracks %}
 		{%for track in tracks %}
 			<p><a href=/trecapp/tracks/{{track.slug}}> {{track.title}} </a></p>
@@ -14,4 +14,5 @@
 	{% else %}
 	 There are no tracks.
 	{% endif %}
+	</div>
 {% endblock %}
