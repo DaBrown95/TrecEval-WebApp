@@ -15,9 +15,9 @@
             {% endfor %}
 
             {% for field in form.visible_fields %}
-                {{ field.errors }}
-                {{ field.help_text }}
+                <span style="font-weight:bold">{{ field.help_text }}</span>
                 {{ field }}
+                <span class="text-danger">{{ field.errors }}</span>
                 <br>
             {% endfor %}
               <!--<input type="submit" value="Upload" />-->

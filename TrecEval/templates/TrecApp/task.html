@@ -7,39 +7,51 @@
 
 {% block body_block %}
 
-    <a href = /trecapp/tracks/{{track.slug}}> <button type="submit" class="btn btn-primary navbar-btn">{{ track.title }} </button></a>
-    <a href = {{request.META.HTTP_REFERER}}> <button type="submit" class="btn btn-primary navbar-btn">Go Back </button></a>
-	<a href = /trecapp/uploadrun/{{task.slug}}> <button type="submit" class="btn btn-primary navbar-btn"> Upload a Run to this Task </button></a>
-	{% if task %}
-		<h2> {{ task.title }} </h2>
-	<div class="container-fluid" style="min-width:100%;width:100%">
-		{% if runs %}
-        <h3> Best runs: by MAP </h3>
-			{%for run in bestRuns%}
-			<p><a href=/trecapp/run/{{run.slug}}> {{run.name}} </a></p>
-			{% endfor %}
+<a href = /trecapp/tracks/{{track.slug}}> <button type="submit" class="btn btn-info navbar-btn"> <span class="glyphicon glyphicon-chevron-left"></span>{{ track.title }} </button></a>
+{% if user.is_authenticated %}
+<a href = /trecapp/uploadrun/{{task.slug}}> <button type="submit" class="btn btn-primary navbar-btn"> Upload a Run to this Task </button></a>
+{% endif %}
+{% if task %}
+	<h2> {{ task.title }} </h2>
+	<div class="container-fluid" style="max-width:100%;width:100%">
+			{% if runs %}
+				<h3 style="font-weight:bold"> Best runs: by MAP </h3> </br>
+				{%for run in bestRuns%}
+					<p><a href=/trecapp/run/{{run.slug}}> {{run.name}} </a></p>
+				{% endfor %}
+			{% else %}
+				There are no runs for this task
+			{% endif %}
+			<div class="row" style="margin-left:-10px">
+				<div class="col-sm-2 col-title"> Track: </div> 
+				<div class="col-sm-10"> <a href = /trecapp/tracks/{{track.slug}}> {{ track.title }} </a></div>
+			</div>
+			<div class="row" style="margin-left:-10px">
+				<div class="col-sm-2 col-title">URL</div> 
+				<div class="col-sm-10"><a href = {{url}}> {{url}} </a></div>
+			</div>
+			<div class="row" style="margin-left:-10px">
+				<div class="col-sm-2 col-title">Description</div> 
+				<div class="col-sm-10"> {{ description }}</div>
+			</div>
+			<div class="row" style="margin-left:-10px">
+				<div class="col-sm-2 col-title"> Year</div> 
+				<div class="col-sm-10"> {{ year }}</div>
+			</div> </br>
+			<span><a href=trecapp/time/{{task.slug}}><button type="submit" class="btn btn-primary navbar-btn">Graph of Task by Time</button></a></span>
 		{% else %}
-			There are no runs for this task
+			Task does not exist
 		{% endif %}
-		<p>
-		Track - <a href = /trecapp/tracks/{{track.slug}}> {{ track.title }} </a></br>
-		Url - <a href={{url}}> {{ url }} </a> </br>
-		Decription - {{description}}</br>
-		Year - {{year}}</br>
-		</p>
-		<a href=trecapp/time/{{task.slug}}>graph by time</a>
-	{% else %}
-		Task does not exist
-	{% endif %}
-	{% if runs %}
-	<form id="graph_form" method="post" action="/trecapp/tasks/{{ task.slug }}/">
-	{% csrf_token %}
-	{% render_table table %}
+		{% if runs %}
+		<form id="graph_form" method="post" action="/trecapp/tasks/{{ task.slug }}/">
+			{% csrf_token %}
+			<div class="table-responsive">
+				{% render_table table %}
+			</div>
+			<button type="submit" class="btn btn-primary navbar-btn" value="creategraph" align="right"> Create Graph </button>
+		</form>
+	</div>
+{% endif %}
 
-	<button type="submit" class="btn btn-primary navbar-btn" value="creategraph" align="right"> Create Graph </button>
-	
-	</form>
-	{% endif %}
-</div>
 {% endblock %}
 

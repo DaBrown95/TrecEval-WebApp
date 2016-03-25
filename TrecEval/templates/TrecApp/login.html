@@ -4,22 +4,29 @@
 {% block title %} Log In {% endblock %}
 
 {% block body_block %}
+<h1>Login to TrecEval</h1>
 
-  <h1>Login to TrecEval</h1>
-
-  <form id="login_form" method="post" action="/trecapp/login/">
+<div class="container-fluid" style="margin-top:30px">
+  <form id="login_form" class="form-horizontal" role ="form" method="post" action="/trecapp/login/">
 	{% csrf_token %}
-	<div style="width:30%;padding:60px;padding-bottom:20px" class="container center-block">
-		<div class="fieldWrapper row" style="padding:5px">
-				<div class="col-sm-5 col-title">Username:</div>
-				<div class="col-sm-7 img-rounded"><input type="text" name="username" value="" size="30" placeholder="Username"/></div>
-		</div>
-		<div class="fieldWrapper row" style="padding:5px">
-				<div class="col-sm-5 col-title">Password:</div>
-				<div class="col-sm-7 img-rounded"><input type="password" name="password" value="" size="30" placeholder="Password"/></div>
-		</div>
-		<div><center><button type="submit" class="btn btn-primary navbar-btn"> Log in </button></center></div>
-  	</div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="email">Username:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="username" size="30" placeholder="Enter username">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="pwd">Password:</label>
+      <div class="col-sm-10">          
+        <input type="password" class="form-control" name="password" placeholder="Enter password">
+      </div>
+    </div>
+    <div class="form-group">        
+      <div class="col-sm-offset-6 col-sm-10">
+        <button type="submit" class="btn btn-primary navbar-btn">Submit</button>
+      </div>
+    </div>
   </form>
+</div>
 
 {% endblock %}
