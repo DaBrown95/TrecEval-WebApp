@@ -29,4 +29,5 @@ Population script add's another 500 users to the database.
 |NSaiyara         |Noshin|2167932       |
 
 Changes since presentation are all commits from approx midday on the 22/03/2016 onwards.
+The python script we use to extract the trec_eval values, valueExtractor, is set to use the linux compiled version of the script. If you want to use the web app locally on a mac, chagne the trecpath line from "trec_eval_linux" to "trec_eval_macosx".
 
