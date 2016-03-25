@@ -179,27 +179,18 @@ def addResearcher(request):
                 login(request, loggedinUser)
                 return home(request)
             else:
-                # An inactive account was used - no logging in!
                 return HttpResponse("Your TrecEval account is disabled.")
         else:
-            # The supplied forms contained errors - just print them to the terminal.
             print user_form.errors, researcher_form.errors
     else:
-        # If the request was not a POST, display the form to enter details.
         user_form = UserForm()
         researcher_form = ResearcherForm()
-
-    # Bad form (or form details), no form supplied...
-    # Render the form with error messages (if any).
     return render(request, 'TrecApp/addresearcher.html',
                   {'user_form': user_form, 'researcher_form': researcher_form, 'registered': registered})
 
 @login_required
 def update_profile(request):
     if request.method == 'POST':
-
-        # form = UpdateResearcherForm(request.POST, instance=request.user)
-        # form.actual_user = request.user
         researcher_update_form = UpdateResearcherForm(request.POST)
         user_update_form = UpdateUserForm(request.POST)
 
@@ -220,6 +211,13 @@ def update_profile(request):
             userProfileSlug = userProfile.slug
             user.save()
             userProfile.save()
+            #log user back in with new password
+            loggedinUser = authenticate(username=user.username, password=userform.password)  # logs user in
+            if loggedinUser.is_active:
+                login(request, loggedinUser)
+                return home(request)
+            else:
+                return HttpResponse("Your TrecEval account is disabled.")
             return researcher(request, userProfileSlug)
     else:
         researcher_update_form = UpdateResearcherForm()

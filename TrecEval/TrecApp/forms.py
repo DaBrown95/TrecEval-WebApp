@@ -20,6 +20,7 @@ class ResearcherForm(forms.ModelForm):
     organization = forms.CharField(max_length=128, help_text="Please enter your organization")
     url = forms.URLField(max_length=200, help_text="Please enter the URL of your web-page. Not required",
                          required=False)
+    
 
     def clean(self):  # tidy up url
         cleaned_data = self.cleaned_data
