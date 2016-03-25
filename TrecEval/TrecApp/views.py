@@ -298,9 +298,8 @@ def task(request, task_name_slug):
     try:
         task = Task.objects.get(slug=task_name_slug)
 
-
         runs = Run.objects.filter(task=task)
-        bestRuns = Run.objects.filter(task=task).order_by('-MAP')[:3]
+        bestRuns = runs.order_by('-MAP')[:3]
 
         runList = []
         for run in runs:  # creates dictionary for the table. This is needed to include the organization.
@@ -336,6 +335,7 @@ def task(request, task_name_slug):
         context_dict["url"] = task.task_url
         print "Url is..." + task.task_url
         context_dict["year"] = task.year
+        context_dict["bestRuns"] = bestRuns
 
     
         if request.method == 'POST':
