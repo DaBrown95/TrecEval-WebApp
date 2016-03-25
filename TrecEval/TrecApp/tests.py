@@ -46,16 +46,16 @@ class ResearcherTests(TestCase):
 
 class TrackTests(TestCase):
     def setUp(self):
-        Track.objects.create(title='Robust')
+        Track.objects.create(title='robust')
 
     def test_slug_line_creation(self):
-        robust = Track.objects.get(title='Robust')
+        robust = Track.objects.get(title='robust')
         self.assertEquals(robust.slug, 'robust')
 
 
 class TaskTests(TestCase):
     def setUp(self):
-        robust = Track.objects.create(title='Robust')
+        robust = Track.objects.create(title='robust')
         Task.objects.create(track=robust, title='Robust2004', year=2004)
 
     def test_slug_line_creation(self):
@@ -67,7 +67,7 @@ class RunTests(TestCase):
     def setUp(self):
         self.bobUser = User.objects.create(username="Bob Bobby Brown")
         bob = Researcher.objects.create(user=self.bobUser, url="www.gla.ac.uk", organization="Glasgow University")
-        robust = Track.objects.create(title='Robust')
+        robust = Track.objects.create(title='robust')
         robust2004 = Task.objects.create(track=robust, title='Robust2004', year=2004)
         Run.objects.create(name='My Super Cool Run', MAP=0.0, p10=0.0, p20=0.0, researcher=bob, task=robust2004)
 

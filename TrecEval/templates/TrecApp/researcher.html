@@ -10,13 +10,13 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-6"><!--bigsplit part1-->
+			<!--minisplit-->
 			<div class="row vertical-align" style="margin-left:5px;height:auto;padding-bottom:20px">
 				{% if hasPicture %}
 					<div class="col-md-5"><img src="{{ picture.url }}" class="img-circle img-thumbnail" style="width:150px;height:auto"></div>
 					<div class="col-md-7"><h1> {{ display_name }} </h1></div>
 				{% endif %}
 			</div>
-			<!--minisplit-->
 			<div class="row" style="margin-left:10px">
 				<div class="col-md-4"><strong>Organization</strong></div> 
 				<div class="col-md-8 text-capitalize"> {{organization}} </div>
@@ -35,7 +35,7 @@
 		<h3 style="margin:0"> Submitted Runs </h3>
 		{% if runs %}
 				{% for myRuns in runs %}
-						<p><a href=/trecapp/run/{{myRuns.slug}}> {{myRuns.name}} ({{myRuns.MAP}})</a></p>
+						<p><a href=/trecapp/run/{{myRuns.slug}}> <strong>{{myRuns.name}}</strong> ({{myRuns.MAP}})</a></p>
 				{% endfor %}
 		{% else %}
 				<strong> There are no runs </strong>

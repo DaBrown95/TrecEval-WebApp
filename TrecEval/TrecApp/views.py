@@ -140,6 +140,7 @@ def researcher(request, researcher_name_slug):
         context_dict["organization"] = researcher.organization
         context_dict["runs"] = Run.objects.filter(researcher=researcher).order_by("-MAP")
         context_dict["picture"] = researcher.picture
+        context_dict["displayChangeProfile"] = (request.user == researcher.user)
         if researcher.picture == "":
             context_dict["hasPicture"] = False
         else:
@@ -333,6 +334,7 @@ def task(request, task_name_slug):
         context_dict["track"] = task.track
         context_dict["description"] = task.description
         context_dict["url"] = task.task_url
+        print "Url is..." + task.task_url
         context_dict["year"] = task.year
 
     
