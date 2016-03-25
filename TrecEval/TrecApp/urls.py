@@ -1,9 +1,10 @@
 from django.conf.urls import patterns, url
+
 from TrecApp import views
 
 urlpatterns = patterns('',
                        url(r'^$', views.home, name='home'),
-                       url(r'time/(?P<task_name_slug>[\w\-]+)/$',views.timeGraph,name='timeGraph'),
+                       url(r'time/(?P<task_name_slug>[\w\-]+)/$', views.timeGraph, name='timeGraph'),
                        url(r'about/$', views.about, name='about'),
                        url(r'tasks/$', views.tasks, name='tasks'),
                        url(r'tasks/(?P<task_name_slug>[\w\-]+)/$', views.task, name='task'),

@@ -1,17 +1,15 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-
-from TrecApp.models import Researcher, Run, Task, Track, run_type, query_type, feedback_type
-
-from TrecApp.forms import *
-from TrecApp.valueExtractor import *
-from TrecApp.models import Run, Researcher
+import simplejson
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from TrecApp.tables import RunTable, TaskTable, ResearcherTable
+from django.shortcuts import render
 from django_tables2 import RequestConfig
-import simplejson
+
+from TrecApp.forms import *
+from TrecApp.models import Run, Researcher
+from TrecApp.models import Task, Track
+from TrecApp.tables import RunTable, TaskTable, ResearcherTable
+from TrecApp.valueExtractor import *
 
 
 def home(request):
@@ -29,7 +27,6 @@ def researchers(request):
     context_dict = {}
 
     allResearchers = Researcher.objects.order_by("display_name")
-    #context_dict["researchers"] = researchers_list
     researcherList = []
     for researcherCursor in allResearchers:
         researcherDict = {}
@@ -40,7 +37,7 @@ def researchers(request):
         researcherList += [researcherDict]
 
     table = ResearcherTable(researcherList)
-    RequestConfig(request,paginate={"per_page": 20}).configure(table)
+    RequestConfig(request, paginate={"per_page": 20}).configure(table)
     context_dict["table"] = table
 
     return render(request, "TrecApp/researchers.html", context_dict)
@@ -63,14 +60,12 @@ def uploadRun(request, task_name_slug):
         task = None
 
     def handle_uploaded_file(qRel, f):
-        # qRel = "/Users/David/Documents/GitHub/TrecEval-WebApp/Extra/TrecEvalProgram/data/news/ap.trec.qrels"
-        # qRel = "H:\Workspace\WAD\TrecWebApp\TrecEval-WebApp\Extra\TrecEvalProgram\data\news\ap.trec.qrels"
         results = trec_eval(qRel, f)
         return results
 
     if request.method == 'POST':
         form = RunForm(request.POST, request.FILES)
-        
+
         if form.is_valid():
             if researcher:
                 page = form.save(commit=False)
@@ -89,12 +84,12 @@ def uploadRun(request, task_name_slug):
                 except:
                     print "trec eval didn't work"
                     return error_page(request)
-                
+
     else:
         form = RunForm()
-        
 
-    return render(request, 'TrecApp/uploadRun.html', {'form': form, 'task':task})
+    return render(request, 'TrecApp/uploadRun.html', {'form': form, 'task': task})
+
 
 def error_page(request):
     return render(request, 'TrecApp/error.html')
@@ -189,6 +184,7 @@ def addResearcher(request):
     return render(request, 'TrecApp/addresearcher.html',
                   {'user_form': user_form, 'researcher_form': researcher_form, 'registered': registered})
 
+
 @login_required
 def update_profile(request):
     if request.method == 'POST':
@@ -214,7 +210,7 @@ def update_profile(request):
             userProfileSlug = userProfile.slug
             user.save()
             userProfile.save()
-            #log user back in with new password
+            # log user back in with new password
             if userform.password != '':
                 loggedinUser = authenticate(username=user.username, password=userform.password)  # logs user in
                 if loggedinUser.is_active:
@@ -223,8 +219,6 @@ def update_profile(request):
     else:
         researcher_update_form = UpdateResearcherForm()
         user_update_form = UpdateUserForm()
-
-        
 
     return render(request, 'TrecApp/updateprofile.html', {'researcher_update_form': researcher_update_form,
                                                           'user_update_form': user_update_form})
@@ -240,7 +234,6 @@ def track(request, track_name_slug):
         context_dict["url"] = track.track_url
         context_dict["description"] = track.description
         context_dict["genre"] = track.genre
-        # context_dict["tasks"] = tasksFromTrack
 
         tasksFromTrack = Task.objects.filter(track=track)
         context_dict["tasks"] = tasksFromTrack
@@ -337,23 +330,21 @@ def task(request, task_name_slug):
         context_dict["year"] = task.year
         context_dict["bestRuns"] = bestRuns
 
-    
         if request.method == 'POST':
             dataToPass = []
             checkedRuns = request.POST.getlist('checkBox')
-            
+
             for run in checkedRuns:
                 thisRun = Run.objects.get(name=run)
-                thisRun = [thisRun.name,thisRun.MAP,thisRun.p10,thisRun.p20]
+                thisRun = [thisRun.name, thisRun.MAP, thisRun.p10, thisRun.p20]
                 dataToPass += [thisRun]
-            return lineGraph(request,dataToPass,task)
-        
-        
+            return lineGraph(request, dataToPass, task)
+
+
     except Task.DoesNotExist:
         pass
 
     return render(request, "TrecApp/task.html", context_dict)  # task.html not created yet
-
 
 
 def graph(request, run_name_slug):
@@ -387,7 +378,7 @@ def lineGraph(request, runs, name):
         context_dict["runs"] = json_list
 
         context_dict["name"] = name
- 
+
 
     except:
         pass
@@ -430,11 +421,11 @@ def compareRuns(request):
             run1 = form.cleaned_data["run1"]
             run2 = form.cleaned_data["run2"]
 
-            data = [run1,run2]
+            data = [run1, run2]
 
             runs = []
             for run in data:
-                temp = [run.name,run.MAP,run.p10,run.p20]
+                temp = [run.name, run.MAP, run.p10, run.p20]
                 runs += [temp]
 
             print "Hello! Just about to generate graph"
@@ -449,25 +440,26 @@ def compareRuns(request):
 def terms(request):
     return render(request, 'TrecApp/termsandconditions.html')
 
+
 def timeGraph(request, task_name_slug):
     context_dict = {}
-    
+
     try:
 
         task = Task.objects.filter(slug=task_name_slug)
-        
+
         runs = Run.objects.filter(task=task).order_by('date')
 
         data = []
         for run in runs:
-            data += [ [str(run.date),run.MAP,run.p10,run.p20] ]
-        
+            data += [[str(run.date), run.MAP, run.p10, run.p20]]
+
         json_list = simplejson.dumps(data)
-        
+
         context_dict["runs"] = json_list
 
         context_dict["task"] = task
- 
+
     except:
         print "error"
 

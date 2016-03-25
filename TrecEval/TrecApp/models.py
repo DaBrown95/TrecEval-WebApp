@@ -1,9 +1,9 @@
-from django.db import models
-from django_enumfield import enum
-from django.contrib.auth.models import User
-from django.template.defaultfilters import slugify
-import django_tables2 as tables
 from datetime import datetime
+
+from django.contrib.auth.models import User
+from django.db import models
+from django.template.defaultfilters import slugify
+from django_enumfield import enum
 
 
 class run_type(enum.Enum):
@@ -119,7 +119,7 @@ class Run(models.Model):
     MAP = models.DecimalField(max_digits=100, decimal_places=5, )
     p10 = models.DecimalField(max_digits=100, decimal_places=5, )
     p20 = models.DecimalField(max_digits=100, decimal_places=5, )
-    date = models.DateField(default=datetime.now,blank=False)
+    date = models.DateField(default=datetime.now, blank=False)
     slug = models.SlugField()
 
     def __unicode__(self):  # For Python 2, use __str__ on Python 3

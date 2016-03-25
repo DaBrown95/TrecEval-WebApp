@@ -1,13 +1,12 @@
-from django.test import TestCase
-from django.contrib.auth.models import User
-from django.db import IntegrityError
-from django.test import Client
 import os
 
+from django.contrib.auth.models import User
+from django.db import IntegrityError
+from django.test import TestCase
+
 from TrecApp.models import Researcher, Track, Run, Task
-from TrecEval.settings import STATIC_PATH, BASE_DIR
 from TrecApp.valueExtractor import trec_eval
-from TrecApp.forms import ResearcherForm
+from TrecEval.settings import STATIC_PATH
 
 
 class ResearcherTests(TestCase):
@@ -27,21 +26,6 @@ class ResearcherTests(TestCase):
     def test_unique_researcher(self):
         with self.assertRaises(IntegrityError):
             Researcher.objects.create(user=self.bobUser, url='www.apple.com')
-
-            # def test_url_cleaner(self):
-            #     bob = Researcher.objects.get(user=self.bobUser)
-            #     data = {
-            #         'user': bob,
-            #         'url': bob.url,
-            #         'display_name': bob.display_name,
-            #         'organization': bob.organization
-            #
-            #     }
-            #     form = ResearcherForm(data)
-            #     self.assertFalse(form.is_valid())
-            #     print form['url']
-            #     #print form.clean()
-            #     self.assertEquals(form['url'], "http://www.gla.ac.uk"
 
 
 class TrackTests(TestCase):
@@ -81,9 +65,6 @@ class ValueExtractorTests(TestCase):
         self.filePathQREL = os.path.join(STATIC_PATH, 'TEST_FILES/ap.trec.qrels')
         self.filePathRES = os.path.join(STATIC_PATH, 'TEST_FILES/ap.trec.pl2.2.00.res')
 
-    #def test_something_returned(self):
-    #    with self.assertRaises(IndexError):
-    #        self.assertIsNotNone(trec_eval(self.filePathQREL, self.filePathRES, True))
 
     def test_trec_eval_works(self):
         self.assertIsNotNone(trec_eval(self.filePathQREL, self.filePathRES, True))

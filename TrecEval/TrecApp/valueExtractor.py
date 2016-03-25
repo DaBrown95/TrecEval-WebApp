@@ -1,18 +1,21 @@
-import subprocess
 import os
-from TrecEval.settings import BASE_DIR, RUN_FILES
+import subprocess
 
-#if os.name == 'nt':
+from TrecEval.settings import BASE_DIR
+
+# if os.name == 'nt':
 #    TREC_PATH = os.path.join(BASE_DIR, 'TrecApp/trec_eval_dos')
-#elif os.name == 'posix':
+# elif os.name == 'posix':
+#    TREC_PATH = os.path.join(BASE_DIR, 'TrecApp/trec_eval_macosx
 
-TREC_PATH = os.path.join(BASE_DIR, 'TrecApp/trec_eval_macosx')
-#TREC_PATH = os.path.join(BASE_DIR, 'TrecApp/trec_eval_linux')
+TREC_PATH = os.path.join(BASE_DIR, 'TrecApp/trec_eval_linux')
+
+
+# TREC_PATH = os.path.join(BASE_DIR, 'TrecApp/trec_eval_linux')
 
 
 
 def trec_eval(qRel, res, debug=False):
-
     if not debug:
         filepath = os.path.join(BASE_DIR, 'media/processingFile.txt')
         with open(filepath, 'w') as dest:
