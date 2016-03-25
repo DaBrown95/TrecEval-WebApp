@@ -88,12 +88,16 @@ def uploadRun(request, task_name_slug):
                     return run(request, slugFinder)  # go to home page
                 except:
                     print "trec eval didn't work"
+                    return error_page(request)
                 
     else:
         form = RunForm()
         
 
     return render(request, 'TrecApp/uploadRun.html', {'form': form, 'task':task})
+
+def error_page(request):
+    return render(request, 'TrecApp/error.html')
 
 
 def user_login(request):
@@ -175,48 +179,54 @@ def addResearcher(request):
                 login(request, loggedinUser)
                 return home(request)
             else:
-                # An inactive account was used - no logging in!
                 return HttpResponse("Your TrecEval account is disabled.")
         else:
-            # The supplied forms contained errors - just print them to the terminal.
             print user_form.errors, researcher_form.errors
     else:
-        # If the request was not a POST, display the form to enter details.
         user_form = UserForm()
         researcher_form = ResearcherForm()
-
-    # Bad form (or form details), no form supplied...
-    # Render the form with error messages (if any).
     return render(request, 'TrecApp/addresearcher.html',
                   {'user_form': user_form, 'researcher_form': researcher_form, 'registered': registered})
 
-
+@login_required
 def update_profile(request):
     if request.method == 'POST':
+        researcher_update_form = UpdateResearcherForm(request.POST)
+        user_update_form = UpdateUserForm(request.POST)
 
-        # form = UpdateResearcherForm(request.POST, instance=request.user)
-        # form.actual_user = request.user
-        form = UpdateResearcherForm(request.POST)
-
-        if form.is_valid():
-            page = form.save(commit=False)
+        if researcher_update_form.is_valid() and user_update_form.is_valid():
+            page = researcher_update_form.save(commit=False)
+            userform = user_update_form.save(commit=False)
+            user = User.objects.get(username__exact=request.user.username)
             userProfile = Researcher.objects.get(user=request.user)
+            if userform.password != '':
+                print userform.password
+                user.set_password(userform.password)
             if page.display_name != '':
                 userProfile.display_name = page.display_name
             if page.url != '':
                 userProfile.url = page.url
             if page.organization != '':
                 userProfile.organization = page.organization
-            if 'picture' in request.FILES:
-                userProfile.picture = request.FILES['picture']
-
             userProfileSlug = userProfile.slug
+            user.save()
             userProfile.save()
+            #log user back in with new password
+            loggedinUser = authenticate(username=user.username, password=userform.password)  # logs user in
+            if loggedinUser.is_active:
+                login(request, loggedinUser)
+                return home(request)
+            else:
+                return HttpResponse("Your TrecEval account is disabled.")
             return researcher(request, userProfileSlug)
     else:
         researcher_update_form = UpdateResearcherForm()
+        user_update_form = UpdateUserForm()
 
-    return render(request, 'TrecApp/updateprofile.html', {'researcher_update_form': researcher_update_form})
+        
+
+    return render(request, 'TrecApp/updateprofile.html', {'researcher_update_form': researcher_update_form,
+                                                          'user_update_form': user_update_form})
 
 
 def track(request, track_name_slug):

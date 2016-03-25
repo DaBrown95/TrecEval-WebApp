@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block title %} Trec_Eval Error {% endblock %}
+
+{% block body_block %}
+	<h1> ERROR </h1>
+	<div class="container-fluid">
+		<h4>You supplied an invalid results file. Use the button below to try again.</h4>
+		<a href="{{request.META.HTTP_REFERER}}"><button type="submit" class="btn btn-primary navbar-btn">Return to upload a run </button></a>
+	</div>
+{% endblock %}
